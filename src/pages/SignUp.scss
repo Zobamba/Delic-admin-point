@@ -1,0 +1,286 @@
+.wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(../assets/img/bg-01.jpg);
+
+    .inner {
+        width: 500px;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        padding-right: 55px;
+        padding-left: 55px;
+        padding-bottom: 54px;
+        padding-top: 65px;
+
+        .errmsg {
+            color: firebrick;
+            font-weight: bold;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .offscreen {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .login100-form {
+            .sign-up-title {
+                display: block;
+                font-family: Poppins-Bold;
+                font-size: 39px;
+                color: #000;
+                line-height: 1.2;
+                text-align: center;
+                padding-bottom: 49px;
+            }
+
+            .form-group {
+                display: flex;
+
+                .form-wrapper {
+                    &:first-child {
+                        margin-right: 20px;
+                    }
+                }
+            }
+
+            .form-wrapper {
+                width: 100%;
+                position: relative;
+                // border-bottom: 2px solid #d9d9d9;
+                margin-bottom: 23px;
+
+                .label-input100 {
+                    font-family: Poppins-Regular;
+                    font-size: 14px;
+                    color: #333333;
+                    line-height: 1.5;
+                    padding-left: 7px;
+
+                    .hide {
+                        display: none;
+                    }
+                    
+                    .valid {
+                        color: limegreen;
+                        margin-left: 0.25rem;
+                    }
+
+                    .invalid {
+                        color: red;
+                        margin-left: 0.25rem;
+                    }
+                }
+
+                .form-control {
+                    font-family: Poppins-Medium;
+                    font-size: 16px;
+                    color: #333333;
+                    line-height: 1.2;
+                    display: block;
+                    width: 100%;
+                    background: transparent;
+                    padding: 0 7px 0 43px;
+
+                    .fa-eye {
+                        position: relative;
+                        display: flex;
+                        margin-left: 310px;
+                        top: -15px;
+                        cursor: pointer;
+                    }
+                }
+
+                .instructions {
+                    font-size: 0.75rem;
+                    border-radius: 0.5rem;
+                    background: #000;
+                    color: #fff;
+                    padding: 0.25rem;
+                    position: relative;
+                    bottom: -10px;
+                }
+                
+                .instructions > svg {
+                    margin-right: 0.25rem;
+                }
+                
+                .offscreen {
+                    position: absolute;
+                    left: -9999px;
+                }
+
+                .focus-input100 {
+                    position: absolute;
+                    display: block;
+                    top: 30px;
+                    width: 10%;
+                    left: 0;
+                    pointer-events: none;
+
+                    &::before {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        bottom: -2px;
+                        left: 0;
+                        width: 0;
+                        height: 2px;
+                        background: #7f7f7f;
+                        box-sizing: inherit;
+                        transition: all 0.4s;
+                    }
+
+                    &::after {
+                        content: attr(data-symbol);
+                        font-family: Material-Design-Iconic-Font;
+                        color: #adadad;
+                        font-size: 22px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: absolute;
+                        height: calc(100% - 20px);
+                        bottom: 0;
+                        left: 0;
+                        padding-left: 13px;
+                        padding-top: 3px;
+                        box-sizing: inherit;
+                    }
+                }
+            }
+
+            .btn-section {
+                display: flex;
+
+                button {
+                    border: none;
+                    width: 152px;
+                    height: 40px;
+                    margin: auto;
+                    margin-top: 29px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                    background: -webkit-linear-gradient(right, #fc00ff, #00dbde);
+                    font-size: 13px;
+                    color: #fff;
+                    text-transform: uppercase;
+                    font-family: "Muli-SemiBold";
+                    border-radius: 20px;
+                    overflow: hidden;
+                    transform: perspective(1px) translateZ(0);
+                    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
+                    position: relative;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        z-index: -1;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: -webkit-linear-gradient(right, #00dbde, #fc00ff);
+                        transform: scaleX(0);
+                        transform-origin: 0 50%;
+                        transition-property: transform;
+                        transition-duration: 0.5s;
+                        transition-timing-function: ease-out;
+                    }
+
+                    &:hover:before {
+                        transform: scaleX(1);
+                        transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+                    }
+                }
+
+                .sign-in {
+                    border: none;
+                    width: 152px;
+                    height: 40px;
+                    margin: auto;
+                    margin-top: 29px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-decoration: underline;
+                    font-size: 13px;
+                    color: #666666;
+                    position: relative;
+
+                    &:focus,
+                    &:hover {
+                        color: darken(#999, 30%);
+                    }
+                }
+            }
+
+            .txt1 {
+                font-family: Poppins-Regular;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #666666;
+                padding-bottom: 20px;
+                padding-top: 54px;
+                text-align: center !important;
+            }
+
+            .flex-c-m {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .login100-social-item {
+                    font-size: 25px;
+                    color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    margin: 5px;
+
+                    &.bg1 {
+                        background-color: #3b5998;
+                    }
+
+                    &.bg2 {
+                        background-color: #1da1f2;
+                    }
+
+                    &.bg3 {
+                        background-color: #ea4335;
+                    }
+
+                    &:hover {
+                        background-color: #413c3c;
+                    }
+
+                    .fa {
+                        display: inline-block;
+                        font: normal normal normal 14px/1 FontAwesome;
+                        font-size: inherit;
+                        text-rendering: auto;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
+            }
+        }
+    }
+}

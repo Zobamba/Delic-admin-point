@@ -1,0 +1,20 @@
+.container {
+    width: 65%;
+    overflow: hidden;
+    .display {
+        border-radius: 10px;
+        padding-bottom: 54px;
+        padding-top: 45px;
+        margin-top: 150px;
+        background: #f6f9fc;
+
+        h2 {
+            text-align: center;
+        }
+
+        .list-item {
+            width: 100%;
+            margin-top: 0.2rem;
+        }
+    }
+}
