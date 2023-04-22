@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
 import SideNav from './SideNav';
 
 const AddMeal = () => {
@@ -26,7 +25,6 @@ const AddMeal = () => {
     nameRef.current.focus();
   }, [])
 
-
   const UploadWidget = () => {
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
@@ -44,7 +42,7 @@ const AddMeal = () => {
         }
 
       });
-    }, [])
+    }, []);
 
     return (
       <button type="button" onClick={() => widgetRef.current.open()}>
@@ -52,7 +50,6 @@ const AddMeal = () => {
       </button>
     )
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,11 +60,7 @@ const AddMeal = () => {
     try {
       const response = await axiosPrivate.post('/meals',
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' }, withCredentials: true
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       setImageUrl("");

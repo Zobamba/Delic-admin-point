@@ -41,12 +41,7 @@ const EditMenu = () => {
     try {
       const response = await axiosPrivate.put(`/menus/${id}`,
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       navigate("/menus")
@@ -72,6 +67,7 @@ const EditMenu = () => {
         });
         console.log(response.data);
         setMeals(response.data.meals);
+
       } catch (err) {
         console.error(err);
       }
@@ -82,9 +78,11 @@ const EditMenu = () => {
       try {
         const response = await axiosPrivate.get(`/menus/${id}`, {
         });
+
         setMenu(response.data.menu);
         setSelectedMeals(response.data.menu.meals);
         setMealIds(...mealIds, response.data.menu.meals.map(meal => meal.id));
+
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });
@@ -93,7 +91,7 @@ const EditMenu = () => {
 
     getMenu(menu);
     getMeals();
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">

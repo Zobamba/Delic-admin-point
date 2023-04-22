@@ -48,7 +48,8 @@ const Menu = () => {
     }
 
     getMenu();
-  }, [])
+  }, []);
+
   return (
     <div className="page-wrapper">
       <SideNav currentTab="menus" />

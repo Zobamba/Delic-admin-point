@@ -287,13 +287,13 @@
           border-color: var(--bs-nav-tabs-link-hover-border-color);
 
           &.active {
-            background-color: #f6f9fc;
+            background-color: #ffffff;
             box-shadow: none;
             color: #344767;
             font-weight: 600;
             border-radius: 0.5rem;
           }
-          &.hover {
+
            &:hover {
             background-color: #f6f9fc;
             box-shadow: none;
@@ -301,7 +301,6 @@
             font-weight: 600;
             border-radius: 0.5rem;
            }
-          }
 
           .icon {
             padding: 10px;

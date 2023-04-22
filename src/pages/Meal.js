@@ -42,7 +42,7 @@ const Meal = () => {
     }
 
     getMeal();
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">
@@ -55,17 +55,15 @@ const Meal = () => {
           </div>
           <div className="table-responsive">
             <table className="table">
-              <thead>
-                <tr>
-                  <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary ">Name</th>
-                  <th className="text-center text-secondary">Category</th>
-                  <th className="text-center text-secondary ">Price</th>
-                  <th className="text-center text-secondary ">Created</th>
-                  <th className="text-center text-secondary ">Updated</th>
-                  <th className="text-secondary"></th>
-                </tr>
-              </thead>
+              <tr>
+                <th className="text-center text-secondary ">#</th>
+                <th className="text-center text-secondary ">Name</th>
+                <th className="text-center text-secondary">Category</th>
+                <th className="text-center text-secondary ">Price</th>
+                <th className="text-center text-secondary ">Created</th>
+                <th className="text-center text-secondary ">Updated</th>
+                <th className="text-secondary"></th>
+              </tr>
               {meal &&
                 <tbody>
                   <tr>
@@ -74,7 +72,7 @@ const Meal = () => {
                     </td>
                     <td className="align-middle">
                       <h6 className="mb-0 text-sm">{meal.name}</h6>
-                      <p className="text-xs mb-0"><Link to={`${meal.imageUrl}`}>{meal.imageUrl}</Link></p>
+                      <Link to={`${meal.imageUrl}`} target="black">View Image</Link>
                     </td>
                     <td className="align-middle">
                       <span className="badge">{meal.category}</span>

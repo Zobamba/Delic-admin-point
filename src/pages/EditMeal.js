@@ -12,7 +12,6 @@ const EditMeal = () => {
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
-
   const nameRef = useRef();
   const errRef = useRef();
 
@@ -42,7 +41,7 @@ const EditMeal = () => {
         }
 
       });
-    }, [])
+    }, []);
 
     return (
       <button type="button" onClick={() => widgetRef.current.open()}>
@@ -61,12 +60,7 @@ const EditMeal = () => {
     try {
       const response = await axiosPrivate.put(`/meals/${id}`,
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       setImageUrl("");

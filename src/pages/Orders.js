@@ -27,7 +27,7 @@ const Orders = () => {
 
     getOrders();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">

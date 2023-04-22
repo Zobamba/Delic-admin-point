@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import SideNav from './SideNav';
-import "./Users.scss";
 
 const User = () => {
   const [user, setUser] = useState();
@@ -20,6 +19,7 @@ const User = () => {
         });
         console.log(response);
         setUser(response.data.user);
+
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });
@@ -28,7 +28,7 @@ const User = () => {
 
     getUsers();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">
@@ -40,16 +40,18 @@ const User = () => {
           </div>
           <div className="table-responsive">
             <table className="table">
-              <tr>
-                <th className="text-secondary ">#</th>
-                <th className="text-secondary ">User</th>
-                <th className="text-center text-secondary">Admin</th>
-                <th className="text-center text-secondary ">Disabled</th>
-                <th className="text-center text-secondary ">Phone</th>
-                <th className="text-center text-secondary ">Created</th>
-                <th className="text-center text-secondary ">Updated</th>
-                <th className="text-secondary"></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th className="text-secondary ">#</th>
+                  <th className="text-secondary ">User</th>
+                  <th className="text-center text-secondary">Admin</th>
+                  <th className="text-center text-secondary ">Disabled</th>
+                  <th className="text-center text-secondary ">Phone</th>
+                  <th className="text-center text-secondary ">Created</th>
+                  <th className="text-center text-secondary ">Updated</th>
+                  <th className="text-secondary"></th>
+                </tr>
+              </thead>
               {user &&
                 <tbody>
                   <tr>

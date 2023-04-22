@@ -3,7 +3,6 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import SideNav from './SideNav';
 
-
 const Meals = () => {
 
   const [meals, setMeals] = useState();
@@ -28,7 +27,7 @@ const Meals = () => {
 
     getMeals();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">
@@ -37,7 +36,6 @@ const Meals = () => {
         <div className="row">
           <div className="card-header">
             <h6 className="mb-0 text-sm">Meals table</h6>
-
             <Link to="/addMeal">
               <span>Add Meal</span>
             </Link>

@@ -53,12 +53,7 @@ const AddOrder = () => {
     try {
       const response = await axiosPrivate.post('/orders',
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       navigate("/orders")
@@ -84,7 +79,6 @@ const AddOrder = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
-
         });
         console.log(response.data);
         setMeals(response.data.meals);
@@ -96,7 +90,7 @@ const AddOrder = () => {
 
     getMeals();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">

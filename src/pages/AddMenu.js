@@ -38,12 +38,7 @@ const AddMenu = () => {
     try {
       const response = await axiosPrivate.post('/menus',
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       navigate("/menus")
@@ -77,7 +72,7 @@ const AddMenu = () => {
 
     getMeals();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">

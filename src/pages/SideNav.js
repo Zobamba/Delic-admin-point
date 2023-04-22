@@ -38,17 +38,6 @@ const SideNav = ({ currentTab }) => {
                 <span className="nav-link-text ms-1">Dashboard</span>
               </Link>
             </li>
-            {/* <li className="nav-item">
-              <Link className={`nav-link ${currentTab === 'table' ? "active" : ""}`}
-                to="/table">
-                <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                  <i className="ni ni-credit-card text-success text-sm opacity-10">
-                    <FontAwesomeIcon icon={faUtensils} />
-                  </i>
-                </div>
-                <span className="nav-link-text ms-1">Table</span>
-              </Link>
-            </li> */}
             <li className="nav-item">
               <Link className={`nav-link ${currentTab === 'meals' ? "active" : ""}`}
                 to="/meals">

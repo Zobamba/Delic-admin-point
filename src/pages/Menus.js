@@ -27,7 +27,7 @@ const Menus = () => {
 
     getMenus();
 
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">

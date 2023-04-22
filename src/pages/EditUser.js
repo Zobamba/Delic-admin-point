@@ -31,12 +31,7 @@ const EditMeal = () => {
     try {
       const response = await axiosPrivate.put(`/users/${id}`,
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       navigate("/users")

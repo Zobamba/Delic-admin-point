@@ -53,6 +53,7 @@ const Order = () => {
 
     getOrder();
   }, [])
+  
   return (
     <div className="page-wrapper">
       <SideNav currentTab="orders" />

@@ -57,12 +57,7 @@ const AddOrder = () => {
     try {
       const response = await axiosPrivate.put(`/orders/${id}`,
         JSON.stringify(payload),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
       );
-
       console.log(JSON.stringify(response?.data));
 
       navigate("/orders")
@@ -102,6 +97,7 @@ const AddOrder = () => {
         setOrder(response.data.order);
         setSelectedMeals(response.data.order.meals.map(meal => { return { ...meal, units: meal.orderMeal.units } }));
         setMealIds(...mealIds, response.data.order.meals.map(meal => meal.id));
+
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });
@@ -110,7 +106,7 @@ const AddOrder = () => {
 
     getOrder(order);
     getMeals();
-  }, [])
+  }, []);
 
   return (
     <div className="page-wrapper">
