@@ -15,7 +15,13 @@ const Meals = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setMeals(response.data.meals);
 
@@ -65,7 +71,6 @@ const Meals = () => {
                         </td>
                         <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>

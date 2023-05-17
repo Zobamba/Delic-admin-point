@@ -57,9 +57,16 @@ const AddOrder = () => {
     try {
       const response = await axiosPrivate.put(`/orders/${id}`,
         JSON.stringify(payload),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
+        }
       );
-      console.log(JSON.stringify(response?.data));
 
+      console.log(JSON.stringify(response?.data));
       navigate("/orders")
 
     } catch (err) {
@@ -79,8 +86,14 @@ const AddOrder = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
 
         });
+
         console.log(response.data);
         setMeals(response.data.meals);
 
@@ -93,7 +106,13 @@ const AddOrder = () => {
       const id = window.location.href.split("/")[4];
       try {
         const response = await axiosPrivate.get(`/orders/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         setOrder(response.data.order);
         setSelectedMeals(response.data.order.meals.map(meal => { return { ...meal, units: meal.orderMeal.units } }));
         setMealIds(...mealIds, response.data.order.meals.map(meal => meal.id));

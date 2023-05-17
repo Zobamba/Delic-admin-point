@@ -8,7 +8,7 @@ import SideNav from './SideNav';
 const AddMeal = () => {
 
   const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('starters');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -59,7 +59,13 @@ const AddMeal = () => {
     console.log(payload)
     try {
       const response = await axiosPrivate.post('/meals',
-        JSON.stringify(payload),
+        JSON.stringify(payload), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        withCredentials: true
+      }
       );
       console.log(JSON.stringify(response?.data));
 
@@ -102,12 +108,13 @@ const AddMeal = () => {
               onChange={e => setName(e.target.value)} />
 
             <label htmlFor="category">Category</label>
-            <input
-              type="text"
-              name="category"
-              required="required"
-              placeholder="Enter a category..."
-              onChange={e => setCategory(e.target.value)} />
+            <select id="category" onChange={e => setCategory(e.target.value)}>
+              <option value="starters">Starters</option>
+              <option value="main dishes">Main Dishes</option>
+              <option value="desserts">Desserts</option>
+              <option value="specials">Specials</option>
+              <option value="swallows">Swallows</option>
+            </select>
 
             <label htmlFor="price">Price</label>
             <input
@@ -116,6 +123,7 @@ const AddMeal = () => {
               required="required"
               placeholder="Enter a price..."
               onChange={e => setPrice(e.target.value)} />
+
             <label htmlFor="description">Description</label>
             <input
               type="text"
@@ -124,8 +132,7 @@ const AddMeal = () => {
               placeholder="Enter the description..."
               onChange={e => setDescription(e.target.value)} />
 
-            <label htmlFor="imageUrl">ImageUrl</label>
-
+            <label htmlFor="imageUrl">ImageUrl:</label>
             < UploadWidget />
 
             <button

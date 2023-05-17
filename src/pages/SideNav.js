@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import './SideNav.scss';
 import PropTypes from 'prop-types';
-import { faTv, faCartShopping, faFileLines, faUtensils, faBowlRice, faRightToBracket, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTv, faCartShopping, faFileLines, faUtensils, faBowlRice, faUserCircle, faEllipsis, faSignOut, faSignIn } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CtDark from '../assets/img/logo-ct-dark.png';
@@ -13,6 +13,10 @@ import SideBarLogo from '../assets/img/icon-documentation.svg'
 const SideNav = ({ currentTab }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
+    const logout = () => {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+  }
 
   return (
     <section className="min-height-300 w-100 position-absolute">
@@ -92,11 +96,12 @@ const SideNav = ({ currentTab }) => {
                 </div>
                 <span className="nav-link-text ms-1">Profile</span>
               </Link>
+              <hr className="horizontal dark mt-0" />
             </li>
-            <li className="nav-item" onClick={() => setIsLoggedIn(!isLoggedIn)}>
-              <Link to="">
-                <span className="nav-link-text ms-1">Sign out</span>
-              </Link>
+            <br />
+            <li className="nav-item d-flex">
+              <span>Account pages</span>
+              <FontAwesomeIcon icon={faEllipsis} className="ellipsis" onClick={() => setIsLoggedIn(!isLoggedIn)} />
             </li>
           </ul>}
           {!isLoggedIn && <ul className="navbar-nav account-pages">
@@ -104,18 +109,18 @@ const SideNav = ({ currentTab }) => {
               <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
             <li className="nav-item" onClick={() => setIsLoggedIn(!isLoggedIn)}>
-              <Link className={`nav-link hover ${currentTab === 'sign-in' ? "active" : ""}`}
+              <Link className="nav-link hover"
                 to="/sign-in">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="ni ni-single-copy-04 text-warning text-sm opacity-10">
-                    <FontAwesomeIcon icon={faRightToBracket} />
+                    <FontAwesomeIcon icon={faSignIn} />
                   </i>
                 </div>
                 <span className="nav-link-text ms-1">Sign In</span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link hover ${currentTab === 'sign-up' ? "active" : ""}`}
+              <Link className="nav-link hover"
                 to="/sign-up">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="ni ni-collection text-info text-sm opacity-10">
@@ -123,6 +128,17 @@ const SideNav = ({ currentTab }) => {
                   </i>
                 </div>
                 <span className="nav-link-text ms-1">Sign Up</span>
+              </Link>
+            </li>
+            <li className="nav-item" onClick={logout}>
+              <Link className= "nav-link hovers"
+                to="">
+                <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i className="ni ni-collection text-info text-sm opacity-10">
+                    <FontAwesomeIcon icon={faSignOut} />
+                  </i>
+                </div>
+                <span className="nav-link-text ms-1">Sign Out</span>
               </Link>
             </li>
           </ul>}
@@ -141,30 +157,6 @@ const SideNav = ({ currentTab }) => {
           <a className="btn btn-primary btn-sm mb-0 w-100">Upgrade to pro</a>
         </div>
       </div>
-      {isLoggedIn && <div className="sideman">
-        <nav className="navbar-main" id="navbarBlur" data-scroll="false">
-          <div className="container-fluid py-1">
-            <div className="navbar-collapse" id="navbar">
-              {/* <ul className="navbar-nav  justify-content-end">
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <i className="fa fa-cog fixed-plugin-button-nav cursor-pointer">
-                      <FontAwesomeIcon icon={faCog} />
-                    </i>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i className="fa fa-bell cursor-pointer">
-                      <FontAwesomeIcon icon={faBell} />
-                    </i>
-                  </a>
-                </li>
-              </ul> */}
-            </div>
-          </div>
-        </nav>
-      </div>}
     </section>
   )
 }

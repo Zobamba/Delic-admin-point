@@ -31,9 +31,16 @@ const EditMeal = () => {
     try {
       const response = await axiosPrivate.put(`/users/${id}`,
         JSON.stringify(payload),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
+        }
       );
-      console.log(JSON.stringify(response?.data));
 
+      console.log(JSON.stringify(response?.data));
       navigate("/users")
 
     } catch (err) {
@@ -67,16 +74,12 @@ const EditMeal = () => {
               type="text"
               name="admin"
               ref={adminRef}
-              //   required="required"
-              //   placeholder="Enter a meal..."
               onChange={e => setAdmin(e.target.value)} />
 
             <label htmlFor="category">Disable</label>
             <input
               type="text"
               name="disable"
-              //   required="required"
-              //   placeholder="Enter a category..."
               onChange={e => setDisable(e.target.value)} />
             <button
               className="button"

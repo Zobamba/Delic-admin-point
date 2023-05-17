@@ -15,10 +15,16 @@ const Menus = () => {
     const getMenus = async () => {
       try {
         const response = await axiosPrivate.get('/menus', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
 
         console.log(response.data);
         setMenus(response.data.menus);
+
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });
@@ -47,9 +53,9 @@ const Menus = () => {
               <thead>
                 <tr>
                   <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary">Date</th>
                   <th className="text-center text-secondary ">Created</th>
                   <th className="text-center text-secondary ">Updated</th>
+                  <th className="text-center text-secondary ">Expires</th>
                   <th className="text-center text-secondary">MealsCount</th>
                   <th className="text-secondary"></th>
                 </tr>
@@ -64,13 +70,13 @@ const Menus = () => {
                           <p>{menu.id}</p>
                         </td>
                         <td className="align-middle">
-                          <span className="font-weight-bold">{new Date(menu.date).toDateString()}</span>
-                        </td>
-                        <td className="align-middle">
                           <span className="font-weight-bold">{new Date(menu.createdAt).toDateString()}</span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{new Date(menu.updatedAt).toDateString()}</span>
+                        </td>
+                        <td className="align-middle">
+                          <span className="font-weight-bold">{menu.expiredAt === null ? "" : new Date(menu.expiredAt).toDateString()}</span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{menu.meals.length}</span>

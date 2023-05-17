@@ -15,10 +15,16 @@ const Orders = () => {
     const getOrders = async () => {
       try {
         const response = await axiosPrivate.get('/orders', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
 
         console.log(response.data);
         setOrders(response.data.orders);
+
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });

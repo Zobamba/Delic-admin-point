@@ -7,13 +7,12 @@ import SideNav from './SideNav';
 
 const AddMenu = () => {
 
-  const [date, setDate] = useState('');
   const [errMsg, setErrMsg] = useState('');
-
   const [meals, setMeals] = useState();
+  
+  const [expiredAt, setExpiredAt] = useState();
   const [selectedMeals, setSelectedMeals] = useState([]);
 
-  const dateRef = useRef();
   const errRef = useRef();
 
   const axiosPrivate = useAxiosPrivate();
@@ -32,12 +31,18 @@ const AddMenu = () => {
 
     const meals = selectedMeals.map(item => item.id)
 
-    const payload = { date, meals };
+    const payload = { meals, expiredAt };
 
     console.log(payload)
     try {
       const response = await axiosPrivate.post('/menus',
-        JSON.stringify(payload),
+        JSON.stringify(payload), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        withCredentials: true
+      }
       );
       console.log(JSON.stringify(response?.data));
 
@@ -49,7 +54,7 @@ const AddMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('A menu for the selected date already exist! It could be that the date is in the past!');
+        setErrMsg('Bad request');
       } else {
         setErrMsg('Failed!')
       }
@@ -61,12 +66,19 @@ const AddMenu = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setMeals(response.data.meals);
 
       } catch (err) {
         console.error(err);
+        navigate('/sign-in', { state: { from: location }, replace: true });
       }
     }
 
@@ -85,18 +97,14 @@ const AddMenu = () => {
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              name="date"
-              ref={dateRef}
-              required="required"
-              placeholder="Enter a meal..."
-              onChange={e => setDate(e.target.value)} />
-
-            <br />
-            <br />
             <div className="table-responsive">
+              <label htmlFor="expiredAt">ExpiredAt</label>
+              <input
+              type="date"
+              name="expiredAt"
+              required="required"
+              onChange={e => setExpiredAt(e.target.value)} />
+
               <table className="table">
                 <thead>
                   <tr>
@@ -152,8 +160,8 @@ const AddMenu = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-secondary ">#</th>
-                  <th className="text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
@@ -167,12 +175,11 @@ const AddMenu = () => {
 
                     return (
                       <tr key={i}>
-                        <td id='id'>
-                          <p className="text-xs mb-0">{meal.id}</p>
+                        <td className="align-middle">
+                          <p>{meal.id}</p>
                         </td>
-                        <td>
+                        <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>

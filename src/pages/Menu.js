@@ -18,7 +18,13 @@ const Menu = () => {
 
       try {
         const response = await axiosPrivate.delete(`/menus/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         navigate("/menus")
 
@@ -37,7 +43,13 @@ const Menu = () => {
 
       try {
         const response = await axiosPrivate.get(`/menus/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setMenu(response.data.menu);
 
@@ -64,7 +76,6 @@ const Menu = () => {
               <thead>
                 <tr>
                   <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary">Date</th>
                   <th className="text-center text-secondary ">Created</th>
                   <th className="text-center text-secondary ">Updated</th>
                   <th className="text-center text-secondary">MealsCount</th>
@@ -76,9 +87,6 @@ const Menu = () => {
                   <tr>
                     <td className="align-middle">
                       <p>{menu.id}</p>
-                    </td>
-                    <td className="align-middle">
-                      <span className="font-weight-bold">{new Date(menu.date).toDateString()}</span>
                     </td>
                     <td className="align-middle">
                       <span className="font-weight-bold">{new Date(menu.createdAt).toDateString()}</span>
@@ -139,7 +147,6 @@ const Menu = () => {
                         </td>
                         <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>

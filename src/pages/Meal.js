@@ -15,7 +15,13 @@ const Meal = () => {
   const handleDeleteClick = async (id) => {
     try {
       const response = await axiosPrivate.delete(`/meals/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        withCredentials: true
       });
+
       console.log(response.data);
       navigate("/meals")
 
@@ -31,7 +37,13 @@ const Meal = () => {
 
       try {
         const response = await axiosPrivate.get(`/meals/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setMeal(response.data);
 
@@ -55,15 +67,17 @@ const Meal = () => {
           </div>
           <div className="table-responsive">
             <table className="table">
-              <tr>
-                <th className="text-center text-secondary ">#</th>
-                <th className="text-center text-secondary ">Name</th>
-                <th className="text-center text-secondary">Category</th>
-                <th className="text-center text-secondary ">Price</th>
-                <th className="text-center text-secondary ">Created</th>
-                <th className="text-center text-secondary ">Updated</th>
-                <th className="text-secondary"></th>
-              </tr>
+              <thead>
+                <tr>
+                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Name</th>
+                  <th className="text-center text-secondary">Category</th>
+                  <th className="text-center text-secondary ">Price</th>
+                  <th className="text-center text-secondary ">Created</th>
+                  <th className="text-center text-secondary ">Updated</th>
+                  <th className="text-secondary"></th>
+                </tr>
+              </thead>
               {meal &&
                 <tbody>
                   <tr>

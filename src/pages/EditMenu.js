@@ -6,17 +6,13 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import SideNav from './SideNav';
 
 const EditMenu = () => {
-
-  const [date, setDate] = useState('');
   const [errMsg, setErrMsg] = useState('');
-
   const [meals, setMeals] = useState();
   const [menu, setMenu] = useState();
 
   const [mealIds, setMealIds] = useState([]);
   const [selectedMeals, setSelectedMeals] = useState([]);
 
-  const dateRef = useRef();
   const errRef = useRef();
 
   const axiosPrivate = useAxiosPrivate();
@@ -35,15 +31,20 @@ const EditMenu = () => {
     e.preventDefault();
 
     const meals = selectedMeals.map(item => item.id)
-    const payload = { date, meals };
+    const payload = { meals };
 
     const id = window.location.href.split("/")[4];
     try {
       const response = await axiosPrivate.put(`/menus/${id}`,
-        JSON.stringify(payload),
-      );
-      console.log(JSON.stringify(response?.data));
+        JSON.stringify(payload), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        withCredentials: true
+      });
 
+      console.log(JSON.stringify(response?.data));
       navigate("/menus")
 
     } catch (err) {
@@ -64,12 +65,19 @@ const EditMenu = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setMeals(response.data.meals);
 
       } catch (err) {
         console.error(err);
+        navigate('/sign-in', { state: { from: location }, replace: true });
       }
     }
 
@@ -77,6 +85,11 @@ const EditMenu = () => {
       const id = window.location.href.split("/")[4];
       try {
         const response = await axiosPrivate.get(`/menus/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
 
         setMenu(response.data.menu);
@@ -104,17 +117,6 @@ const EditMenu = () => {
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              name="date"
-              ref={dateRef}
-              required="required"
-              placeholder="Enter a meal..."
-              onChange={e => setDate(e.target.value)} />
-
-            <br />
-            <br />
             <div className="table-responsive">
               <table className="table">
                 <thead>
@@ -171,8 +173,8 @@ const EditMenu = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-secondary ">#</th>
-                  <th className="text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
@@ -186,12 +188,11 @@ const EditMenu = () => {
 
                     return (
                       <tr key={i}>
-                        <td id='id'>
-                          <p className="text-xs mb-0">{meal.id}</p>
+                        <td className="align-middle">
+                          <p>{meal.id}</p>
                         </td>
-                        <td>
+                        <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>
@@ -207,7 +208,7 @@ const EditMenu = () => {
                         </td>
                         <td className="align-middle">
                           <button
-                            disabled={mealIds.includes(meal.id)}
+                            disabled={selectedMeals.includes(meal)}
                             className='button'
                             onClick={() => handleAddMealClick(meal)}>Add Meal</button>
                         </td>

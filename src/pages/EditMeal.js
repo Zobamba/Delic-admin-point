@@ -60,17 +60,22 @@ const EditMeal = () => {
     try {
       const response = await axiosPrivate.put(`/meals/${id}`,
         JSON.stringify(payload),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
+        }
       );
-      console.log(JSON.stringify(response?.data));
 
+      console.log(JSON.stringify(response?.data));
       setImageUrl("");
       navigate("/meals")
 
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response!');
-      } else if (err.response?.status === 409) {
-        setErrMsg('Meal already exist!');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
@@ -102,12 +107,13 @@ const EditMeal = () => {
               onChange={e => setName(e.target.value)} />
 
             <label htmlFor="category">Category</label>
-            <input
-              type="text"
-              name="category"
-              required="required"
-              placeholder="Enter a category..."
-              onChange={e => setCategory(e.target.value)} />
+            <select id="category" onChange={e => setCategory(e.target.value)}>
+            <option value="starters">Starters</option>
+              <option value="main dishes">Main Dishes</option>
+              <option value="desserts">Desserts</option>
+              <option value="specials">Specials</option>
+              <option value="swallows">Swallows</option>
+            </select>
 
             <label htmlFor="price">Price</label>
             <input

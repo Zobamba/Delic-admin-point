@@ -54,8 +54,8 @@ const AddOrder = () => {
       const response = await axiosPrivate.post('/orders',
         JSON.stringify(payload),
       );
-      console.log(JSON.stringify(response?.data));
 
+      console.log(JSON.stringify(response?.data));
       navigate("/orders")
 
     } catch (err) {
@@ -80,6 +80,7 @@ const AddOrder = () => {
       try {
         const response = await axiosPrivate.get('/meals', {
         });
+
         console.log(response.data);
         setMeals(response.data.meals);
 

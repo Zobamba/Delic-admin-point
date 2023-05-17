@@ -16,7 +16,13 @@ const User = () => {
 
       try {
         const response = await axiosPrivate.get(`/users/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response);
         setUser(response.data.user);
 

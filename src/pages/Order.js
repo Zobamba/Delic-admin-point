@@ -20,7 +20,13 @@ const Order = () => {
 
       try {
         const response = await axiosPrivate.delete(`/orders/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         navigate("/orders")
 
@@ -40,7 +46,13 @@ const Order = () => {
 
       try {
         const response = await axiosPrivate.get(`/orders/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
+
         console.log(response.data);
         setOrder(response.data.order);
         setTotalPrice(response.data.totalPrice);
@@ -53,7 +65,7 @@ const Order = () => {
 
     getOrder();
   }, [])
-  
+
   return (
     <div className="page-wrapper">
       <SideNav currentTab="orders" />
