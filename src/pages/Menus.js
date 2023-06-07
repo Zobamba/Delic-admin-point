@@ -44,7 +44,7 @@ const Menus = () => {
             <h6 className="mb-0 text-sm">Menus table</h6>
 
             <Link to="/addMenu">
-              <span>Add Menu</span>
+              <span>Create Menu</span>
             </Link>
             <br />
           </div>

@@ -47,7 +47,7 @@ const AddOrder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const meals = selectedMeals.map(item => { return { mealId: item.id, units: parseInt(item.units) } })
+    const meals = selectedMeals.map((item) => { return { mealId: item.id, units: parseInt(item.units) } })
 
     const payload = { address, phoneNumber, meals };
     console.log(payload);
@@ -114,8 +114,8 @@ const AddOrder = () => {
         });
 
         setOrder(response.data.order);
-        setSelectedMeals(response.data.order.meals.map(meal => { return { ...meal, units: meal.orderMeal.units } }));
-        setMealIds(...mealIds, response.data.order.meals.map(meal => meal.id));
+        setSelectedMeals(response.data.order.meals.map((meal) => { return { ...meal, units: meal.orderMeal.units } }));
+        setMealIds(...mealIds, response.data.order.meals.map((meal) => meal.id));
 
       } catch (err) {
         console.error(err);
@@ -223,8 +223,8 @@ const AddOrder = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-secondary ">#</th>
-                  <th className="text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
@@ -238,12 +238,11 @@ const AddOrder = () => {
 
                     return (
                       <tr key={i}>
-                        <td id='id'>
-                          <p className="text-xs mb-0">{meal.id}</p>
+                        <td className="align-middle">
+                          <p>{meal.id}</p>
                         </td>
-                        <td>
+                        <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>
@@ -259,7 +258,7 @@ const AddOrder = () => {
                         </td>
                         <td className="align-middle">
                           <button
-                            disabled={mealIds.includes(meal.id)}
+                            disabled={Array.isArray(mealIds) ? mealIds.includes(meal.id) : false}
                             className='button'
                             onClick={() => handleAddMealClick(meal)}>Add Meal</button>
                         </td>

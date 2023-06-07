@@ -9,7 +9,7 @@ const AddMenu = () => {
 
   const [errMsg, setErrMsg] = useState('');
   const [meals, setMeals] = useState();
-  
+
   const [expiredAt, setExpiredAt] = useState();
   const [selectedMeals, setSelectedMeals] = useState([]);
 
@@ -100,10 +100,10 @@ const AddMenu = () => {
             <div className="table-responsive">
               <label htmlFor="expiredAt">ExpiredAt</label>
               <input
-              type="date"
-              name="expiredAt"
-              required="required"
-              onChange={e => setExpiredAt(e.target.value)} />
+                type="date"
+                name="expiredAt"
+                required="required"
+                onChange={e => setExpiredAt(e.target.value)} />
 
               <table className="table">
                 <thead>

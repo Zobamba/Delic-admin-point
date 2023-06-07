@@ -46,13 +46,20 @@ const AddOrder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const meals = selectedMeals.map(item => { return { mealId: item.id, units: parseInt(item.unit) } })
+    const meals = selectedMeals.map(item => { return { mealId: item.id, units: parseInt(item.units) } })
 
     const payload = { address, phoneNumber, meals };
+    console.log(payload);
 
     try {
       const response = await axiosPrivate.post('/orders',
-        JSON.stringify(payload),
+        JSON.stringify(payload), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+        withCredentials: true
+      }
       );
 
       console.log(JSON.stringify(response?.data));
@@ -79,6 +86,11 @@ const AddOrder = () => {
     const getMeals = async () => {
       try {
         const response = await axiosPrivate.get('/meals', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
         });
 
         console.log(response.data);
@@ -148,7 +160,7 @@ const AddOrder = () => {
                             <input
                               type="number"
                               name="units"
-                              value={meal.units}
+                              defaultValue={meal.units}
                               onChange={(e) => handleUnitsChange(e, meal.id)}
                             />
                           </td>
@@ -175,7 +187,7 @@ const AddOrder = () => {
             <br />
             <button
               className="button"
-              type='submit'>Create Order</button>
+              type='submit'>Add Order</button>
           </form>
         </div>
         <div className="row">
@@ -187,8 +199,8 @@ const AddOrder = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-secondary ">#</th>
-                  <th className="text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
@@ -202,12 +214,11 @@ const AddOrder = () => {
 
                     return (
                       <tr key={i}>
-                        <td id='id'>
-                          <p className="text-xs mb-0">{meal.id}</p>
+                        <td className="align-middle">
+                          <p>{meal.id}</p>
                         </td>
-                        <td>
+                        <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>

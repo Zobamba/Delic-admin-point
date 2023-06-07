@@ -147,7 +147,6 @@ const Order = () => {
                   <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
-                  <th className="text-center text-secondary ">Units</th>
                   <th className="text-center text-secondary ">Created</th>
                   <th className="text-center text-secondary ">Updated</th>
                   <th className="text-secondary"></th>
@@ -160,20 +159,16 @@ const Order = () => {
                     return (
                       <tr key={i}>
                         <td className="align-middle">
-                          <p className="text-xs mb-0">{meal.id}</p>
+                          <p>{meal.id}</p>
                         </td>
                         <td className="align-middle">
                           <h6 className="mb-0 text-sm">{meal.name}</h6>
-                          <p className="text-xs mb-0">{meal.imageUrl}</p>
                         </td>
                         <td className="align-middle">
                           <span className="badge">{meal.category}</span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{meal.price}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{meal.orderMeal.units}</span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{new Date(meal.createdAt).toDateString()}</span>

@@ -64,7 +64,7 @@ const EditMeal = () => {
         <div className='row'>
           <div className="card-header">
             <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Edit Meal</h6>
+            </span> Edit User</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 

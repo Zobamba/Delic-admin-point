@@ -10,6 +10,7 @@ const EditMenu = () => {
   const [meals, setMeals] = useState();
   const [menu, setMenu] = useState();
 
+  const [expiredAt, setExpiredAt] = useState();
   const [mealIds, setMealIds] = useState([]);
   const [selectedMeals, setSelectedMeals] = useState([]);
 
@@ -30,8 +31,8 @@ const EditMenu = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const meals = selectedMeals.map(item => item.id)
-    const payload = { meals };
+    const meals = selectedMeals.map((item) => item.id)
+    const payload = { meals, expiredAt };
 
     const id = window.location.href.split("/")[4];
     try {
@@ -53,7 +54,7 @@ const EditMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('A menu for the selected date already exist! It could be that the date is in the past!');
+        setErrMsg('The selected expiryDate could be in the past!');
       } else {
         setErrMsg('Failed!')
       }
@@ -72,7 +73,6 @@ const EditMenu = () => {
           withCredentials: true
         });
 
-        console.log(response.data);
         setMeals(response.data.meals);
 
       } catch (err) {
@@ -94,7 +94,7 @@ const EditMenu = () => {
 
         setMenu(response.data.menu);
         setSelectedMeals(response.data.menu.meals);
-        setMealIds(...mealIds, response.data.menu.meals.map(meal => meal.id));
+        setMealIds(...mealIds, response.data.menu.meals.map((meal) => meal.id));
 
       } catch (err) {
         console.error(err);
@@ -118,6 +118,13 @@ const EditMenu = () => {
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
             <div className="table-responsive">
+              <label htmlFor="expiredAt">ExpiredAt</label>
+              <input
+                type="date"
+                name="expiredAt"
+                required="required"
+                onChange={e => setExpiredAt(e.target.value)} />
+
               <table className="table">
                 <thead>
                   <tr>
@@ -208,7 +215,7 @@ const EditMenu = () => {
                         </td>
                         <td className="align-middle">
                           <button
-                            disabled={selectedMeals.includes(meal)}
+                            disabled={Array.isArray(mealIds) ? mealIds.includes(meal.id) : false}
                             className='button'
                             onClick={() => handleAddMealClick(meal)}>Add Meal</button>
                         </td>
