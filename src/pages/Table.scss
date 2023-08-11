@@ -33,6 +33,28 @@
       line-height: 1.5;
       padding-left: 7px;
       margin-bottom: 10px;
+
+      .img {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 8px;
+        max-width: 50%;
+        padding: 15px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+  
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+        }
+      }
+
+      .widget {
+        margin-left: 10px;
+      }
     }
 
     input {

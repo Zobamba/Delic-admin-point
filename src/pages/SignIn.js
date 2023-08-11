@@ -1,22 +1,21 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-import { FaFacebook, FaGoogle, FaTwitter } from "react-icons/fa";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import Visibility from "@material-ui/icons/Visibility";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Input from "@material-ui/core/Input";
+import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import Visibility from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Input from '@material-ui/core/Input';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import './SignIn.scss';
 
-const LOGIN_URL = 'users/sign_in';
-
 const SignIn = () => {
+  const LOGIN_URL = 'users/sign_in';
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -30,7 +29,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
@@ -66,7 +65,7 @@ const SignIn = () => {
           withCredentials: true
         }
       );
-      localStorage.setItem('token', response?.data?.token)
+      localStorage.setItem('token', response?.data?.token);
       console.log(localStorage);
       console.log(response?.data);
       const token = response?.data?.token;
@@ -163,7 +162,7 @@ const SignIn = () => {
 
             <div className="txt1">
               <span>
-                Or Sign up using
+                Or Sign in using
               </span>
             </div>
 

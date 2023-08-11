@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const AddMeal = () => {
@@ -32,7 +32,7 @@ const AddMeal = () => {
     useEffect(() => {
       cloudinaryRef.current = window.cloudinary;
       widgetRef.current = cloudinaryRef.current.createUploadWidget({
-        cloudName: 'ddt4oo78m',
+        cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
         uploadPreset: 'dev_setups'
       }, (error, result) => {
         if (!error && result && result.event === "success") {
@@ -114,6 +114,7 @@ const AddMeal = () => {
               <option value="desserts">Desserts</option>
               <option value="specials">Specials</option>
               <option value="swallows">Swallows</option>
+              <option value="drinks">Drinks</option>
             </select>
 
             <label htmlFor="price">Price</label>

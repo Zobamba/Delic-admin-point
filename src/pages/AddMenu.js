@@ -98,7 +98,7 @@ const AddMenu = () => {
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
             <div className="table-responsive">
-              <label htmlFor="expiredAt">ExpiredAt</label>
+              <label htmlFor="expiredAt">Expiry Date</label>
               <input
                 type="date"
                 name="expiredAt"
@@ -197,7 +197,9 @@ const AddMenu = () => {
                           <button
                             disabled={selectedMeals.includes(meal)}
                             className='button'
-                            onClick={() => handleAddMealClick(meal)}>Add Meal</button>
+                            onClick={() => handleAddMealClick(meal)}>
+                            Add Meal
+                          </button>
                         </td>
                       </tr>
                     )

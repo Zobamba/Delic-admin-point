@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SideNav from './SideNav';
 
 const Orders = () => {

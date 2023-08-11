@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Table from './pages/Table';
 import Meals from './pages/Meals';
@@ -19,7 +20,6 @@ import SignUp from './pages/SignUp';
 import Users from './pages/Users';
 import User from './pages/User';
 import EditUser from './pages/EditUser';
-import { Routes, Route } from 'react-router-dom';
 import './App.scss';
 
 function App() {

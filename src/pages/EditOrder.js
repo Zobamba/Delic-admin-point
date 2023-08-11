@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const AddOrder = () => {
@@ -24,12 +24,14 @@ const AddOrder = () => {
 
   const handleAddMealClick = (meal) => {
     const newMeal = { ...meal, units: 1 };
+
     setSelectedMeals([...selectedMeals, newMeal]);
     setMealIds([...mealIds, meal.id]);
   }
 
   const handleRemoveClick = (id) => {
     setSelectedMeals(selectedMeals.filter(item => item.id !== id));
+    setMealIds(mealIds.filter(item => item !== id));
   };
 
   const handleUnitsChange = (e, id) => {
@@ -184,6 +186,7 @@ const AddOrder = () => {
                               type="number"
                               name="units"
                               value={meal.units}
+                              min={1}
                               onChange={(e) => handleUnitsChange(e, meal.id)}
                             />
                           </td>
@@ -260,7 +263,9 @@ const AddOrder = () => {
                           <button
                             disabled={Array.isArray(mealIds) ? mealIds.includes(meal.id) : false}
                             className='button'
-                            onClick={() => handleAddMealClick(meal)}>Add Meal</button>
+                            onClick={() => handleAddMealClick(meal)}>
+                            Add Meal
+                          </button>
                         </td>
                       </tr>
                     )

@@ -1,21 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import './SideNav.scss';
 import PropTypes from 'prop-types';
-import { faTv, faCartShopping, faFileLines, faUtensils, faBowlRice, faUserCircle, faEllipsis, faSignOut, faSignIn } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTv, faCartShopping, faFileLines, faUtensils, faBowlRice, faUserCircle, faEllipsis, faSignOut, faSignIn, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CtDark from '../assets/img/logo-ct-dark.png';
 import SideBarLogo from '../assets/img/icon-documentation.svg'
-
+import './SideNav.scss';
 
 const SideNav = ({ currentTab }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    const logout = () => {
-      localStorage.removeItem('token');
-      window.location.href = '/';
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/';
   }
 
   return (
@@ -106,9 +105,12 @@ const SideNav = ({ currentTab }) => {
           </ul>}
           {!isLoggedIn && <ul className="navbar-nav account-pages">
             <li className="nav-item mt-3">
-              <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+              <div className="dis-flex">
+                <FontAwesomeIcon icon={faArrowLeft} className="icon-back" onClick={() => setIsLoggedIn(!isLoggedIn)} />
+                <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+              </div>
             </li>
-            <li className="nav-item" onClick={() => setIsLoggedIn(!isLoggedIn)}>
+            <li className="nav-item">
               <Link className="nav-link hover"
                 to="/sign-in">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -131,7 +133,7 @@ const SideNav = ({ currentTab }) => {
               </Link>
             </li>
             <li className="nav-item" onClick={logout}>
-              <Link className= "nav-link hovers"
+              <Link className="nav-link hovers"
                 to="">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="ni ni-collection text-info text-sm opacity-10">

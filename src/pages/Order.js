@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const Order = () => {
@@ -42,7 +42,6 @@ const Order = () => {
   useEffect(() => {
     const getOrder = async () => {
       const id = window.location.href.split("/")[4];
-      console.log(id);
 
       try {
         const response = await axiosPrivate.get(`/orders/${id}`, {
@@ -73,7 +72,7 @@ const Order = () => {
         <div className="row">
           <div className="card-header">
             <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> order table</h6>
+            </span> Order Table</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
@@ -105,7 +104,9 @@ const Order = () => {
                       <span className="font-weight-bold">{order.meals.length}</span>
                     </td>
                     <td className="align-middle">
-                      <h6 className="mb-0 text-sm">#{totalPrice}</h6>
+                      <h6 className="mb-0 text-sm">
+                        {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </h6>
                     </td>
                     <td className="align-middle">
                       <span className="font-weight-bold">{new Date(order.createdAt).toDateString()}</span>
@@ -137,7 +138,7 @@ const Order = () => {
         <div className="row mt">
           <div className="card-header">
             <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> order Meals</h6>
+            </span> Order Meals</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
@@ -147,6 +148,7 @@ const Order = () => {
                   <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
+                  <th className="text-center text-secondary ">Units</th>
                   <th className="text-center text-secondary ">Created</th>
                   <th className="text-center text-secondary ">Updated</th>
                   <th className="text-secondary"></th>
@@ -168,7 +170,14 @@ const Order = () => {
                           <span className="badge">{meal.category}</span>
                         </td>
                         <td className="align-middle">
-                          <span className="font-weight-bold">{meal.price}</span>
+                          <span className="font-weight-bold">
+                            {(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          </span>
+                        </td>
+                        <td className="align-middle">
+                          <span className="font-weight-bold">
+                            {meal.orderMeal.units}
+                          </span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{new Date(meal.createdAt).toDateString()}</span>

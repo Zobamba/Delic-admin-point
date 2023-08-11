@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SideNav from './SideNav';
 
 const Meals = () => {
-
   const [meals, setMeals] = useState();
   const axiosPrivate = useAxiosPrivate();
 
@@ -76,7 +75,9 @@ const Meals = () => {
                           <span className="badge">{meal.category}</span>
                         </td>
                         <td className="align-middle">
-                          <span className="font-weight-bold">{meal.price}</span>
+                          <span className="font-weight-bold">
+                            {(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          </span>
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{new Date(meal.createdAt).toDateString()}</span>

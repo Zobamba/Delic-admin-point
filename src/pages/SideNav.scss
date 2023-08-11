@@ -281,7 +281,10 @@
           padding-left: 1rem;
           padding-right: 1rem;
           font-size: 0.875rem;
-          transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+          transition:
+            color 0.15s ease-in-out,
+            background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out;
           color: var(--bs-nav-link-hover-color);
           isolation: isolate;
           border-color: var(--bs-nav-tabs-link-hover-border-color);
@@ -426,10 +429,27 @@
           }
         }
 
-        h6 {
-          margin-top: 0;
-          margin-bottom: 0.5rem;
-          color: var(--bs-heading-color);
+        .dis-flex {
+          display: flex;
+
+          h6 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--bs-heading-color);
+            padding: 12px;
+          }
+
+          .icon-back {
+            padding: 12px;
+
+            &:hover {
+              background-color: #e6f1fb;
+              box-shadow: none;
+              color: #344767;
+              font-weight: 900;
+              border-radius: 50%;
+            }
+          }
         }
 
         .ellipsis {
@@ -538,7 +558,9 @@
     .btn {
       letter-spacing: -0.025rem;
       text-transform: none;
-      box-shadow: 0 4px 6px rgb(50 50 93 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+      box-shadow:
+        0 4px 6px rgb(50 50 93 / 10%),
+        0 1px 3px rgb(0 0 0 / 8%);
       --bs-btn-font-family: ;
       --bs-btn-font-weight: 700;
       --bs-btn-line-height: 1.5;
@@ -620,7 +642,9 @@
     height: 80px;
 
     .navbar-main {
-      transition: box-shadow 0.25s ease-in, background-color 0.25s ease-in;
+      transition:
+        box-shadow 0.25s ease-in,
+        background-color 0.25s ease-in;
       padding-right: 0 !important;
       padding-left: 0 !important;
       margin-right: 1.5rem !important;
@@ -661,7 +685,9 @@
           display: flex !important;
 
           .input-group {
-            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+            transition:
+              box-shadow 0.15s ease,
+              border-color 0.15s ease;
             border-radius: 0.5rem;
             display: flex;
             flex-wrap: wrap;
@@ -675,7 +701,9 @@
               }
 
               border-right: 0;
-              transition: box-shadow 0.15s ease, border-color 0.15s ease;
+              transition:
+                box-shadow 0.15s ease,
+                border-color 0.15s ease;
               color: #67748e !important;
               display: flex;
               align-items: center;
@@ -725,7 +753,9 @@
               border: 1px solid #d2d6da;
               appearance: none;
               border-radius: 0.5rem;
-              transition: box-shadow 0.15s ease, border-color 0.15s ease;
+              transition:
+                box-shadow 0.15s ease,
+                border-color 0.15s ease;
             }
           }
         }
@@ -755,7 +785,10 @@
               color: #333 !important;
               padding: 0 !important;
               display: block;
-              transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+              transition:
+                color 0.15s ease-in-out,
+                background-color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out;
 
               .fa {
                 cursor: pointer;

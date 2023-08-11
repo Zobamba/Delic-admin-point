@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const EditMenu = () => {
@@ -93,7 +93,7 @@ const EditMenu = () => {
         });
 
         setMenu(response.data.menu);
-        setSelectedMeals(response.data.menu.meals);
+        setSelectedMeals(...selectedMeals, response.data.menu.meals);
         setMealIds(...mealIds, response.data.menu.meals.map((meal) => meal.id));
 
       } catch (err) {
@@ -215,9 +215,11 @@ const EditMenu = () => {
                         </td>
                         <td className="align-middle">
                           <button
-                            disabled={Array.isArray(mealIds) ? mealIds.includes(meal.id) : false}
+                            disabled={selectedMeals.includes(meal)}
                             className='button'
-                            onClick={() => handleAddMealClick(meal)}>Add Meal</button>
+                            onClick={() => handleAddMealClick(meal)}>
+                            Add Meal
+                          </button>
                         </td>
                       </tr>
                     )
