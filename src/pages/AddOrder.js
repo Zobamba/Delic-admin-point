@@ -112,32 +112,37 @@ const AddOrder = () => {
     <div className="page-wrapper">
       <SideNav currentTab="orders" />
       <div className="container">
-        <div className="row">
+        <div className="row mt">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Selected Meals</h6>
+            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+            </span> Create Order Record</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              name="address"
-              ref={addressRef}
-              required="required"
-              placeholder="Enter an address..."
-              onChange={e => setAddress(e.target.value)} />
-            <label htmlFor="phone">PhoneNumber</label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              required="required"
-              placeholder="Enter a phoneNumber..."
-              onChange={e => setPhoneNumber(e.target.value)} />
-
-            <br />
-            <br />
             <div className="table-responsive">
+              <div className="add-btn">
+                <button className="button order-btn" type='submit'>Create Order</button>
+              </div>
+              <div className="frm date pt-pr">
+                <div className="fm">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    ref={addressRef}
+                    required="required"
+                    placeholder="Enter an address..."
+                    onChange={e => setAddress(e.target.value)} />
+                  <label htmlFor="phone">PhoneNumber</label>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    required="required"
+                    placeholder="Enter a phoneNumber..."
+                    onChange={e => setPhoneNumber(e.target.value)} />
+                </div>
+              </div>
+              <br />
               <table className="table">
                 <thead>
                   <tr>
@@ -154,8 +159,11 @@ const AddOrder = () => {
 
                       return (
                         <tr key={i}>
-                          <td className="align-link">
-                            <Link to={`/meals/${meal.id}`}>
+                          <td className="align-middle">
+                            <Link
+                              to={`/meals/${meal.id}`}
+                              title="View meal"
+                              className="view">
                               {meal.name}
                             </Link>
                           </td>
@@ -175,41 +183,37 @@ const AddOrder = () => {
                             <span className="font-weight-bold">{meal.price}</span>
                           </td>
                           <td className="align-middle">
-                            <button
-                              type='button'
-                              className='delete'
-                              onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            <div className="actions">
+                              <button
+                                type='button'
+                                className='delete'
+                                onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            </div>
                           </td>
                         </tr>
                       )
                     }
                     )}
-                  </tbody>
-                }
+                  </tbody>}
               </table>
             </div>
-            <br />
-            <button
-              className="button"
-              type='submit'>Add Order</button>
           </form>
         </div>
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Meals table</h6>
+            <h6 className="mb-0 ml text-sm">Meals Table</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meal Id</th>
                   <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
                   <th className="text-center text-secondary ">Updated</th>
-                  <th className="text-secondary"></th>
+                  <th className="text-center text-secondary"></th>
                 </tr>
               </thead>
               {meals &&

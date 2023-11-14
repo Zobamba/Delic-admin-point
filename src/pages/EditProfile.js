@@ -2,32 +2,29 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCamera } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
-const EditMeal = () => {
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+const EditProfile = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [imageVisible, setImageVisible] = useState(false);
 
-  const nameRef = useRef();
+  const firstNameRef = useRef();
   const errRef = useRef();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   useEffect(() => {
-    nameRef.current.focus();
+    firstNameRef.current.focus();
 
-    const getMeal = async () => {
-      const id = window.location.href.split("/")[4];
-
+    const getUser = async () => {
       try {
-        const response = await axiosPrivate.get(`/meals/${id}`, {
+        const response = await axiosPrivate.get('/user', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -35,19 +32,16 @@ const EditMeal = () => {
           withCredentials: true
         });
 
-        setName(response.data.name);
-        setCategory(response.data.category);
-        setPrice(response.data.price);
-        setDescription(response.data.description);
-        setImageUrl(response.data.imageUrl);
-
+        console.log(response.data);
+        setFirstName(response.data.user.firstName);
+        setLastName(response.data.user.lastName);
+        setPhoneNumber(response.data.user.phoneNumber);
+        setPhotoUrl(response.data.user.photoUrl);
       } catch (err) {
-        console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        console.log(err);
       }
     }
-
-    getMeal();
+    getUser();
     setImageVisible(true);
   }, []);
 
@@ -59,35 +53,32 @@ const EditMeal = () => {
       cloudinaryRef.current = window.cloudinary;
       widgetRef.current = cloudinaryRef.current.createUploadWidget({
         cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
-        uploadPreset: 'dev_setups'
+        uploadPreset: 'dev_setups',
       }, (error, result) => {
         if (!error && result && result.event === "success") {
           console.log('Done! Here is the image info: ', result.info);
 
-          setImageUrl(result.info.secure_url);
+          setPhotoUrl(result.info.secure_url);
         }
 
       });
     }, []);
 
     return (
-      <button
-        type="button"
-        onClick={() => widgetRef.current.open()}
-        className="custom-button">
-        Upload
-      </button>
+      <div className="custom-button cam">
+        <FontAwesomeIcon type="button" icon={faCamera} onClick={() => widgetRef.current.open()} />
+      </div>
     )
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const id = window.location.href.split("/")[4];
-    const payload = { name, price, category, description, imageUrl };
+    const payload = { firstName, lastName, phoneNumber, photoUrl };
+    console.log(payload);
 
     try {
-      const response = await axiosPrivate.put(`/meals/${id}`,
+      const response = await axiosPrivate.put('/edit-profile',
         JSON.stringify(payload),
         {
           headers: {
@@ -97,9 +88,8 @@ const EditMeal = () => {
           withCredentials: true
         }
       );
-
-      console.log(JSON.stringify(response?.data));
-      navigate("/meals")
+      console.log(response);
+      navigate("/profile")
 
     } catch (err) {
       if (!err?.response) {
@@ -115,68 +105,54 @@ const EditMeal = () => {
 
   return (
     <div className="page-wrapper">
-      <SideNav currentTab="meals" />
+      <SideNav currentTab="profile" />
       <div className="container">
         <div className='row'>
           <div className="card-header">
             <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Edit Meal</h6>
+            </span> Edit Profile</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <div className="form-data">
-            <div className={`img ${imageVisible ? 'act' : ''}`}>
-              <img src={imageUrl} alt="" />
+            <div className={`img profile-pic ${imageVisible ? 'act' : ''}`}>
+              <img className="usr-img" src={photoUrl} alt="" />
+              <div className="widget">
+                <UploadWidget />
+              </div>
             </div>
-            <div className="frm pt-pr">
+            <div className="frm m-auto pt-pr">
               <div className="fm">
                 <form onSubmit={handleSubmit}>
                   <button className="btn" type='submit'>Save</button>
-                  <label htmlFor="name">Name:
+                  <label htmlFor="name">firstName:
                     <input
                       type="text"
-                      name="name"
-                      ref={nameRef}
-                      value={name}
-                      required="required"
-                      placeholder="Enter a meal..."
-                      onChange={e => setName(e.target.value)}
+                      name="firstName"
+                      ref={firstNameRef}
+                      value={firstName}
+                      placeholder="Enter your firstname..."
+                      onChange={e => setFirstName(e.target.value)}
                     />
                   </label>
 
-                  <label htmlFor="category">Category:
-                    <select id="category" value={category} onChange={e => setCategory(e.target.value)}>
-                      <option value="starters">Starters</option>
-                      <option value="main dishes">Main Dishes</option>
-                      <option value="desserts">Desserts</option>
-                      <option value="specials">Specials</option>
-                      <option value="swallows">Swallows</option>
-                      <option value="drinks">Drinks</option>
-                    </select>
-                  </label>
-
-                  <label htmlFor="price">Price:
+                  <label htmlFor="price">lastName:
                     <input
                       type="text"
-                      name="price"
-                      value={price}
-                      required="required"
+                      name="lastName"
+                      value={lastName}
                       placeholder="Enter a price..."
-                      onChange={e => setPrice(e.target.value)}
+                      onChange={e => setLastName(e.target.value)}
                     />
                   </label>
 
-                  <label htmlFor="price">Description:
+                  <label htmlFor="price">phoneNumber:
                     <input
                       type="text"
-                      name="description"
-                      value={description}
-                      required="required"
+                      name="phoneNumber"
+                      value={phoneNumber}
                       placeholder="Enter the description..."
-                      onChange={e => setDescription(e.target.value)}
+                      onChange={e => setPhoneNumber(e.target.value)}
                     />
-                  </label>
-
-                  <label htmlFor="imageUrl">Image: <UploadWidget />
                   </label>
                 </form>
               </div>
@@ -188,4 +164,4 @@ const EditMeal = () => {
   )
 }
 
-export default EditMeal
+export default EditProfile

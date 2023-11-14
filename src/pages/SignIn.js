@@ -15,8 +15,8 @@ import axios from '../api/axios';
 import './SignIn.scss';
 
 const SignIn = () => {
-  const LOGIN_URL = 'users/sign_in';
-  const { setAuth } = useAuth();
+  const LOGIN_URL = '/sign_in';
+  const { email, setEmail, setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +25,6 @@ const SignIn = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
@@ -66,7 +65,10 @@ const SignIn = () => {
         }
       );
       localStorage.setItem('token', response?.data?.token);
-      console.log(localStorage);
+      localStorage.setItem('email', response?.data?.email);
+      // localStorage.setItem('hash', response?.data?.passwordHash);
+      localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
+
       console.log(response?.data);
       const token = response?.data?.token;
 
@@ -109,9 +111,9 @@ const SignIn = () => {
                 ref={userRef}
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                // value={email}
                 required
-                placeholder="Type your email" />
+                placeholder="Enter your email..." />
               <span>
                 <i>
                   <FontAwesomeIcon className="focus-input100" icon={faUser} />
@@ -128,7 +130,7 @@ const SignIn = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 required
-                placeholder="Type your password"
+                placeholder="Enter your password..."
                 endAdornment={
                   <InputAdornment position="end"
                     className="fa-eye">
@@ -149,7 +151,10 @@ const SignIn = () => {
             </div>
 
             <div className="text-right">
-              <Link className="link" to="/sign-up">
+              <Link
+                className="link"
+                to="/requestPasswordReset"
+              >
                 <span>Forgot password?</span>
               </Link>
             </div>

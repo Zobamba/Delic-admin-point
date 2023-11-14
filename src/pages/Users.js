@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const Users = () => {
@@ -40,20 +42,21 @@ const Users = () => {
       <div className="container">
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">Users table</h6>
+            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+            </span> Users table</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-secondary ">#</th>
-                  <th className="text-secondary ">User</th>
+                  <th className="text-center text-secondary">User Id</th>
+                  <th className="text-center text-secondary">Name</th>
+                  <th className="text-center text-secondary">Email</th>
                   <th className="text-center text-secondary">Admin</th>
-                  <th className="text-center text-secondary ">Disabled</th>
-                  <th className="text-center text-secondary ">Phone</th>
-                  <th className="text-center text-secondary ">Created</th>
-                  <th className="text-center text-secondary ">Updated</th>
-                  <th className="text-secondary"></th>
+                  <th className="text-center text-secondary">Disabled</th>
+                  <th className="text-center text-secondary">Phone Number</th>
+                  <th className="text-center text-secondary">Created</th>
+                  <th className="text-center text-secondary">Updated</th>
                 </tr>
               </thead>
               {users &&
@@ -61,11 +64,18 @@ const Users = () => {
                   {users.map((user, i) => {
                     return (
                       <tr key={i}>
-                        <td>
-                          <p className="text-xs mb-0">{user.id}</p>
+                        <td className="align-middle">
+                          <p>{user.id}</p>
                         </td>
-                        <td>
-                          <h6 className="mb-0 text-sm">{user.firstName} {user.lastName}</h6>
+                        <td className="align-middle">
+                          <Link
+                            title="View user"
+                            to={`/users/${user.id}`}
+                            className="view">
+                            {user.firstName} {user.lastName}
+                          </Link>
+                        </td>
+                        <td className="align-middle">
                           <p className="text-xs mb-0">{user.email}</p>
                         </td>
                         <td className="align-middle">
@@ -82,11 +92,6 @@ const Users = () => {
                         </td>
                         <td className="align-middle">
                           <span className="font-weight-bold">{new Date(user.updatedAt).toDateString()}</span>
-                        </td>
-                        <td className="align-middle">
-                          <Link to={`/users/${user.id}`}>
-                            <span>View</span>
-                          </Link>
                         </td>
                       </tr>
                     )

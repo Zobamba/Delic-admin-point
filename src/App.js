@@ -14,7 +14,11 @@ import Orders from './pages/Orders';
 import Order from './pages/Order';
 import AddOrder from './pages/AddOrder';
 import EditOrder from './pages/EditOrder';
+import RequestPasswordReset from './pages/RequestPasswordReset';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
+import ChangePassword from './pages/ChangePassword';
+import ResetPassword from './pages/ResetPassword';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Users from './pages/Users';
@@ -40,6 +44,10 @@ function App() {
       <Route path="/addOrder" element={<AddOrder />} />
       <Route path="/editOrder/:id" element={<EditOrder />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/editProfile" element={<EditProfile />} />
+      <Route path="/changePassword" element={<ChangePassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/requestPasswordReset" element={<RequestPasswordReset />} />
       <Route path="/users" element={<Users />} />
       <Route path="/users/:id" element={<User />} />
       <Route path="/editUser/:id" element={<EditUser />} />

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Switch from 'react-switch';
 import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faL } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const EditMeal = () => {
@@ -11,21 +12,53 @@ const EditMeal = () => {
 
   const [errMsg, setErrMsg] = useState('');
 
-  const adminRef = useRef();
   const errRef = useRef();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    adminRef.current.focus();
+  // const handleAdminChange = (checked) => {
+  //   setAdmin(checked);
+  // };
+
+  const handleAdminChange = async (checked) => {
+    setAdmin(checked);
+    await handleSubmit();
+  };
+
+  const handleDisableChange = (checked) => {
+    setDisable(checked);
+  };
+
+  useEffect((e) => {
+    const getUser = async () => {
+      const id = window.location.href.split("/")[4];
+
+      try {
+        const response = await axiosPrivate.get(`/users/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+          withCredentials: true
+        });
+
+        setAdmin(response.data.user.admin);
+        setDisable(response.data.user.disable);
+
+      } catch (err) {
+        console.error(err);
+        navigate('/sign-in', { state: { from: location }, replace: true });
+      }
+    }
+
+    getUser();
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
 
     const id = window.location.href.split("/")[4];
-    const payload = { admin, disable }
+    const payload = { admin: !admin, disable }
     console.log(payload)
 
     try {
@@ -41,13 +74,11 @@ const EditMeal = () => {
       );
 
       console.log(JSON.stringify(response?.data));
-      navigate("/users")
+      // navigate("/users")
 
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response!');
-      } else if (err.response?.status === 409) {
-        setErrMsg('Meal already exist!');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
@@ -67,24 +98,48 @@ const EditMeal = () => {
             </span> Edit User</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Admin</label>
-            <input
-              type="text"
-              name="admin"
-              ref={adminRef}
-              onChange={e => setAdmin(e.target.value)} />
-
-            <label htmlFor="category">Disable</label>
-            <input
-              type="text"
-              name="disable"
-              onChange={e => setDisable(e.target.value)} />
-            <button
-              className="button"
-              type='submit'>Save</button>
-          </form>
+          <div className="form-data">
+            <div className="frm m-auto pt-pr">
+              <div className="fm">
+                <form onSubmit={handleSubmit}>
+                  <button className="btn" type='submit'>Save</button>
+                  <label>
+                    <span>Admin:</span>
+                    <Switch
+                      className="switch"
+                      onChange={handleAdminChange}
+                      checked={admin}
+                      uncheckedIcon={null}
+                      checkedIcon={null}
+                      onColor="#86d3ff"
+                      offColor="#cccccc"
+                      onHandleColor="#2693e6"
+                      offHandleColor="#ffffff"
+                      height={25}
+                      width={55}
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    <span>Disable:</span>
+                    <Switch
+                      className="switch"
+                      onChange={handleDisableChange}
+                      checked={disable}
+                      uncheckedIcon={null}
+                      checkedIcon={null}
+                      onColor="#86d3ff"
+                      offColor="#cccccc"
+                      onHandleColor="#2693e6"
+                      offHandleColor="#ffffff"
+                      height={25}
+                      width={55}
+                    />
+                  </label>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
