@@ -12,7 +12,6 @@ const AddOrder = () => {
   const [errMsg, setErrMsg] = useState('');
 
   const [meals, setMeals] = useState();
-  const [order, setOrder] = useState();
   const [mealIds, setMealIds] = useState([]);
   const [selectedMeals, setSelectedMeals] = useState([]);
 
@@ -115,17 +114,18 @@ const AddOrder = () => {
           withCredentials: true
         });
 
-        setOrder(response.data.order);
         setSelectedMeals(response.data.order.meals.map((meal) => { return { ...meal, units: meal.orderMeal.units } }));
-        setMealIds(...mealIds, response.data.order.meals.map((meal) => meal.id));
+        setMealIds(response.data.order.meals.map((meal) => meal.id));
+        setAddress(response.data.order.address);
+        setPhoneNumber(response.data.order.phoneNumber);
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        navigate('/sign-in');
       }
     }
 
-    getOrder(order);
+    getOrder();
     getMeals();
   }, []);
 
@@ -133,31 +133,40 @@ const AddOrder = () => {
     <div className="page-wrapper">
       <SideNav currentTab="orders" />
       <div className="container">
-        <div className="row">
+        <div className="row mt">
           <div className="card-header">
             <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Selected Meals</h6>
+            </span> Edit Order</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              name="address"
-              ref={addressRef}
-              required="required"
-              placeholder="Enter an address..."
-              onChange={e => setAddress(e.target.value)} />
-            <label htmlFor="phone">PhoneNumber</label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              ref={addressRef}
-              required="required"
-              placeholder="Enter a phoneNumber..."
-              onChange={e => setPhoneNumber(e.target.value)} />
-
-            <br />
+            <div className="table-responsive">
+              <div className="add-btn">
+                <button className="button order-btn" type='submit'>Save</button>
+              </div>
+              <div className="frm date pt-pr">
+                <div className="fm">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    ref={addressRef}
+                    required="required"
+                    value={address}
+                    placeholder="Enter an address..."
+                    onChange={e => setAddress(e.target.value)} />
+                  <label htmlFor="phone">PhoneNumber</label>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    ref={addressRef}
+                    value={phoneNumber}
+                    required="required"
+                    placeholder="Enter a phoneNumber..."
+                    onChange={e => setPhoneNumber(e.target.value)} />
+                </div>
+              </div>
+            </div>
             <br />
             <div className="table-responsive">
               <table className="table">
@@ -173,11 +182,13 @@ const AddOrder = () => {
                 {selectedMeals &&
                   <tbody>
                     {selectedMeals.map((meal, i) => {
-
                       return (
                         <tr key={i}>
-                          <td className="align-link">
-                            <Link to={`/meals/${meal.id}`}>
+                          <td className="align-middle">
+                            <Link
+                              to={`/meals/${meal.id}`}
+                              title="View meal"
+                              className="view">
                               {meal.name}
                             </Link>
                           </td>
@@ -197,37 +208,32 @@ const AddOrder = () => {
                             <span className="font-weight-bold">{meal.price}</span>
                           </td>
                           <td className="align-middle">
-                            <button
-                              type='button'
-                              className='delete'
-                              onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            <div className="actions">
+                              <button
+                                type='button'
+                                className='delete'
+                                onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            </div>
                           </td>
                         </tr>
                       )
                     }
                     )}
-                  </tbody>
-
-                }
+                  </tbody>}
               </table>
             </div>
-            <br />
-            <button
-              className="button"
-              type='submit'>Save</button>
           </form>
         </div>
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Meals table</h6>
+            <h6 className="mb-0 ml text-sm">Meals table</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">Meal Id</th>
+                  <th className="text-center text-secondary ">Meal</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>

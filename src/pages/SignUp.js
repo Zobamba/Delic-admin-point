@@ -17,7 +17,7 @@ const SignUp = () => {
   const USER_REGEX = /^[A-z][A-z]{2,23}$/;
   const EMAIL_REGEX = /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/;
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-  const REGISTER_URL = '/users/sign_up';
+  const REGISTER_URL = '/sign_up';
 
   const userRef = useRef();
   const errRef = useRef();
@@ -27,11 +27,11 @@ const SignUp = () => {
   const [emailFocus, setEmailFocus] = useState(false);
 
   const [firstName, setFirstName] = useState('');
-  const [validFirstname, setValidFirstname] = useState(false);
+  const [validFirstName, setValidFirstName] = useState(false);
   const [firstNameFocus, setFirstNameFocus] = useState(false);
 
   const [lastName, setLastName] = useState('');
-  const [validLastname, setValidLastname] = useState(false);
+  const [validLastName, setValidLastName] = useState(false);
   const [lastNameFocus, setLastNameFocus] = useState(false);
 
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -57,8 +57,8 @@ const SignUp = () => {
   }, [email])
 
   useEffect(() => {
-    setValidFirstname(USER_REGEX.test(firstName));
-    setValidLastname(USER_REGEX.test(lastName));
+    setValidFirstName(USER_REGEX.test(firstName));
+    setValidLastName(USER_REGEX.test(lastName));
   }, [firstName, lastName])
 
   useEffect(() => {
@@ -129,26 +129,26 @@ const SignUp = () => {
           <span className="sign-up-title">Sign up</span>
           <div className="form-group">
             <div className="form-wrapper">
-              <InputLabel className="label-input100" htmlFor="firstname">
+              <InputLabel className="label-input100" htmlFor="firstName">
                 First Name:
-                <FontAwesomeIcon icon={faCheck} className={validFirstname ? "valid" : "hide"} />
-                <FontAwesomeIcon icon={faTimes} className={validFirstname || !firstName ? "hide" : "invalid"} />
+                <FontAwesomeIcon icon={faCheck} className={validFirstName ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={validFirstName || !firstName ? "hide" : "invalid"} />
               </InputLabel>
               <Input
                 className="form-control"
                 type="text"
                 ref={userRef}
-                id="firstname"
+                id="firstName"
                 autoComplete="off"
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
                 required
-                aria-invalid={validFirstname ? false.toString() : true.toString()}
-                aria-describedby="firstname"
+                aria-invalid={validFirstName ? false.toString() : true.toString()}
+                aria-describedby="firstName"
                 onFocus={() => setFirstNameFocus(true)}
                 onBlur={() => setFirstNameFocus(false)}
               />
-              <p id="firstname" className={firstNameFocus && firstName && !validFirstname ? "instructions" : "offscreen"}>
+              <p id="firstName" className={firstNameFocus && firstName && !validFirstName ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
                 3 to 24 characters.<br />
                 Must begin with a letter.<br />
@@ -160,25 +160,25 @@ const SignUp = () => {
               </span>
             </div>
             <div className="form-wrapper">
-              <InputLabel className="label-input100" htmlFor="lastname">
+              <InputLabel className="label-input100" htmlFor="lastName">
                 Last Name:
-                <FontAwesomeIcon icon={faCheck} className={validLastname ? "valid" : "hide"} />
-                <FontAwesomeIcon icon={faTimes} className={validLastname || !lastName ? "hide" : "invalid"} />
+                <FontAwesomeIcon icon={faCheck} className={validLastName ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={validLastName || !lastName ? "hide" : "invalid"} />
               </InputLabel>
               <Input
                 className="form-control"
                 type="text"
-                id="lastname"
+                id="lastName"
                 autoComplete="off"
                 onChange={(e) => setLastName(e.target.value)}
                 value={lastName}
                 required
-                aria-invalid={validLastname ? false.toString() : true.toString()}
-                aria-describedby="lastname"
+                aria-invalid={validLastName ? false.toString() : true.toString()}
+                aria-describedby="lastName"
                 onFocus={() => setLastNameFocus(true)}
                 onBlur={() => setLastNameFocus(false)}
               />
-              <p id="lastname" className={lastNameFocus && lastName && !validLastname ? "instructions" : "offscreen"}>
+              <p id="lastName" className={lastNameFocus && lastName && !validLastName ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
                 3 to 24 characters.<br />
                 Must begin with a letter.<br />
@@ -314,7 +314,7 @@ const SignUp = () => {
           </div>
 
           <div className="btn-section">
-            <button disabled={!validFirstname || !validLastname || !validEMail || !validPassword || !validMatch ? true : false}>Register</button>
+            <button disabled={!validFirstName || !validLastName || !validEMail || !validPassword || !validMatch ? true : false}>Register</button>
             <Link className="sign-in" to="/sign-in">I am already a member</Link>
           </div>
           <div className="txt1">

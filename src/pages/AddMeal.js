@@ -6,17 +6,15 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const AddMeal = () => {
-
   const [name, setName] = useState('');
   const [category, setCategory] = useState('starters');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [errMsg, setErrMsg] = useState('');
 
   const nameRef = useRef();
   const errRef = useRef();
-
-  const [errMsg, setErrMsg] = useState('');
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -33,7 +31,7 @@ const AddMeal = () => {
       cloudinaryRef.current = window.cloudinary;
       widgetRef.current = cloudinaryRef.current.createUploadWidget({
         cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
-        uploadPreset: 'dev_setups'
+        uploadPreset: 'dev_setups',
       }, (error, result) => {
         if (!error && result && result.event === "success") {
           console.log('Done! Here is the image info: ', result.info);
@@ -45,7 +43,10 @@ const AddMeal = () => {
     }, []);
 
     return (
-      <button type="button" onClick={() => widgetRef.current.open()}>
+      <button
+        type="button"
+        onClick={() => widgetRef.current.open()}
+        className="custom-button">
         Upload
       </button>
     )
@@ -77,6 +78,8 @@ const AddMeal = () => {
         setErrMsg('No Server Response!');
       } else if (err.response?.status === 409) {
         setErrMsg('Meal already exist!');
+      } else if (err.response?.status === 404) {
+        setErrMsg('Bad request!');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
@@ -92,54 +95,64 @@ const AddMeal = () => {
       <div className="container">
         <div className='row'>
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Add a Meal</h6>
+            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+            </span> Create Meal Record</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          <div className="form-data">
+            {imageUrl &&
+              <div className="img">
+                <img src={imageUrl} alt="" />
+              </div>}
+            <div className="frm bdr-lft pt-pr">
+              <div className="fm">
+                <form onSubmit={handleSubmit}>
+                  <button className="btn" type='submit'>Add Meal</button>
+                  <label>Name
+                    <input
+                      type="text"
+                      name="name"
+                      ref={nameRef}
+                      required="required"
+                      placeholder="Enter a meal..."
+                      onChange={e => setName(e.target.value)} />
+                  </label>
 
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              name="name"
-              ref={nameRef}
-              required="required"
-              placeholder="Enter a meal..."
-              onChange={e => setName(e.target.value)} />
+                  <label>Category
+                    <select id="category" name='Select an option' onChange={e => setCategory(e.target.value)}>
+                      <option value="starters">Starters</option>
+                      <option value="desserts">Desserts</option>
+                      <option value="specials">Specials</option>
+                      <option value="swallows">Swallows</option>
+                      <option value="drinks">Drinks</option>
+                    </select>
+                  </label>
 
-            <label htmlFor="category">Category</label>
-            <select id="category" onChange={e => setCategory(e.target.value)}>
-              <option value="starters">Starters</option>
-              <option value="main dishes">Main Dishes</option>
-              <option value="desserts">Desserts</option>
-              <option value="specials">Specials</option>
-              <option value="swallows">Swallows</option>
-              <option value="drinks">Drinks</option>
-            </select>
+                  <label>Price
+                    <input
+                      type="text"
+                      name="price"
+                      required="required"
+                      placeholder="Enter a price..."
+                      onChange={e => setPrice(e.target.value)} />
+                  </label>
 
-            <label htmlFor="price">Price</label>
-            <input
-              type="text"
-              name="price"
-              required="required"
-              placeholder="Enter a price..."
-              onChange={e => setPrice(e.target.value)} />
+                  <label>Description
+                    <input
+                      type="text"
+                      name="description"
+                      required="required"
+                      placeholder="Enter the description..."
+                      onChange={e => setDescription(e.target.value)} />
+                  </label>
 
-            <label htmlFor="description">Description</label>
-            <input
-              type="text"
-              name="description"
-              required="required"
-              placeholder="Enter the description..."
-              onChange={e => setDescription(e.target.value)} />
-
-            <label htmlFor="imageUrl">ImageUrl:</label>
-            < UploadWidget />
-
-            <button
-              className="button"
-              type='submit'>Add Meal</button>
-          </form>
+                  <label>Image:
+                    <UploadWidget />
+                  </label>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

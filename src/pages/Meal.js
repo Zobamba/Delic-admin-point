@@ -3,33 +3,22 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import DeleteMealModal from './DeleteMealModal';
 import SideNav from './SideNav';
 
 const Meal = () => {
   const [meal, setMeal] = useState();
+  const [item, setItem] = useState();
+  const [name, setName] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [imageVisible, setImageVisible] = useState(false);
+
   const axiosPrivate = useAxiosPrivate();
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleDeleteClick = async (id) => {
-    try {
-      const response = await axiosPrivate.delete(`/meals/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-        withCredentials: true
-      });
-
-      console.log(response.data);
-      navigate("/meals")
-
-    } catch (err) {
-      console.error(err);
-      navigate('/sign-in', { state: { from: location }, replace: true });
-    }
-  }
 
   useEffect(() => {
     const getMeal = async () => {
@@ -46,6 +35,8 @@ const Meal = () => {
 
         console.log(response.data);
         setMeal(response.data);
+        setName(response.data.name);
+        setImageUrl(response.data.imageUrl);
 
       } catch (err) {
         console.error(err);
@@ -54,73 +45,78 @@ const Meal = () => {
     }
 
     getMeal();
+    setImageVisible(true);
   }, []);
 
   return (
     <div className="page-wrapper">
       <SideNav currentTab="meals" />
       <div className="container">
+        {modalOpen &&
+          <DeleteMealModal
+            setModalOpen={setModalOpen}
+            modalOpen={modalOpen}
+            item={item}
+          />}
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Meal Table</h6>
+            <h6 className="mb-0 text-sm">
+              <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+              </span> {name}</h6>
           </div>
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary ">Name</th>
-                  <th className="text-center text-secondary">Category</th>
-                  <th className="text-center text-secondary ">Price</th>
-                  <th className="text-center text-secondary ">Created</th>
-                  <th className="text-center text-secondary ">Updated</th>
-                  <th className="text-secondary"></th>
-                </tr>
-              </thead>
-              {meal &&
-                <tbody>
-                  <tr>
-                    <td className="align-middle">
-                      <p>{meal.id}</p>
-                    </td>
-                    <td className="align-middle">
-                      <h6 className="mb-0 text-sm">{meal.name}</h6>
-                      <Link to={`${meal.imageUrl}`} target="_blank">View Image</Link>
-                    </td>
-                    <td className="align-middle">
-                      <span className="badge">{meal.category}</span>
-                    </td>
-                    <td className="align-middle">
-                      <span className="font-weight-bold">
-                        {(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      </span>
-                    </td>
-                    <td className="align-middle">
-                      <span className="font-weight-bold">{new Date(meal.createdAt).toDateString()}</span>
-                    </td>
-                    <td className="align-middle">
-                      <span className="font-weight-bold">{new Date(meal.updatedAt).toDateString()}</span>
-                    </td>
-                    <td className="align-middle">
+          <div className="form-data">
+            <div className={`img ${imageVisible ? 'act' : ''}`}>
+              <img src={imageUrl} alt="" />
+            </div>
+            {meal &&
+              <div className="frm pt-pr">
+                <div className="frm-header">
+                  <h6 className="mb-0 text-sm">
+                    <span>
                       <Link
-                        to={`/editMeal/${meal.id}`}
-                        className="edit"
-                      >
-                        Edit
+                        to={`/editMeal/${meal.id}`}>
+                        <FontAwesomeIcon title="Edit meal" className="icon-edit" icon={faEdit} />
                       </Link>
-                      <button
-                        className="delete"
-                        type="button"
-                        onClick={() => handleDeleteClick(meal.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              }
-            </table>
+                    </span>Meal details
+                  </h6>
+                </div>
+                <div className="info">
+                  <p className="sub-info">
+                    {meal.description}
+                  </p>
+                  <p className="sub-info">
+                    <span className="label">Price:</span>
+                    <span className="font-weight-bold">
+                      &#8358;{(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </span>
+                  </p>
+                  <p className="sub-info">
+                    <span className="label">Category:</span>
+                    {meal.category}
+                  </p>
+                  <p className="sub-info">
+                    <span className="label">Meal Id:</span>
+                    {meal.id}
+                  </p>
+                  <p className="sub-info">
+                    <span className="label">Created:</span>
+                    {new Date(meal.createdAt).toDateString()}
+                  </p>
+                  <p className="sub-info">
+                    <span className="label">Updated:</span>
+                    {new Date(meal.updatedAt).toDateString()}
+                  </p>
+                </div>
+                <div className="actions">
+                  <button
+                    className="delete"
+                    type="button"
+                    onClick={() => { setModalOpen(!modalOpen); setItem(meal) }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>}
           </div>
         </div>
       </div>

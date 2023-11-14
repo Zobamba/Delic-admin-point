@@ -8,7 +8,6 @@ import SideNav from './SideNav';
 const EditMenu = () => {
   const [errMsg, setErrMsg] = useState('');
   const [meals, setMeals] = useState();
-  const [menu, setMenu] = useState();
 
   const [expiredAt, setExpiredAt] = useState();
   const [mealIds, setMealIds] = useState([]);
@@ -54,7 +53,7 @@ const EditMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('The selected expiryDate could be in the past!');
+        setErrMsg('The expiry date must be in the future!');
       } else {
         setErrMsg('Failed!')
       }
@@ -77,7 +76,7 @@ const EditMenu = () => {
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        navigate('/sign-in');
       }
     }
 
@@ -92,17 +91,25 @@ const EditMenu = () => {
           withCredentials: true
         });
 
-        setMenu(response.data.menu);
-        setSelectedMeals(...selectedMeals, response.data.menu.meals);
-        setMealIds(...mealIds, response.data.menu.meals.map((meal) => meal.id));
+        setSelectedMeals(response.data.menu.meals);
+        setMealIds(response.data.menu.meals.map((meal) => meal.id));
 
+        const originalDate = new Date(response.data.menu.expiredAt);
+
+        const year = originalDate.getFullYear();
+        const month = String(originalDate.getMonth() + 1).padStart(2, '0');
+        const day = String(originalDate.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+
+        setExpiredAt(formattedDate)
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        navigate('/sign-in');
       }
     }
 
-    getMenu(menu);
+    getMenu();
     getMeals();
   }, []);
 
@@ -110,20 +117,28 @@ const EditMenu = () => {
     <div className="page-wrapper">
       <SideNav currentTab="menus" />
       <div className="container">
-        <div className="row">
+        <div className="row mt">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Selected Meals</h6>
+            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+            </span> Edit Menu</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
             <div className="table-responsive">
-              <label htmlFor="expiredAt">ExpiredAt</label>
-              <input
-                type="date"
-                name="expiredAt"
-                required="required"
-                onChange={e => setExpiredAt(e.target.value)} />
+              <div className="add-btn">
+                <button className="button" type='submit'>Edit Menu</button>
+              </div>
+              <div className="frm pt-pr date">
+                <div className="fm">
+                  <label htmlFor="expiredAt">Expiry Date</label>
+                  <input
+                    type="date"
+                    name="expiredAt"
+                    required="required"
+                    value={expiredAt}
+                    onChange={e => setExpiredAt(e.target.value)} />
+                </div>
+              </div>
 
               <table className="table">
                 <thead>
@@ -140,8 +155,10 @@ const EditMenu = () => {
 
                       return (
                         <tr key={i}>
-                          <td className="align-link">
-                            <Link to={`/meals/${meal.id}`}>
+                          <td className="align-middle">
+                            <Link
+                              to={`/meals/${meal.id}`}
+                              className="view">
                               {meal.name}
                             </Link>
                           </td>
@@ -152,10 +169,12 @@ const EditMenu = () => {
                             <span className="font-weight-bold">{meal.price}</span>
                           </td>
                           <td className="align-middle">
-                            <button
-                              type='button'
-                              className='delete'
-                              onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            <div className="actions">
+                              <button
+                                type='button'
+                                className='delete'
+                                onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            </div>
                           </td>
                         </tr>
                       )
@@ -166,22 +185,18 @@ const EditMenu = () => {
               </table>
             </div>
             <br />
-            <button
-              className="button"
-              type='submit'>Edit Menu</button>
           </form>
         </div>
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Meals table</h6>
+            <h6 className="mb-0 ml text-sm">Meals table</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-center text-secondary ">#</th>
-                  <th className="text-center text-secondary ">Meals</th>
+                  <th className="text-center text-secondary ">Meal Id</th>
+                  <th className="text-center text-secondary ">Meal</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
                   <th className="text-center text-secondary ">Created</th>
@@ -215,7 +230,7 @@ const EditMenu = () => {
                         </td>
                         <td className="align-middle">
                           <button
-                            disabled={selectedMeals.includes(meal)}
+                            disabled={mealIds.includes(meal.id)}
                             className='button'
                             onClick={() => handleAddMealClick(meal)}>
                             Add Meal

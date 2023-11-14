@@ -18,6 +18,14 @@ const AddMenu = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   const handleAddMealClick = (meal) => {
     setSelectedMeals([...selectedMeals, meal]);
   }
@@ -33,7 +41,6 @@ const AddMenu = () => {
 
     const payload = { meals, expiredAt };
 
-    console.log(payload)
     try {
       const response = await axiosPrivate.post('/menus',
         JSON.stringify(payload), {
@@ -54,7 +61,7 @@ const AddMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Bad request');
+        setErrMsg('Bad request! The expiry date must be in the future!');
       } else {
         setErrMsg('Failed!')
       }
@@ -73,7 +80,6 @@ const AddMenu = () => {
           withCredentials: true
         });
 
-        console.log(response.data);
         setMeals(response.data.meals);
 
       } catch (err) {
@@ -83,28 +89,35 @@ const AddMenu = () => {
     }
 
     getMeals();
-
+    setExpiredAt(getCurrentDate());
   }, []);
 
   return (
     <div className="page-wrapper">
       <SideNav currentTab="menus" />
       <div className="container">
-        <div className="row">
+        <div className="row mt">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Selected Meals</h6>
+            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
+            </span> Create Menu Record</h6>
           </div>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <form onSubmit={handleSubmit}>
             <div className="table-responsive">
-              <label htmlFor="expiredAt">Expiry Date</label>
-              <input
-                type="date"
-                name="expiredAt"
-                required="required"
-                onChange={e => setExpiredAt(e.target.value)} />
-
+              <div className="add-btn">
+                <button className="button" type='submit'>Create Menu</button>
+              </div>
+              <div className="frm pt-pr date">
+                <div className="fm">
+                  <label htmlFor="expiredAt">Expiry Date</label>
+                  <input
+                    type="date"
+                    name="expiredAt"
+                    required="required"
+                    value={expiredAt}
+                    onChange={e => setExpiredAt(e.target.value)} />
+                </div>
+              </div>
               <table className="table">
                 <thead>
                   <tr>
@@ -120,8 +133,10 @@ const AddMenu = () => {
 
                       return (
                         <tr key={i}>
-                          <td className="align-link">
-                            <Link to={`/meals/${meal.id}`}>
+                          <td className="align-middle">
+                            <Link
+                              to={`/meals/${meal.id}`}
+                              className="view">
                               {meal.name}
                             </Link>
                           </td>
@@ -132,10 +147,13 @@ const AddMenu = () => {
                             <span className="font-weight-bold">{meal.price}</span>
                           </td>
                           <td className="align-middle">
-                            <button
-                              type='button'
-                              className='delete'
-                              onClick={() => handleRemoveClick(meal.id)}>remove</button>
+                            <div className="actions">
+                              <button
+                                type='button'
+                                className='delete'
+                                onClick={() => handleRemoveClick(meal.id)}>remove
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       )
@@ -145,22 +163,17 @@ const AddMenu = () => {
                 }
               </table>
             </div>
-            <br />
-            <button
-              className="button"
-              type='submit'>Add Menu</button>
           </form>
         </div>
         <div className="row">
           <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Meals table</h6>
+            <h6 className="mb-0 ml text-sm">Select Meals</h6>
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="text-center text-secondary ">#</th>
+                  <th className="text-center text-secondary ">Meal Id</th>
                   <th className="text-center text-secondary ">Meals</th>
                   <th className="text-center text-secondary">Category</th>
                   <th className="text-center text-secondary ">Price</th>
