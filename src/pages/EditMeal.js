@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import LoadingSpinner from './LoadingSpinner';
+import useAuth from '../hooks/useAuth';
 import SideNav from './SideNav';
 
 const EditMeal = () => {
   const [name, setName] = useState('');
+  const [mealId, setMealId] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
+
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+
   const [errMsg, setErrMsg] = useState('');
   const [imageVisible, setImageVisible] = useState(false);
 
@@ -20,9 +25,18 @@ const EditMeal = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    nameRef.current.focus();
+  const { setNotification } = useAuth();
 
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
+
+  useEffect(() => {
     const getMeal = async () => {
       const id = window.location.href.split("/")[4];
 
@@ -36,19 +50,34 @@ const EditMeal = () => {
         });
 
         setName(response.data.name);
+        setMealId(response.data.id);
+
         setCategory(response.data.category);
         setPrice(response.data.price);
+
         setDescription(response.data.description);
         setImageUrl(response.data.imageUrl);
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        navigate('/sign-in');
       }
     }
 
     getMeal();
     setImageVisible(true);
+  }, [axiosPrivate, navigate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   const UploadWidget = () => {
@@ -87,7 +116,7 @@ const EditMeal = () => {
     const payload = { name, price, category, description, imageUrl };
 
     try {
-      const response = await axiosPrivate.put(`/meals/${id}`,
+      await axiosPrivate.put(`/meals/${id}`,
         JSON.stringify(payload),
         {
           headers: {
@@ -98,8 +127,8 @@ const EditMeal = () => {
         }
       );
 
-      console.log(JSON.stringify(response?.data));
-      navigate("/meals")
+      showNotification('Save was successful', 'success');
+      navigate(`/meals/${id}`);
 
     } catch (err) {
       if (!err?.response) {
@@ -114,76 +143,91 @@ const EditMeal = () => {
   }
 
   return (
-    <div className="page-wrapper">
-      <SideNav currentTab="meals" />
-      <div className="container">
-        <div className='row'>
-          <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Edit Meal</h6>
-          </div>
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-          <div className="form-data">
-            <div className={`img ${imageVisible ? 'act' : ''}`}>
-              <img src={imageUrl} alt="" />
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <div className="page-wrapper">
+            <div className="sidenav">
+              <SideNav currentTab="meals" />
             </div>
-            <div className="frm pt-pr">
-              <div className="fm">
-                <form onSubmit={handleSubmit}>
-                  <button className="btn" type='submit'>Save</button>
-                  <label htmlFor="name">Name:
-                    <input
-                      type="text"
-                      name="name"
-                      ref={nameRef}
-                      value={name}
-                      required="required"
-                      placeholder="Enter a meal..."
-                      onChange={e => setName(e.target.value)}
-                    />
-                  </label>
+            <div className="container">
+              <div className='row'>
+                <div className="card-header">
+                  <div className="header-content">
+                    <h6 className="mb-0 text-sm">Edit Meal</h6>
+                  </div>
+                </div>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <ol className="breadcrumb">
+                  <li><Link to={"/meals"}>Meals</Link></li>
+                  <li><Link to={`/meals/${mealId}`}>{name}</Link></li>
+                  <li>Edit Meal</li>
+                </ol>
+                <div className="form-data">
+                  <div className={`img ${imageVisible ? 'act' : ''}`}>
+                    <img src={imageUrl} alt="" />
+                  </div>
+                  <div className="frm pt-pr">
+                    <div className="fm">
+                      <form onSubmit={handleSubmit}>
+                        <button className="btn" type='submit'>Save</button>
+                        <label htmlFor="name">Name:
+                          <input
+                            type="text"
+                            name="name"
+                            ref={nameRef}
+                            value={name}
+                            required="required"
+                            placeholder="Enter a meal..."
+                            onChange={e => setName(e.target.value)}
+                          />
+                        </label>
 
-                  <label htmlFor="category">Category:
-                    <select id="category" value={category} onChange={e => setCategory(e.target.value)}>
-                      <option value="starters">Starters</option>
-                      <option value="main dishes">Main Dishes</option>
-                      <option value="desserts">Desserts</option>
-                      <option value="specials">Specials</option>
-                      <option value="swallows">Swallows</option>
-                      <option value="drinks">Drinks</option>
-                    </select>
-                  </label>
+                        <label htmlFor="category">Category:
+                          <select id="category" value={category} onChange={e => setCategory(e.target.value)}>
+                            <option value="starters">Starters</option>
+                            <option value="main dishes">Main Dishes</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="specials">Specials</option>
+                            <option value="swallows">Swallows</option>
+                            <option value="drinks">Drinks</option>
+                          </select>
+                        </label>
 
-                  <label htmlFor="price">Price:
-                    <input
-                      type="text"
-                      name="price"
-                      value={price}
-                      required="required"
-                      placeholder="Enter a price..."
-                      onChange={e => setPrice(e.target.value)}
-                    />
-                  </label>
+                        <label htmlFor="price">Price:
+                          <input
+                            type="text"
+                            name="price"
+                            value={price}
+                            required="required"
+                            placeholder="Enter a price..."
+                            onChange={e => setPrice(e.target.value)}
+                          />
+                        </label>
 
-                  <label htmlFor="price">Description:
-                    <input
-                      type="text"
-                      name="description"
-                      value={description}
-                      required="required"
-                      placeholder="Enter the description..."
-                      onChange={e => setDescription(e.target.value)}
-                    />
-                  </label>
+                        <label htmlFor="price">Description:
+                          <input
+                            type="text"
+                            name="description"
+                            value={description}
+                            required="required"
+                            placeholder="Enter the description..."
+                            onChange={e => setDescription(e.target.value)}
+                          />
+                        </label>
 
-                  <label htmlFor="imageUrl">Image: <UploadWidget />
-                  </label>
-                </form>
+                        <label htmlFor="imageUrl">Image: <UploadWidget />
+                        </label>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+      }
     </div>
   )
 }

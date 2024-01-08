@@ -1,55 +1,79 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
-import Visibility from '@material-ui/icons/Visibility';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Input from '@material-ui/core/Input';
+import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
-import './SignIn.scss';
+import DelicLogo from '../assets/img/delic-logo-2.png';
+import eyeSlash from '../assets/img/eye-slash.svg';
+import eye from '../assets/img/eye.svg';
 
 const SignIn = () => {
+  const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const LOGIN_URL = '/sign_in';
-  const { email, setEmail, setAuth } = useAuth();
+  const { email, setEmail, setAuth, notification, setNotification } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const userRef = useRef();
   const errRef = useRef();
 
-  const [password, setPassword] = useState('');
-  const [errMsg, setErrMsg] = useState('');
-
-  const [values, setValues] = useState({
-    password: "",
-    showPassword: false,
-  });
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+  const closeNotification = () => {
+    setNotification(null);
   };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  // Set the pointer to Email input
-  useEffect(() => {
-    userRef.current.focus();
-  }, [])
 
   // Prevents error message from appearing while user makes changes
   useEffect(() => {
     setErrMsg('');
-  }, [email, password])
+  }, [email, password]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const showPassword = (inputId, iconId) => {
+    const input = document.getElementById(inputId);
+    const inputIcon = document.getElementById(iconId);
+
+    if (input && inputIcon) {
+      // Toggle the eye icon source between eye and eyeSlash
+      inputIcon.setAttribute(
+        "src",
+        input.getAttribute("type") === "password" ? eyeSlash : eye
+      );
+
+      // Toggle the input type between password and text
+      input.setAttribute(
+        "type",
+        input.getAttribute("type") === "password" ? "text" : "password"
+      );
+    }
+  };
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,21 +91,19 @@ const SignIn = () => {
       localStorage.setItem('token', response?.data?.token);
       localStorage.setItem('email', response?.data?.email);
       // localStorage.setItem('hash', response?.data?.passwordHash);
+      localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));
       localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
 
-      console.log(response?.data);
       const token = response?.data?.token;
 
       setAuth({ email, password, token });
-      setEmail('');
-      setPassword('');
+      showNotification('Login successful', 'success');
       navigate(from, { replace: true });
-
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Invalid Email or Password!');
+        setErrMsg('Oops! Something went wrong. Invalid Email or Password.');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
@@ -92,113 +114,108 @@ const SignIn = () => {
   }
 
   return (
-    <section className="limiter">
-      <div className="container-login100">
-        <div className="wrap-login100">
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-
-          <form className="login100-form" onSubmit={handleSubmit}>
-            <span className="login100-form-title">
-              Login
-            </span>
-
-            <div className="wrap-input100" data-validate="Email is required">
-              <InputLabel className="label-input100" htmlFor="email">Email:</InputLabel>
-              <Input
-                className="input100"
-                type="email"
-                id="email"
-                ref={userRef}
-                autoComplete="off"
-                onChange={(e) => setEmail(e.target.value)}
-                // value={email}
-                required
-                placeholder="Enter your email..." />
-              <span>
-                <i>
-                  <FontAwesomeIcon className="focus-input100" icon={faUser} />
-                </i>
-              </span>
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <main className="wrapper">
+            <div className="navbar-brand">
+              <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+              <h6>Delic</h6>
             </div>
+            <section className="inner">
+              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              <form className="login100-form" onSubmit={handleSubmit}>
+                <div className="center">
+                  <h2>Sign in to Delic</h2>
+                </div>
+                <ol className="breadcrumb">
+                  <li><Link to={"/"}>Entry Point</Link></li>
+                  <li>Sign In</li>
+                </ol>
+                <div className="frm">
+                  <div className="form">
+                    <div className="form-wrapper" data-validate="Email is required">
+                      <label className="label-input100" htmlFor="email">Email:</label>
+                      <input
+                        className="form-control"
+                        type="email"
+                        id="email"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        placeholder="Enter your email..." />
+                      <span>
+                        <i>
+                          <FontAwesomeIcon className="focus-input100" icon={faUser} />
+                        </i>
+                      </span>
+                    </div>
+                    <div className="form-wrapper" data-validate="Password is required">
+                      <label className="label-input100" htmlFor="password">Password:</label>
+                      <input
+                        className="form-control"
+                        id="password"
+                        type="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        required
+                        placeholder="Enter your password..."
+                      />
+                      <span >
+                        <i>
+                          <FontAwesomeIcon className="focus-input100" icon={faKey} />
+                        </i>
+                      </span>
+                      <span>
+                        <i>
+                          <img
+                            src={eye}
+                            alt="Eye Icon"
+                            title="Eye Icon"
+                            id="confirm-pwd"
+                            className="focus-input100 input-icon"
+                            onClick={() => { showPassword("password", "confirm-pwd") }}
+                          />
+                        </i>
+                      </span>
+                    </div>
+                    <div className="btn-section">
+                      <button>
+                        Login
+                      </button>
+                      <Link
+                        className="link"
+                        to="/emailVerification"
+                      >
+                        <span>Forgot password?</span>
+                      </Link>
+                    </div>
+                    <div className="flex-col-c">
+                      <span className="txt1">
+                        Don’t have an account?
+                      </span>
 
-            <div className="wrap-input100 validate-input" data-validate="Password is required">
-              <InputLabel className="label-input100" htmlFor="password">Password:</InputLabel>
-              <Input
-                className="input100"
-                id="password"
-                type={values.showPassword ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                required
-                placeholder="Enter your password..."
-                endAdornment={
-                  <InputAdornment position="end"
-                    className="fa-eye">
-                    <IconButton
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+                      <Link to="/sign-up" className="txt2">
+                        Sign up
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </section>
+            {notification && (
+              <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={closeNotification}
               />
-              <span >
-                <i>
-                  <FontAwesomeIcon className="focus-input100" icon={faKey} />
-                </i>
-              </span>
-            </div>
-
-            <div className="text-right">
-              <Link
-                className="link"
-                to="/requestPasswordReset"
-              >
-                <span>Forgot password?</span>
-              </Link>
-            </div>
-
-            <div className="container-login100-form-btn">
-              <button>
-                Login
-              </button>
-            </div>
-
-            <div className="txt1">
-              <span>
-                Or Sign in using
-              </span>
-            </div>
-
-            <div className="flex-c-m">
-              <Link to="" className="login100-social-item bg1">
-                <i className="fa fa-facebook"><FaFacebook /></i>
-              </Link>
-
-              <Link to="" className="login100-social-item bg2">
-                <i className="fa fa-twitter"><FaTwitter /></i>
-              </Link>
-
-              <Link to="" className="login100-social-item bg3">
-                <i className="fa fa-google"><FaGoogle /></i>
-              </Link>
-            </div>
-
-            <div className="flex-col-c">
-              <span className="txt1 p-b-17">
-                Don’t have an account?
-              </span>
-
-              <Link to="/sign-up" className="txt2 link">
-                Sign up
-              </Link>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
+            )}
+          </main>
+      }
+    </div>
   )
 }
 

@@ -3,7 +3,7 @@ import Switch from 'react-switch';
 import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faL } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SideNav from './SideNav';
 
 const EditMeal = () => {
@@ -48,12 +48,12 @@ const EditMeal = () => {
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        navigate('/sign-in');
       }
     }
 
     getUser();
-  }, [])
+  }, [axiosPrivate, navigate])
 
   const handleSubmit = async () => {
 

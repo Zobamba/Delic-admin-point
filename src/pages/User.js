@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Switch from 'react-switch';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import LoadingSpinner from './LoadingSpinner';
+import Notification from './Notification';
+import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faPhone, faUserSlash, faUserTie, } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
 import SideNav from './SideNav';
 
 const User = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const [user, setUser] = useState();
   const [photoUrl, setPhotoUrl] = useState('');
@@ -18,10 +22,28 @@ const User = () => {
   const [disable, setDisable] = useState(false);
 
   const [imageVisible, setImageVisible] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+
   const axiosPrivate = useAxiosPrivate();
+  const errRef = useRef();
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { notification, setNotification } = useAuth();
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
+
+  const closeNotification = () => {
+    setNotification(null);
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -54,10 +76,21 @@ const User = () => {
 
     getUser();
     setImageVisible(true);
+  }, [axiosPrivate, navigate, location]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   const handleSubmitAdmin = async () => {
-
     const id = window.location.href.split("/")[4];
     const payload = { admin: !admin, disable }
     console.log(payload)
@@ -75,7 +108,7 @@ const User = () => {
       );
 
       console.log(JSON.stringify(response?.data));
-      // navigate("/users")
+      showNotification('Save was successful', 'success');
 
     } catch (err) {
       if (!err?.response) {
@@ -90,7 +123,6 @@ const User = () => {
   }
 
   const handleSubmitDisable = async () => {
-
     const id = window.location.href.split("/")[4];
     const payload = { admin, disable: !disable }
     console.log(payload)
@@ -108,7 +140,7 @@ const User = () => {
       );
 
       console.log(JSON.stringify(response?.data));
-      // navigate("/users")
+      showNotification('Save was successful', 'success');
 
     } catch (err) {
       if (!err?.response) {
@@ -133,104 +165,177 @@ const User = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <SideNav currentTab="users" />
-      <div className="container">
-        <div className="row">
-          <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> {(firstName + ' ' + lastName)}</h6>
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <div className="page-wrapper">
+            <div className="sidenav">
+              <SideNav currentTab="users" />
+            </div>
+            <div className="container">
+              <div className="row">
+                <div className="card-header">
+                  <div className="header-content">
+                    <h6 className="mb-0 text-sm">{(firstName + ' ' + lastName)}</h6>
+                  </div>
+                </div>
+                <ol className="breadcrumb">
+                  <li><Link to={"/users"}>Users</Link></li>
+                  <li>{(firstName + ' ' + lastName)}</li>
+                </ol>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <div className="form-data">
+                  {photoUrl &&
+                    <div className={`img profile-pic ${imageVisible ? 'act' : ''}`}>
+                      <img src={photoUrl} alt="" />
+                    </div>}
+                  {user &&
+                    <div className="frm m-auto pt-pr">
+                      <div className="frm-header">
+                        <h6 className="mb-0 text-sm">
+                          <span className="icon-edit switch">
+                            <Switch
+                              onChange={handleAdminChange}
+                              checked={admin}
+                              onColor="#cccccc"
+                              offColor="#cccccc"
+                              onHandleColor="#ffffff"
+                              offHandleColor="#ffffff"
+                              height={22}
+                              width={55}
+                            />
+                          </span>
+                          <span className="icon-edit lbl">
+                            Make Admin
+                          </span>
+                          User details
+                        </h6>
+                      </div>
+                      <div className="info">
+                        <div className="d-flex">
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faUser} />
+                              </i>
+                            </span>
+                            <span className="font-weight-bold">
+                              {(user.firstName + ' ' + user.lastName)}
+                            </span>
+                          </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                              </i>
+                            </span>
+                            {user.email}
+                          </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faPhone} />
+                              </i>
+                            </span>
+                            {user.phoneNumber}
+                          </p>
+                        </div>
+
+                        <div className="d-flex">
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faCalendarAlt} />
+                              </i>
+                            </span>
+                            <span className="label">Joined</span>
+                            {new Date(user.createdAt).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </p>
+                          <p className="sub-info switch">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faUserTie} />
+                              </i>
+                            </span>
+                            <span className="label">Admin:</span>
+                            {admin ?
+                              <>{String(admin)}</> : <>{String(admin)}</>}
+                          </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faUserSlash} />
+                              </i>
+                            </span>
+                            <span className="label">Disabled:</span>
+                            {disable ?
+                              <>{String(disable)}</> : <>{String(disable)}</>}
+                          </p>
+                        </div>
+
+                        <div className="d-flex">
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faCalendarAlt} />
+                              </i>
+                            </span>
+                            <span className="label">Updated</span>
+                            {new Date(user.updatedAt).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                {/* <FontAwesomeIcon icon={faCalendarAlt} /> */}
+                              </i>
+                            </span>
+                            <span className="label">User Id:</span>
+                            {user.id}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="actions">
+                        <span className="delete lbl">Disable</span>
+                        <span className="delete disable">
+                          <Switch
+                            // className="switch"
+                            onChange={handleDisableChange}
+                            checked={disable}
+                            // uncheckedIcon={null}
+                            // checkedIcon={null}
+                            onColor="#cccccc"
+                            offColor="#cccccc"
+                            onHandleColor="#ffffff"
+                            offHandleColor="#ffffff"
+                            height={22}
+                            width={55}
+                          />
+                        </span>
+                      </div>
+                    </div>}
+                </div>
+              </div>
+            </div>
+            {notification && (
+              <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={closeNotification}
+              />
+            )}
           </div>
-          <div className="form-data">
-            {photoUrl &&
-              <div className={`img profile-pic ${imageVisible ? 'act' : ''}`}>
-                <img src={photoUrl} alt="" />
-              </div>}
-            {user &&
-              <div className="frm m-auto pt-pr">
-                <div className="frm-header">
-                  <h6 className="mb-0 text-sm">
-                    <span className="icon-edit switch">
-                      <Switch
-                        // className="icon-edit switch"
-                        onChange={handleAdminChange}
-                        checked={admin}
-                        // uncheckedIcon={null}
-                        // checkedIcon={null}
-                        onColor="#cccccc"
-                        offColor="#cccccc"
-                        onHandleColor="#ffffff"
-                        offHandleColor="#ffffff"
-                        height={22}
-                        width={55}
-                      />
-                    </span>
-                    <span className="icon-edit lbl">
-                      Admin
-                    </span>
-                    User details
-                  </h6>
-                </div>
-                <div className="info">
-                  <p className="sub-info">
-                    <span className="font-weight-bold">
-                      {(user.firstName + ' ' + user.lastName)}
-                    </span>
-                  </p>
-                  <p className="sub-info">
-                    <span className=""></span>
-                    {user.email}
-                  </p>
-                  <p className="sub-info">
-                    <span className=""></span>
-                    {user.phoneNumber}
-                  </p>
-                  <p className="sub-info switch">
-                    <span className="label">Admin:</span>
-                    {admin ?
-                      <>{String(admin)}</> : <>{String(admin)}</>}
-                  </p>
-                  <p className="sub-info">
-                    <span className="label">Disabled:</span>
-                    {disable ?
-                      <>{String(disable)}</> : <>{String(disable)}</>}
-                  </p>
-                  <p className="sub-info">
-                    <span className="label">User Id:</span>
-                    {user.id}
-                  </p>
-                  <p className="sub-info">
-                    <span className="label">Created:</span>
-                    {new Date(user.createdAt).toDateString()}
-                  </p>
-                  <p className="sub-info">
-                    <span className="label">Updated:</span>
-                    {new Date(user.updatedAt).toDateString()}
-                  </p>
-                </div>
-                <div className="actions">
-                  <span className="delete lbl">Disable</span>
-                  <span className="delete">
-                    <Switch
-                      // className="switch"
-                      onChange={handleDisableChange}
-                      checked={disable}
-                      // uncheckedIcon={null}
-                      // checkedIcon={null}
-                      onColor="#cccccc"
-                      offColor="#cccccc"
-                      onHandleColor="#ffffff"
-                      offHandleColor="#ffffff"
-                      height={22}
-                      width={55}
-                    />
-                  </span>
-                </div>
-              </div>}
-          </div>
-        </div>
-      </div>
-    </div >
+      }
+    </div>
   );
 };
 

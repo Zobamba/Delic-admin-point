@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './LogOutModal.scss';
 
 const LogOutModal = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const name = localStorage.getItem("name");
+  const name = localStorage.getItem("logoutName");
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const logout = () => {
-    let keysToRemove = ["token", "email", "hash", "name"];
+    let keysToRemove = ["token", "email", "hash", "firstName", "name", "logoutName"];
 
     keysToRemove.forEach((k) => {
       localStorage.removeItem(k)
@@ -19,7 +18,7 @@ const LogOutModal = () => {
 
   useEffect(() => {
     setIsModalVisible(true);
-  })
+  }, [setIsModalVisible])
 
   return (
     <div className={`logout-modal ${isModalVisible ? 'act' : ''}`}>

@@ -1,22 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import useAuth from '../hooks/useAuth';
+import LoadingSpinner from './LoadingSpinner';
 import SideNav from './SideNav';
 
 const AddMenu = () => {
-
   const [errMsg, setErrMsg] = useState('');
   const [meals, setMeals] = useState();
 
+  const [loading, setLoading] = useState(true);
   const [expiredAt, setExpiredAt] = useState();
-  const [selectedMeals, setSelectedMeals] = useState([]);
 
+  const [selectedMeals, setSelectedMeals] = useState([]);
   const errRef = useRef();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+
+  const { setNotification } = useAuth();
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -52,6 +63,7 @@ const AddMenu = () => {
       }
       );
       console.log(JSON.stringify(response?.data));
+      showNotification('Menu created successfully', 'success');
 
       navigate("/menus")
 
@@ -61,7 +73,7 @@ const AddMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Bad request! The expiry date must be in the future!');
+        setErrMsg('Oops! The expiry date must be in the future!');
       } else {
         setErrMsg('Failed!')
       }
@@ -84,146 +96,187 @@ const AddMenu = () => {
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        if (!err?.response) {
+          setErrMsg('No Server Response!');
+        } else if (err.response?.status === 403) {
+          setErrMsg('Oops! You are not authorized to consume this resource.')
+        } else {
+          setErrMsg('Failed!')
+        }
       }
     }
 
     getMeals();
     setExpiredAt(getCurrentDate());
+  }, [axiosPrivate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <div className="page-wrapper">
-      <SideNav currentTab="menus" />
-      <div className="container">
-        <div className="row mt">
-          <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Create Menu Record</h6>
-          </div>
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-          <form onSubmit={handleSubmit}>
-            <div className="table-responsive">
-              <div className="add-btn">
-                <button className="button" type='submit'>Create Menu</button>
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <div className="page-wrapper">
+            <div className="sidenav">
+              <SideNav currentTab="menus" />
+            </div>
+            <div className="container">
+              <div className="row mt">
+                <div className="card-header">
+                  <div className="header-content">
+                    <h6 className="mb-0 text-sm">Create Menu Record</h6>
+                  </div>
+                </div>
+                <ol className="breadcrumb">
+                  <li><Link to={"/menus"}>Menus</Link></li>
+                  <li>Add Menu</li>
+                </ol>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <form onSubmit={handleSubmit}>
+                  <div className="frm pt-pr date">
+                    <div className="fm">
+                      <div className="add-btn">
+                        <button className="button" type='submit'>Create Menu</button>
+                      </div>
+                      <label htmlFor="expiredAt">Expiry Date</label>
+                      <input
+                        type="date"
+                        name="expiredAt"
+                        required="required"
+                        value={expiredAt}
+                        onChange={e => setExpiredAt(e.target.value)} />
+                    </div>
+                  </div>
+                  <div className="hdr">
+                    <h6 className="ttl">Menu Meals</h6>
+                  </div>
+                  <div className="table-responsive m-top">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary ">Name</th>
+                          <th className="text-center text-secondary">Category</th>
+                          <th className="text-center text-secondary ">Price</th>
+                          <th className="text-center text-secondary ">Action</th>
+                        </tr>
+                      </thead>
+                      {selectedMeals &&
+                        <tbody>
+                          {selectedMeals.map((meal, i) => {
+                            return (
+                              <tr key={i}>
+                                <td className="align-middle">
+                                  <Link
+                                    to={`/meals/${meal.id}`}
+                                    className="view">
+                                    {meal.name}
+                                  </Link>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="category">
+                                    {meal.category.charAt(0).toUpperCase() + meal.category.slice(1)}
+                                  </span>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="font-weight-bold">{meal.price}</span>
+                                </td>
+                                <td className="align-middle">
+                                  <div className="actions">
+                                    <button
+                                      type='button'
+                                      className='delete'
+                                      onClick={() => handleRemoveClick(meal.id)}>Remove
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          }
+                          )}
+                        </tbody>}
+                    </table>
+                  </div>
+                </form>
               </div>
-              <div className="frm pt-pr date">
-                <div className="fm">
-                  <label htmlFor="expiredAt">Expiry Date</label>
-                  <input
-                    type="date"
-                    name="expiredAt"
-                    required="required"
-                    value={expiredAt}
-                    onChange={e => setExpiredAt(e.target.value)} />
+              <div className="row">
+                <div className="hdr">
+                  <h6 className="ttl">Meals Table</h6>
+                </div>
+                <div className="table-responsive m-top">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th className="text-center text-secondary ">Meal Id</th>
+                        <th className="text-center text-secondary ">Name</th>
+                        <th className="text-center text-secondary">Category</th>
+                        <th className="text-center text-secondary ">Price</th>
+                        <th className="text-center text-secondary ">Created</th>
+                        <th className="text-center text-secondary ">Action</th>
+                      </tr>
+                    </thead>
+                    {meals &&
+                      <tbody>
+                        {meals.map((meal, i) => {
+
+                          return (
+                            <tr key={i}>
+                              <td className="align-middle">
+                                <p>{meal.id}</p>
+                              </td>
+                              <td className="align-middle">
+                                <Link
+                                  to={`/meals/${meal.id}`}
+                                  className="view">
+                                  {meal.name}
+                                </Link>
+                              </td>
+                              <td className="align-middle">
+                                <span className="category">
+                                  {meal.category.charAt(0).toUpperCase() + meal.category.slice(1)}
+                                </span>
+                              </td>
+                              <td className="align-middle">
+                                <span className="font-weight-bold">{meal.price}</span>
+                              </td>
+                              <td className="align-middle">
+                                <span className="font-weight-bold">{new Date(meal.createdAt).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}</span>
+                              </td>
+                              <td className="align-middle">
+                                <button
+                                  disabled={selectedMeals.includes(meal)}
+                                  className='button'
+                                  onClick={() => handleAddMealClick(meal)}>
+                                  Add Meal
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    }
+                  </table>
                 </div>
               </div>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th className="text-center text-secondary ">Selected Meals</th>
-                    <th className="text-center text-secondary">Category</th>
-                    <th className="text-center text-secondary ">Price</th>
-                    <th className="text-secondary"></th>
-                  </tr>
-                </thead>
-                {selectedMeals &&
-                  <tbody>
-                    {selectedMeals.map((meal, i) => {
-
-                      return (
-                        <tr key={i}>
-                          <td className="align-middle">
-                            <Link
-                              to={`/meals/${meal.id}`}
-                              className="view">
-                              {meal.name}
-                            </Link>
-                          </td>
-                          <td className="align-middle">
-                            <span className="badge">{meal.category}</span>
-                          </td>
-                          <td className="align-middle">
-                            <span className="font-weight-bold">{meal.price}</span>
-                          </td>
-                          <td className="align-middle">
-                            <div className="actions">
-                              <button
-                                type='button'
-                                className='delete'
-                                onClick={() => handleRemoveClick(meal.id)}>remove
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    }
-                    )}
-                  </tbody>
-                }
-              </table>
             </div>
-          </form>
-        </div>
-        <div className="row">
-          <div className="card-header">
-            <h6 className="mb-0 ml text-sm">Select Meals</h6>
           </div>
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="text-center text-secondary ">Meal Id</th>
-                  <th className="text-center text-secondary ">Meals</th>
-                  <th className="text-center text-secondary">Category</th>
-                  <th className="text-center text-secondary ">Price</th>
-                  <th className="text-center text-secondary ">Created</th>
-                  <th className="text-center text-secondary ">Updated</th>
-                  <th className="text-secondary"></th>
-                </tr>
-              </thead>
-              {meals &&
-                <tbody>
-                  {meals.map((meal, i) => {
-
-                    return (
-                      <tr key={i}>
-                        <td className="align-middle">
-                          <p>{meal.id}</p>
-                        </td>
-                        <td className="align-middle">
-                          <h6 className="mb-0 text-sm">{meal.name}</h6>
-                        </td>
-                        <td className="align-middle">
-                          <span className="badge">{meal.category}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{meal.price}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{new Date(meal.createdAt).toDateString()}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{new Date(meal.updatedAt).toDateString()}</span>
-                        </td>
-                        <td className="align-middle">
-                          <button
-                            disabled={selectedMeals.includes(meal)}
-                            className='button'
-                            onClick={() => handleAddMealClick(meal)}>
-                            Add Meal
-                          </button>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              }
-            </table>
-          </div>
-        </div>
-      </div>
-    </div >
+      }
+    </div>
   );
 }
 

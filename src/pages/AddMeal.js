@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import LoadingSpinner from './LoadingSpinner';
+import useAuth from '../hooks/useAuth';
 import SideNav from './SideNav';
 
 const AddMeal = () => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('starters');
+
+  const [loading, setLoading] = useState(true);
   const [price, setPrice] = useState('');
+
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+
   const [errMsg, setErrMsg] = useState('');
+  const { setNotification } = useAuth();
 
   const nameRef = useRef();
   const errRef = useRef();
@@ -19,9 +24,26 @@ const AddMeal = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
+
   useEffect(() => {
-    nameRef.current.focus();
-  }, [])
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   const UploadWidget = () => {
     const cloudinaryRef = useRef();
@@ -69,6 +91,7 @@ const AddMeal = () => {
       }
       );
       console.log(JSON.stringify(response?.data));
+      showNotification('Meal created successfully', 'success');
 
       setImageUrl("");
       navigate("/meals");
@@ -80,8 +103,8 @@ const AddMeal = () => {
         setErrMsg('Meal already exist!');
       } else if (err.response?.status === 404) {
         setErrMsg('Bad request!');
-      } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized!');
+      } else if (err.response?.status === 403) {
+        setErrMsg('Oops! You are not authorized to consume this resource.')
       } else {
         setErrMsg('Failed!')
       }
@@ -90,71 +113,85 @@ const AddMeal = () => {
   }
 
   return (
-    <div className="page-wrapper">
-      <SideNav currentTab="meals" />
-      <div className="container">
-        <div className='row'>
-          <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Create Meal Record</h6>
-          </div>
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-          <div className="form-data">
-            {imageUrl &&
-              <div className="img">
-                <img src={imageUrl} alt="" />
-              </div>}
-            <div className="frm bdr-lft pt-pr">
-              <div className="fm">
-                <form onSubmit={handleSubmit}>
-                  <button className="btn" type='submit'>Add Meal</button>
-                  <label>Name
-                    <input
-                      type="text"
-                      name="name"
-                      ref={nameRef}
-                      required="required"
-                      placeholder="Enter a meal..."
-                      onChange={e => setName(e.target.value)} />
-                  </label>
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <div className="page-wrapper">
+            <div className="sidenav">
+              <SideNav currentTab="meals" />
+            </div>
+            <div className="container">
+              <div className='row'>
+                <div className="card-header">
+                  <div className="header-content">
+                    <h6 className="mb-0 text-sm">Create Meal Record</h6>
+                  </div>
+                </div>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <ol className="breadcrumb">
+                  <li><Link to={"/meals"}>Meals</Link></li>
+                  <li>Add Meal</li>
+                </ol>
+                <div className="form-data">
+                  {imageUrl &&
+                    <div className="img">
+                      <img src={imageUrl} alt="" />
+                    </div>}
+                  <div className="frm bdr-lft pt-pr">
+                    <div className="fm">
+                      <form onSubmit={handleSubmit}>
+                        <button className="btn" type='submit'>Add Meal</button>
+                        <label>Name
+                          <input
+                            type="text"
+                            name="name"
+                            ref={nameRef}
+                            required="required"
+                            placeholder="Enter a meal..."
+                            onChange={e => setName(e.target.value)} />
+                        </label>
 
-                  <label>Category
-                    <select id="category" name='Select an option' onChange={e => setCategory(e.target.value)}>
-                      <option value="starters">Starters</option>
-                      <option value="desserts">Desserts</option>
-                      <option value="specials">Specials</option>
-                      <option value="swallows">Swallows</option>
-                      <option value="drinks">Drinks</option>
-                    </select>
-                  </label>
+                        <label>Category
+                          <select id="category" name='Select an option' onChange={e => setCategory(e.target.value)}>
+                            <option value="starters">Starters</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="specials">Specials</option>
+                            <option value="swallows">Swallows</option>
+                            <option value="drinks">Drinks</option>
+                          </select>
+                        </label>
 
-                  <label>Price
-                    <input
-                      type="text"
-                      name="price"
-                      required="required"
-                      placeholder="Enter a price..."
-                      onChange={e => setPrice(e.target.value)} />
-                  </label>
+                        <label>Price
+                          <input
+                            type="text"
+                            name="price"
+                            required="required"
+                            placeholder="Enter a price..."
+                            onChange={e => setPrice(e.target.value)} />
+                        </label>
 
-                  <label>Description
-                    <input
-                      type="text"
-                      name="description"
-                      required="required"
-                      placeholder="Enter the description..."
-                      onChange={e => setDescription(e.target.value)} />
-                  </label>
+                        <label>Description
+                          <input
+                            type="text"
+                            name="description"
+                            required="required"
+                            placeholder="Enter the description..."
+                            onChange={e => setDescription(e.target.value)} />
+                        </label>
 
-                  <label>Image:
-                    <UploadWidget />
-                  </label>
-                </form>
+                        <label>Image:
+                          <UploadWidget />
+                        </label>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+      }
     </div>
   )
 }

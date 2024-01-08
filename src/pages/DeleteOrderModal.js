@@ -2,14 +2,25 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useAuth from '../hooks/useAuth';
 import './DeleteModal.scss';
 
 const DeleteOrderModal = ({ setModalOpen, item }) => {
   const axiosPrivate = useAxiosPrivate();
+  const { setNotification } = useAuth();
 
   const navigate = useNavigate();
-
   const location = useLocation();
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
+
 
   const handleDeleteClick = () => {
     const deleteOrder = async () => {
@@ -26,6 +37,7 @@ const DeleteOrderModal = ({ setModalOpen, item }) => {
         });
 
         console.log(response.data);
+        showNotification('Order deleted successfully', 'success');
         navigate("/orders")
 
       } catch (err) {

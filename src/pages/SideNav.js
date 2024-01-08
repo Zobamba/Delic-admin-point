@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faBowlRice, faHome, faUsers, faEllipsis, faDrumstickBite } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCartShopping, faUsers, faEllipsis, faDrumstickBite, faListDots
+} from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import LogOutModal from './LogOutModal';
 import DelicLogo from '../assets/img/delic-logo-2.png';
+import DashboardIcon from '../assets/img/dashboard.svg';
 import './SideNav.scss';
 
 const SideNav = ({ currentTab }) => {
@@ -17,20 +20,22 @@ const SideNav = ({ currentTab }) => {
     <section className="min-height-300 w-100 position-absolute">
       <div className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
         <div className="sidenav-header">
-          <Link className="navbar-brand m-0" to="/">
-            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-            <h6>Delic</h6>
-          </Link>
+          <div>
+            <Link className="navbar-brand m-0" to="/dashboard">
+              <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+              <h6>Delic</h6>
+            </Link>
+          </div>
         </div>
         <hr className="horizontal dark mt-0" />
         <div className="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link className={`nav-link ${currentTab === 'dashboard' ? "active" : ""}`}
-                to="/">
+                to="/dashboard">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="ni ni-tv-2 text-dark text-sm opacity-10">
-                    <FontAwesomeIcon icon={faHome} />
+                    <img className="fa-dashboard" src={DashboardIcon} alt="" />
                   </i>
                 </div>
                 <span className="nav-link-text ms-1">Dashboard</span>
@@ -52,7 +57,7 @@ const SideNav = ({ currentTab }) => {
                 to="/menus">
                 <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="ni ni-app text-dark text-sm opacity-10">
-                    <FontAwesomeIcon icon={faBowlRice} />
+                    <FontAwesomeIcon icon={faListDots} />
                   </i>
                 </div>
                 <span className="nav-link-text ms-1">Menus</span>
@@ -94,14 +99,16 @@ const SideNav = ({ currentTab }) => {
           </ul>
 
           <hr className="horizontal dark mt-0" />
-          {modalOpen && <LogOutModal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
-          <div className="user" onClick={() => setModalOpen(!modalOpen)}>
-            <div className="cnt">
-              <span className="nav-link-text ms-1">{name}</span>
-              <div className="icon">
-                <i className="ni ni-calendar-grid-58 text-ellipsis text-sm opacity-10">
-                  <FontAwesomeIcon icon={faEllipsis} />
-                </i>
+          <div className="logout">
+            {modalOpen && <LogOutModal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+            <div className={`user ${modalOpen ? 'no-hover' : ''}`} onClick={() => setModalOpen(!modalOpen)}>
+              <div className="cnt">
+                <span className="nav-link-text ms-1">{name}</span>
+                <div className="icon">
+                  <i className="ni ni-calendar-grid-58 text-ellipsis text-sm opacity-10">
+                    <FontAwesomeIcon icon={faEllipsis} />
+                  </i>
+                </div>
               </div>
             </div>
           </div>

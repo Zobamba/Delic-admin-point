@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import LoadingSpinner from './LoadingSpinner';
+import { Link } from 'react-router-dom';
 import SideNav from './SideNav';
 
 const Users = () => {
+  const [errMsg, setErrMsg] = useState('');
   const [users, setUsers] = useState();
-  const axiosPrivate = useAxiosPrivate();
+  const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const axiosPrivate = useAxiosPrivate();
+  const errRef = useRef();
 
   useEffect(() => {
     const getUsers = async () => {
@@ -28,80 +28,109 @@ const Users = () => {
 
       } catch (err) {
         console.error(err);
-        navigate('/sign-in', { state: { from: location }, replace: true });
+        if (!err?.response) {
+          setErrMsg('No Server Response!');
+        } else if (err.response?.status === 403) {
+          setErrMsg('Oops! You are not authorized to consume this resource.')
+        } else {
+          setErrMsg('Failed!')
+        }
       }
     }
 
     getUsers();
 
+  }, [axiosPrivate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate API call or data loading delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set loading to false once data is loaded
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <div className="page-wrapper">
-      <SideNav currentTab="users" />
-      <div className="container">
-        <div className="row">
-          <div className="card-header">
-            <h6 className="mb-0 text-sm">  <span><FontAwesomeIcon title="Back" className="icon-back" icon={faArrowLeft} onClick={() => navigate(-1)} />
-            </span> Users table</h6>
-          </div>
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="text-center text-secondary">User Id</th>
-                  <th className="text-center text-secondary">Name</th>
-                  <th className="text-center text-secondary">Email</th>
-                  <th className="text-center text-secondary">Admin</th>
-                  <th className="text-center text-secondary">Disabled</th>
-                  <th className="text-center text-secondary">Phone Number</th>
-                  <th className="text-center text-secondary">Created</th>
-                  <th className="text-center text-secondary">Updated</th>
-                </tr>
-              </thead>
-              {users &&
-                <tbody>
-                  {users.map((user, i) => {
-                    return (
-                      <tr key={i}>
-                        <td className="align-middle">
-                          <p>{user.id}</p>
-                        </td>
-                        <td className="align-middle">
-                          <Link
-                            title="View user"
-                            to={`/users/${user.id}`}
-                            className="view">
-                            {user.firstName} {user.lastName}
-                          </Link>
-                        </td>
-                        <td className="align-middle">
-                          <p className="text-xs mb-0">{user.email}</p>
-                        </td>
-                        <td className="align-middle">
-                          <span className="badge">{String(user.admin)}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="badge">{String(user.disable)}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{user.phoneNumber}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{new Date(user.createdAt).toDateString()}</span>
-                        </td>
-                        <td className="align-middle">
-                          <span className="font-weight-bold">{new Date(user.updatedAt).toDateString()}</span>
-                        </td>
+    <div>
+      {
+        loading ?
+          <LoadingSpinner loading={loading} />
+          :
+          <div className="page-wrapper">
+            <div className="sidenav">
+              <SideNav currentTab="users" />
+            </div>
+            <div className="container">
+              <div className="row">
+                <div className="card-header">
+                  <div className="header-content">
+                    <h6 className="mb-0 text-sm">Users</h6>
+                  </div>
+                </div>
+                <div className="table-responsive">
+                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th className="text-center text-secondary">User Id</th>
+                        <th className="text-center text-secondary">Name</th>
+                        <th className="text-center text-secondary">Email</th>
+                        <th className="text-center text-secondary">Admin</th>
+                        <th className="text-center text-secondary">Disabled</th>
+                        <th className="text-center text-secondary">Phone Number</th>
+                        <th className="text-center text-secondary">Joined</th>
                       </tr>
-                    )
-                  })}
-                </tbody>}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div >
+                    </thead>
+                    {users &&
+                      <tbody>
+                        {users.map((user, i) => {
+                          return (
+                            <tr key={i}>
+                              <td className="align-middle">
+                                <p>{user.id}</p>
+                              </td>
+                              <td className="align-middle">
+                                <Link
+                                  title="View User"
+                                  to={`/users/${user.id}`}
+                                  className="view">
+                                  {user.firstName} {user.lastName}
+                                </Link>
+                              </td>
+                              <td className="align-middle">
+                                <p className="text-xs mb-0">{user.email}</p>
+                              </td>
+                              <td className="align-middle">
+                                <span className="badge">{String(user.admin).charAt(0).toUpperCase() + String(user.admin).slice(1)}</span>
+                              </td>
+                              <td className="align-middle">
+                                <span className="badge">{String(user.disable).charAt(0).toUpperCase() + String(user.disable).slice(1)}</span>
+                              </td>
+                              <td className="align-middle">
+                                <span className="font-weight-bold">{user.phoneNumber}</span>
+                              </td>
+                              <td className="align-middle">
+                                <span className="font-weight-bold">{new Date(user.createdAt).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}</span>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div >
+      }
+    </div>
   );
 };
 
