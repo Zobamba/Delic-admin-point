@@ -366,13 +366,13 @@ const Dashboard = () => {
                 <div className="info">
                   <ul className="info-list open" id={theme}>
                     <li className="info-box">
-                      <div className="chart1" id="chart1">
-                        <h2 id={theme}>Revenue</h2>
+                      <div className="chart2" id="chart2">
+                        <h2 id={theme}>Order summary</h2>
                       </div>
                     </li>
                     <li className="info-box">
-                      <div className="chart2" id="chart2">
-                        <h2 id={theme}>Order summary</h2>
+                      <div className="chart1" id="chart1">
+                        <h2 id={theme}>Revenue</h2>
                       </div>
                     </li>
                   </ul>
