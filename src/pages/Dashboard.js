@@ -149,9 +149,9 @@ const Dashboard = () => {
 
   const options = {
     data: {
-      labels: ['Jul', 'Aug', 'Oct', 'Nov', 'Dec'],
+      labels: ['Jun', 'Jul', 'Aug', 'Oct', 'Nov', 'Dec'],
       series: {
-        points: [9, 25, 18, 31, 25],
+        points: [15, 9, 25, 18, 31, 25],
         pointRadius: '5px',
       }
     },
