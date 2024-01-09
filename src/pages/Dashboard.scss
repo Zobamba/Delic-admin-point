@@ -648,9 +648,8 @@
 
           .info-box {
             margin-right: 10px;
-            // display: inline-block;
             text-align: center;
-            font-size: 9px;
+            font-size: 12px;
             width: calc(50% - 10px);
             box-sizing: border-box;
             box-shadow: 0 0 0.5rem 0 rgb(136 152 170 / 15%);
@@ -658,7 +657,6 @@
             border-radius: 4px;
             height: 260px;
             padding: 20px 40px;
-            // padding-right: 80px;
             z-index: 0;
 
             @media screen and (max-width: 480px) {
