@@ -155,17 +155,19 @@ const Dashboard = () => {
         pointRadius: '5px',
       }
     },
-    height: 200,
-    width: 350
+    height: '200px',
+    width: '350px'
   };
 
   useEffect(() => {
     new Chart('#chart1', {
       type: 'line',
       ...options,
-      width: '100%',
+      // width: '100%',
       responsive: true,
       graphSettings: {
+        labelFontSize: '9px',
+        labelFontFamily: 'Verdana, Arial, sans-serif',
         yAxis: {
           startFromZero: true,
           gridLineSize: 0
@@ -181,9 +183,11 @@ const Dashboard = () => {
     new Chart('#chart2', {
       type: 'bar',
       ...options,
-      width: '100%',
+      // width: '100%',
       responsive: true,
       graphSettings: {
+        labelFontSize: '9px',
+        labelFontFamily: 'Verdana, Arial, sans-serif',
         yAxis: {
           startFromZero: true,
           gridLineSize: 0
