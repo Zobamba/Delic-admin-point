@@ -640,9 +640,6 @@
           }
 
           li {
-            // padding: 0 0.3125rem;
-            // position: relative;
-
             @media screen and (max-width: 39.9375em) {
               width: 100%;
               text-align: center;
@@ -659,6 +656,7 @@
             border-radius: 4px;
             height: 260px;
             padding: 20px 40px;
+            padding-right: 80px;
             z-index: 0;
 
             @media screen and (max-width: 480px) {
