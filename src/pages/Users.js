@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LoadingSpinner from './LoadingSpinner';
-import { Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SideNav from './SideNav';
 
 const Users = () => {
   const [errMsg, setErrMsg] = useState('');
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
   const errRef = useRef();
@@ -33,14 +36,14 @@ const Users = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
 
     getUsers();
 
-  }, [axiosPrivate]);
+  }, [axiosPrivate, location, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {

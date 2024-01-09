@@ -3,7 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LoadingSpinner from './LoadingSpinner';
 import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactComponent as Insta } from '../assets/insta.svg';
 import { ReactComponent as Fb } from '../assets/fb.svg';
@@ -34,6 +34,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const fullName = localStorage.getItem('name');
   const lastName = fullName.split(' ')[1];
 
@@ -60,7 +63,7 @@ const Dashboard = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
@@ -85,7 +88,7 @@ const Dashboard = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
@@ -109,7 +112,7 @@ const Dashboard = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
@@ -133,7 +136,7 @@ const Dashboard = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
@@ -142,7 +145,7 @@ const Dashboard = () => {
     getOrders();
     getUsers();
     getMeals();
-  }, [axiosPrivate]);
+  }, [axiosPrivate, navigate, location]);
 
   const options = {
     data: {

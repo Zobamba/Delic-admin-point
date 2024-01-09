@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import SideNav from './SideNav';
 
@@ -12,6 +12,9 @@ const Menus = () => {
 
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
   const { notification, setNotification } = useAuth();
@@ -40,14 +43,14 @@ const Menus = () => {
         } else if (err.response?.status === 403) {
           setErrMsg('Oops! You are not authorized to consume this resource.')
         } else {
-          setErrMsg('Failed!')
+          navigate('/sign-in', { state: { from: location }, replace: true });
         }
       }
     }
 
     getMenus();
 
-  }, [axiosPrivate]);
+  }, [axiosPrivate, location, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
