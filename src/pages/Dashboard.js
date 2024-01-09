@@ -156,7 +156,7 @@ const Dashboard = () => {
       }
     },
     height: 180,
-    width: 350
+    width: 300
   };
 
   useEffect(() => {
