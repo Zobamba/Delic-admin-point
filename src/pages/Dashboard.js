@@ -163,7 +163,7 @@ const Dashboard = () => {
     new Chart('#chart1', {
       type: 'line',
       ...options,
-      // width: '100%',
+      width: '100%',
       responsive: true,
       graphSettings: {
         labelFontSize: '9px',
@@ -183,7 +183,7 @@ const Dashboard = () => {
     new Chart('#chart2', {
       type: 'bar',
       ...options,
-      // width: '100%',
+      width: '100%',
       responsive: true,
       graphSettings: {
         labelFontSize: '9px',
