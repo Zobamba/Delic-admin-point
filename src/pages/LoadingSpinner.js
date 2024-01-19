@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { RingLoader } from 'react-spinners';
+import PropTypes from 'prop-types';
 import './LoadingSpinner.scss';
 
 const override = css`
@@ -23,5 +24,8 @@ const LoadingSpinner = ({ loading }) => {
   );
 };
 
+LoadingSpinner.propTypes = {
+  loading: PropTypes.bool.isRequired,
+};
 
 export default LoadingSpinner;
