@@ -453,12 +453,12 @@ const Dashboard = () => {
                     </div>
                     <div className="social-icons scroll-reveal" data-duration="1500">
                       <div className="fb-i">
-                        <Link to="">
+                        <Link to="https://www.facebook.com/bernard.onah">
                           <Fb />
                         </Link>
                       </div>
                       <div className="insta-i">
-                        <Link to="">
+                        <Link to="https://www.instagram.com/onah_zoba/">
                           <Insta />
                         </Link>
                       </div>
