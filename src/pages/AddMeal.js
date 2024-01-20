@@ -102,7 +102,7 @@ const AddMeal = () => {
       } else if (err.response?.status === 409) {
         setErrMsg('Meal already exist!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Bad request!');
+        setErrMsg('Oops! Bad request. Check the fields and try again.');
       } else if (err.response?.status === 403) {
         setErrMsg('Oops! You are not authorized to consume this resource.')
       } else {
