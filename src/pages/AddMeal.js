@@ -101,7 +101,7 @@ const AddMeal = () => {
         setErrMsg('No Server Response!');
       } else if (err.response?.status === 409) {
         setErrMsg('Meal already exist!');
-      } else if (err.response?.status === 404) {
+      } else if (err.response?.status === 400) {
         setErrMsg('Bad request!');
       } else if (err.response?.status === 403) {
         setErrMsg('Oops! You are not authorized to consume this resource.')
@@ -129,11 +129,11 @@ const AddMeal = () => {
                     <h6 className="mb-0 text-sm">Create Meal Record</h6>
                   </div>
                 </div>
-                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 <ol className="breadcrumb">
                   <li><Link to={"/meals"}>Meals</Link></li>
                   <li>Add Meal</li>
                 </ol>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 <div className="form-data">
                   {imageUrl &&
                     <div className="img">

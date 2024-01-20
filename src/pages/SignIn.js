@@ -105,7 +105,7 @@ const SignIn = () => {
       } else if (err.response?.status === 400) {
         setErrMsg('Oops! Something went wrong. Invalid Email or Password.');
       } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized!');
+        setErrMsg('Unauthorized! Invalid Email or Password.');
       } else {
         setErrMsg('Login Failed!');
       }
