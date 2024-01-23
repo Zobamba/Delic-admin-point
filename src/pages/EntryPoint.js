@@ -66,7 +66,7 @@ const Home = () => {
         </div>
         <div className="container">
           <div className="title">
-            <h1>Now you are here</h1>
+            <h1>Delic admin point</h1>
             <p>Get started.</p>
           </div>
           <div className="content">
