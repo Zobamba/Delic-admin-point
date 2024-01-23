@@ -36,9 +36,9 @@ const Home = () => {
 
       const token = response?.data?.token;
       localStorage.setItem('token', response?.data?.token);
-
       localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));
       localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
+      localStorage.setItem('email', response?.data?.email);
 
       setAuth({ email, token });
       navigate(from, { replace: true });
@@ -104,8 +104,8 @@ const Home = () => {
               <LoginSocialGoogle
                 className="s-lgn"
                 client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                fetch_basic_profile='true'
-                scope='https://www.googleapis.com/auth/userinfo.email'
+                // fetch_basic_profile='true'
+                // scope='https://www.googleapis.com/auth/userinfo.email'
 
                 onResolve={(response) => {
                   console.log(response);
