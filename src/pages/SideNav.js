@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCartShopping, faUsers, faEllipsis, faDrumstickBite, faListDots
+  faCartShopping, faUsers, faDrumstickBite, faListDots
 } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import LogOutModal from './LogOutModal';
@@ -104,11 +104,6 @@ const SideNav = ({ currentTab }) => {
             <div className={`user ${modalOpen ? 'no-hover' : ''}`} onClick={() => setModalOpen(!modalOpen)}>
               <div className="cnt">
                 <span className="nav-link-text ms-1">{name}</span>
-                <div className="icon">
-                  <i className="ni ni-calendar-grid-58 text-ellipsis text-sm opacity-10">
-                    <FontAwesomeIcon icon={faEllipsis} />
-                  </i>
-                </div>
               </div>
             </div>
           </div>
