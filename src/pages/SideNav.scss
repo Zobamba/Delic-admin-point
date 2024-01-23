@@ -325,12 +325,6 @@
         white-space: nowrap;
         overflow: hidden;
 
-        &:hover {
-          background-color: #f3f3f3;
-          box-shadow: none;
-          border-radius: 2rem;
-        }
-
         .user {
           display: flex;
           align-items: center;
@@ -345,6 +339,12 @@
               border-radius: 0rem;
               cursor: default;
             }
+          }
+
+          &:hover {
+            background-color: #f3f3f3;
+            box-shadow: none;
+            border-radius: 2rem;
           }
 
           .cnt {
