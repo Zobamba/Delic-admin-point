@@ -14,6 +14,7 @@
   visibility: visible;
   opacity: 0.5;
   transition: all 0.3s;
+  z-index: 10000;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
