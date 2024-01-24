@@ -121,6 +121,7 @@ const SignUp = () => {
         }
       );
       localStorage.setItem('token', response?.data?.token);
+      localStorage.setItem('email', response?.data?.email);
       localStorage.setItem('firstName', response?.data?.firstName);
 
       localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));

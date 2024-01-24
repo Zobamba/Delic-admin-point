@@ -33,12 +33,12 @@ const Home = () => {
           withCredentials: true
         }
       );
-
       const token = response?.data?.token;
       localStorage.setItem('token', response?.data?.token);
+      localStorage.setItem('email', response?.data?.email);
+
       localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));
       localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
-      localStorage.setItem('email', response?.data?.email);
 
       setAuth({ email, token });
       navigate(from, { replace: true });
