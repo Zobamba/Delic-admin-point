@@ -84,6 +84,8 @@ const AddOrder = () => {
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response!');
+      } else if (err.response?.status === 400) {
+        setErrMsg('Bad request! No meal has been selected.');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
