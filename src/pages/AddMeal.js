@@ -157,6 +157,7 @@ const AddMeal = () => {
                           <select id="category" name='Select an option' onChange={e => setCategory(e.target.value)}>
                             <option value="starters">Starters</option>
                             <option value="desserts">Desserts</option>
+                            <option value="main dishes">Main Dishes</option>
                             <option value="specials">Specials</option>
                             <option value="swallows">Swallows</option>
                             <option value="drinks">Drinks</option>
