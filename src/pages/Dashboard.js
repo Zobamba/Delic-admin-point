@@ -417,7 +417,7 @@ const Dashboard = () => {
                                     </td>
                                     <td className="align-middle">
                                       <span className={`font-weight-bold status ${order.order.status === 'pending' ? 'pending'
-                                        : order.order.status === 'delivered' ? 'delivered' : ''}`} id={theme}>
+                                        : order.order.status === 'delivered' ? 'delivered' : order.order.status === 'processing' ? 'processing' : ''}`} id={theme}>
                                         {order.order.status.charAt(0).toUpperCase() + order.order.status.slice(1)}
                                       </span>
                                     </td>

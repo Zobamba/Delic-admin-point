@@ -878,6 +878,10 @@
                               color: #abbcff;
                               background: none;
                             }
+
+                            &.processing {
+                              color: #c2c092;
+                            }
                           }
 
                           &.pending {
@@ -887,6 +891,11 @@
                           &.delivered {
                             color: #abbcff;
                             background-color: #ebf0ff;
+                          }
+
+                          &.processing {
+                            color: #c2c092;
+                            background-color: #f9f8dc;
                           }
                         }
                       }

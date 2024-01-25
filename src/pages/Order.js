@@ -109,7 +109,7 @@ const Order = () => {
                             </Link>
                           </span>Order details
                           <span className={`font-weight-bold status ${order.status === 'pending' ? 'pending'
-                            : order.status === 'delivered' ? 'delivered' : ''}`}>
+                            : order.status === 'delivered' ? 'delivered' : order.status === 'processing' ? 'processing' : ''}`}>
                             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
                         </h6>
                       </div>

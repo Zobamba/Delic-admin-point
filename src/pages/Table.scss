@@ -388,6 +388,11 @@
                       color: #abbcff;
                       background-color: #ebf0ff;
                     }
+
+                    &.processing {
+                      color: #c2c092;
+                      background-color: #f9f8dc;
+                    }
                   }
                 }
               }
@@ -617,6 +622,11 @@
                 &.delivered {
                   color: #abbcff;
                   background-color: #ebf0ff;
+                }
+
+                &.processing {
+                  color: #c2c092;
+                  background-color: #f9f8dc;
                 }
               }
 
