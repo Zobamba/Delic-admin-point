@@ -28,7 +28,7 @@ const Home = () => {
     // Auto-hide the notification after 10 seconds
     setTimeout(() => {
       setNotification(null);
-    }, 1000000);
+    }, 10000);
   };
 
   const authLogin = async (email, firstName, lastName) => {
