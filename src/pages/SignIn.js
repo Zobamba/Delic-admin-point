@@ -69,7 +69,7 @@ const SignIn = () => {
   const showNotification = (message, type) => {
     setNotification({ message, type });
 
-    // Auto-hide the notification after a few seconds (e.g., 10 seconds)
+    // Auto-hide the notification after 10 seconds
     setTimeout(() => {
       setNotification(null);
     }, 10000);

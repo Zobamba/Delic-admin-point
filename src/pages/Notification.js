@@ -7,11 +7,17 @@ import './Notification.scss';
 const Notification = ({ message, type, onClose }) => {
   return (
     <div className={`notification ${type}`}>
-      <p><FontAwesomeIcon className="check" icon={faCheckCircle} /> {message}</p>
+      <div className="content">
+        <span className="icon">
+          <FontAwesomeIcon className="check" icon={faCheckCircle} />
+        </span>
+        <p className="message">{message}</p>
+      </div>
       <button className="close-btn" onClick={onClose}>
         <span className="times">&times;</span>
       </button>
     </div>
+
   );
 };
 

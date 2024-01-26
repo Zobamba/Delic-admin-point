@@ -1,45 +1,57 @@
 .notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
   margin: auto;
   position: fixed;
-  bottom: 10px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0 10px;
   border-radius: 4px;
   color: #fff;
   font-weight: 100;
   font-size: 13px;
+  z-index: 10000;
   cursor: pointer;
   transition: opacity 0.3s ease;
   width: 300px;
-  display: flex;
-  justify-content: space-between;
+  height: 50px;
 
   &.success {
     background-color: #4ca3e8;
+    margin: auto;
   }
 
   &.error {
     background-color: #dc3545;
   }
 
-  .check {
-    padding: 0 7px;
+  .content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+
+    .message {
+      margin: 0;
+      text-align: center;
+      flex-grow: 1;
+    }
   }
 
   .close-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    border-radius: 50%;
     cursor: pointer;
+    background: none;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
       box-shadow: none;
+    }
+    .times {
+      font-size: 20px;
     }
   }
 }

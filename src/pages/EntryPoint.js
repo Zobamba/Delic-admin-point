@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LoginSocialFacebook } from 'reactjs-social-login';
-import { FacebookLoginButton } from 'react-social-login-buttons';
+// import { LoginSocialFacebook } from 'reactjs-social-login';
+// import { FacebookLoginButton } from 'react-social-login-buttons';
 import { LoginSocialGoogle } from 'reactjs-social-login';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -11,16 +11,25 @@ import "./EntryPoint.scss";
 
 const Home = () => {
   const [errMsg, setErrMsg] = useState('');
-  const { setAuth } = useAuth();
+  const { setAuth, setNotification } = useAuth();
 
   const AUTH_LOGIN_URL = '/auth_sign_in';
   const axiosPrivate = useAxiosPrivate();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
 
+  const from = location.state?.from?.pathname || "/dashboard";
   const errRef = useRef();
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after 10 seconds
+    setTimeout(() => {
+      setNotification(null);
+    }, 1000000);
+  };
 
   const authLogin = async (email, firstName, lastName) => {
     try {
@@ -41,6 +50,7 @@ const Home = () => {
       localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
 
       setAuth({ email, token });
+      showNotification('Login successful', 'success');
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
