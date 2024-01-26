@@ -20,6 +20,10 @@
   .logo {
     margin: auto;
 
+    @media (max-width: 1024px) {
+      display: none;
+    }
+
     img {
       @media (max-width: 768px) {
         max-width: 100%;
