@@ -15,18 +15,18 @@
 .pg-wrapper {
   display: flex;
   justify-content: space-between;
+  height: 100vh;
 
   .logo {
     margin: auto;
-    max-width: 100%;
-    height: auto;
 
     img {
-      @media only screen and (max-width: 600px) {
-        max-width: 80%;  
+      @media (max-width: 768px) {
+        max-width: 100%;
+        margin-top: 100px;
       }
 
-      @media only screen and (max-width: 400px) {
+      @media (max-width: 400px) {
         max-width: 60%;
       }
     }
@@ -34,8 +34,7 @@
 
   .container {
     margin: auto;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-top: 25px;
 
     @media only screen and (min-width: 1025px) {
       justify-content: space-around;
@@ -47,6 +46,16 @@
     }
 
     @media only screen and (max-width: 600px) {
+      margin: auto;
+      text-align: center;
+
+      .content {
+        margin: auto;
+        align-items: center;
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
       margin: auto;
       text-align: center;
 
@@ -72,7 +81,7 @@
       margin-left: 4px;
       white-space: nowrap;
 
-      @media only screen and (max-width: 600px) {
+      @media (max-width: 768px) {
         h1 {
           font-size: 20px;
         }
@@ -82,7 +91,7 @@
         }
       }
 
-      @media only screen and (max-width: 400px) {
+      @media (max-width: 400px) {
         h1 {
           font-size: 20px;
         }
@@ -94,6 +103,7 @@
 
       h1 {
         font-size: 60px;
+        // margin: auto;
       }
 
       p {

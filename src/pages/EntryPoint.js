@@ -62,7 +62,7 @@ const Home = () => {
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
       <div className="pg-wrapper">
         <div className="logo">
-          <img src={DelicLogo} alt="" />
+          <img height={250} width={250} src={DelicLogo} alt="" />
         </div>
         <div className="container">
           <div className="title">
@@ -71,7 +71,7 @@ const Home = () => {
           </div>
           <div className="content">
             <div className="s-login">
-              <LoginSocialFacebook
+              {/* <LoginSocialFacebook
                 className="s-lgn"
                 autoLoad={true}
                 fieldsProfile="name, email, picture"
@@ -99,7 +99,7 @@ const Home = () => {
                     background: '#1da1f2',
                   }}
                 />
-              </LoginSocialFacebook>
+              </LoginSocialFacebook> */}
 
               <LoginSocialGoogle
                 className="s-lgn"
