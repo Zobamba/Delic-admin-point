@@ -15,7 +15,7 @@
 .pg-wrapper {
   display: flex;
   justify-content: space-between;
-  height: 100vh;
+  height: 80vh;
 
   .logo {
     margin: auto;
@@ -38,7 +38,6 @@
 
   .container {
     margin: auto;
-    margin-top: 25px;
 
     @media only screen and (min-width: 1025px) {
       justify-content: space-around;
@@ -107,7 +106,7 @@
 
       h1 {
         font-size: 60px;
-        // margin: auto;
+        margin: auto;
       }
 
       p {
