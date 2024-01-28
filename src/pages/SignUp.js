@@ -20,7 +20,7 @@ const SignUp = () => {
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const REGISTER_URL = '/sign_up';
 
-  const { setAuth } = useAuth();
+  const { setAuth, setNotification } = useAuth();
 
   const userRef = useRef();
   const errRef = useRef();
@@ -102,6 +102,15 @@ const SignUp = () => {
     }
   };
 
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+
+    // Auto-hide the notification after 10 seconds
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Will effect if button validations are removed
@@ -126,10 +135,10 @@ const SignUp = () => {
 
       localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));
       localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
-
       const token = response?.data?.token;
-      setAuth({ email, password, token });
 
+      setAuth({ email, password, token });
+      showNotification('Account created successfully', 'success');
       navigate("/dashboard")
     } catch (err) {
       if (!err?.response) {
