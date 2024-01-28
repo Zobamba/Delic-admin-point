@@ -73,7 +73,7 @@ const AddMenu = () => {
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Oops! The expiry date must be in the future!');
+        setErrMsg('Oops! The expiry date must be in the future. It could be that no meal has been selected.');
       } else {
         setErrMsg('Failed!')
       }
