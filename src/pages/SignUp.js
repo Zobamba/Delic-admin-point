@@ -138,8 +138,8 @@ const SignUp = () => {
       const token = response?.data?.token;
 
       setAuth({ email, password, token });
-      showNotification('Account created successfully', 'success');
-      navigate("/dashboard")
+      showNotification('Account created successful', 'success');
+      navigate("/sign-in")
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response!');
