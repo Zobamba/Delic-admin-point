@@ -39,6 +39,7 @@ const EditMenu = () => {
 
   const handleRemoveClick = (id) => {
     setSelectedMeals(selectedMeals.filter(item => item.id !== id));
+    setMealIds(mealIds.filter(item => item !== id));
   };
 
   const handleSubmit = async (e) => {

@@ -39,10 +39,7 @@ const Menu = () => {
           },
           withCredentials: true
         });
-
-        console.log(response.data);
         setMenu(response.data.menu);
-
       } catch (err) {
         console.error(err);
         navigate('/sign-in', { state: { from: location }, replace: true });
