@@ -34,7 +34,7 @@ const EmailVerification = () => {
         })
         .then((response) => {
           if (response) {
-            setMessage(`An email with a link has been sent to ${email}, click on the link to complete your password reset.`);
+            setMessage(`Check your ${email} inbox for instructions from us on how to reset your password.`);
             setErrMsg('');
           }
         })
