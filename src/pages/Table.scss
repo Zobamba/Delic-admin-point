@@ -100,6 +100,11 @@
         list-style: none;
         font-size: 12.5px;
         padding-top: 80px;
+        border: 1px solid red;
+
+        @media (max-width: 768px) {
+          margin: auto;
+        }
 
         li {
           display: inline-block;
@@ -124,6 +129,7 @@
           }
         }
       }
+      
       .card-header {
         width: 78.5%;
         position: fixed;
@@ -1081,6 +1087,11 @@
       font-size: 12.5px;
       margin-left: 180px;
 
+      @media (max-width: 768px) {
+        margin: auto;
+        text-align: center;
+      }
+
       li {
         display: inline-block;
         padding: 0 2px;
@@ -1243,7 +1254,7 @@
 
       h2 {
         font-size: 1.5rem;
-        
+
         margin: auto;
         text-align: center;
       }

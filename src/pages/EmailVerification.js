@@ -41,12 +41,6 @@ const EmailVerification = () => {
         .catch((err) => {
           if (!err?.response) {
             setErrMsg('No Server Response!');
-          } else if (err.response?.status === 404) {
-            setErrMsg('We cannot find an account for this email.');
-          } else if (err.response?.status === 400) {
-            setErrMsg('Oops! Something went wrong. Please check your request and try again.');
-          } else if (err.response?.status === 401) {
-            setErrMsg('Unauthorized!');
           } else {
             setErrMsg('Failed!')
           }
