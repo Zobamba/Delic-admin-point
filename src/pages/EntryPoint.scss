@@ -17,6 +17,11 @@
   justify-content: space-between;
   height: 80vh;
 
+  @media (max-width: 1024px) {
+    overflow: hidden;
+  }
+
+
   .logo {
     margin: auto;
 
@@ -105,7 +110,7 @@
       }
 
       h1 {
-        font-size: 60px;
+        font-size: 40px;
         margin: auto;
       }
 
