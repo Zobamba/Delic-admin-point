@@ -77,7 +77,7 @@ const Home = () => {
         <div className="container">
           <div className="title">
             <h1>Delic admin point</h1>
-            <p>Get started.</p>
+            <p className="have-acc">Get started.</p>
           </div>
           <div className="content">
             <div className="s-login">

@@ -14,7 +14,6 @@
 
 .pg-wrapper {
   display: flex;
-  justify-content: space-between;
   height: 80vh;
 
   @media (max-width: 1024px) {
@@ -24,6 +23,7 @@
 
   .logo {
     margin: auto;
+    margin-right: 25px;
 
     @media (max-width: 1024px) {
       display: none;
@@ -114,14 +114,15 @@
         margin: auto;
       }
 
-      p {
-        font-size: 25px;
+      .have-acc {
+        color: #303030;
+        margin-left: 4px;
         font-weight: 600;
       }
     }
 
     .content {
-      width: 60%;
+      max-width: 80%;
 
       @media only screen and (max-width: 600px) {
         padding: 20px;
