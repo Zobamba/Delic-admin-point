@@ -445,10 +445,8 @@
                   }
 
                   &::placeholder {
-                    position: absolute;
                     font-size: 10px;
                     font-weight: 500;
-                    margin-top: 0.18rem;
                     color: #adb5bd;
                   }
 
@@ -718,7 +716,6 @@
               input,
               select {
                 border: 1px solid #1da1f2;
-                // font-size: 1rem;
                 border-radius: 4px;
                 padding: 0 7px;
                 color: rgba(0, 0, 0, 0.87);
@@ -733,10 +730,8 @@
                 }
 
                 &::placeholder {
-                  position: absolute;
                   font-size: 10px;
                   font-weight: 500;
-                  margin-top: 0.18rem;
                   color: #adb5bd;
                 }
               }
@@ -1144,10 +1139,8 @@
             }
 
             &::placeholder {
-              position: absolute;
               font-size: 10px;
               font-weight: 500;
-              margin-top: 0.18rem;
               color: #adb5bd;
             }
           }
@@ -1201,41 +1194,6 @@
         line-height: 1.5;
         padding-left: 7px;
         margin-bottom: 10px;
-      }
-
-      input {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border: 1px solid #1da1f2;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-
-      .focus-input100 {
-        position: absolute;
-
-        &.current-pwd,
-        &.new-pwd,
-        &.confirm-pwd {
-          padding-top: 21px;
-          padding-bottom: 21px;
-          margin-left: -25px;
-          cursor: pointer;
-        }
-      }
-
-      select {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border: 1px solid #1da1f2;
-        border-radius: 4px;
-        box-sizing: border-box;
       }
 
       .buttonDisabled {
@@ -1565,8 +1523,8 @@
       &.current-pwd,
       &.new-pwd,
       &.confirm-pwd {
-        padding-top: 21px;
-        padding-bottom: 21px;
+        padding-top: 18px;
+        padding-bottom: 18px;
         margin-left: -25px;
         cursor: pointer;
       }
