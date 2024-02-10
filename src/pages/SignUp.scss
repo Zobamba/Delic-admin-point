@@ -174,9 +174,9 @@
               transition: border-color 0.2s;
               height: 35px;
               width: 100%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
+              // display: flex;
+              // align-items: center;
+              // justify-content: center;
 
               &:focus {
                 border: 1px solid #1da1f2;
@@ -184,10 +184,10 @@
               }
 
               &::placeholder {
-                position: absolute;
+                // position: absolute;
                 font-size: 10px;
                 font-weight: 500;
-                margin-top: 0.5rem;
+                // margin-top: 0.5rem;
                 color: #adb5bd;
               }
             }
@@ -209,10 +209,10 @@
               }
 
               &::placeholder {
-                position: absolute;
+                // position: absolute;
                 font-size: 10px;
                 font-weight: 500;
-                margin-top: 0.5rem;
+                // margin-top: 0.5rem;
                 color: #adb5bd;
               }
             }
@@ -234,10 +234,10 @@
               }
 
               &::placeholder {
-                position: absolute;
+                // position: absolute;
                 font-size: 10px;
                 font-weight: 500;
-                margin-top: 0.5rem;
+                // margin-top: 0.5rem;
                 color: #adb5bd;
               }
             }
