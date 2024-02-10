@@ -262,16 +262,6 @@ const User = () => {
                             {admin ?
                               <>{String(admin)}</> : <>{String(admin)}</>}
                           </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faUserSlash} />
-                              </i>
-                            </span>
-                            <span className="label">Disabled:</span>
-                            {disable ?
-                              <>{String(disable)}</> : <>{String(disable)}</>}
-                          </p>
                         </div>
 
                         <div className="d-flex">
@@ -288,6 +278,18 @@ const User = () => {
                               day: "numeric",
                             })}
                           </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faUserSlash} />
+                              </i>
+                            </span>
+                            <span className="label">Disabled:</span>
+                            {disable ?
+                              <>{String(disable)}</> : <>{String(disable)}</>}
+                          </p>
+                        </div>
+                        <div className="d-flex">
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
