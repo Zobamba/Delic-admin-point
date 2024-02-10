@@ -143,6 +143,18 @@ const Profile = () => {
                               day: "numeric",
                             })}
                           </p>
+                          <p className="sub-info switch">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faUserTie} />
+                              </i>
+                            </span>
+                            <span className="label">Admin:</span>
+                            {String(user.admin)}
+                          </p>
+                        </div>
+
+                        <div className="d-flex">
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
@@ -155,18 +167,6 @@ const Profile = () => {
                               month: "short",
                               day: "numeric",
                             })}
-                          </p>
-                        </div>
-
-                        <div className="d-flex">
-                          <p className="sub-info switch">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faUserTie} />
-                              </i>
-                            </span>
-                            <span className="label">Admin:</span>
-                            {String(user.admin)}
                           </p>
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">

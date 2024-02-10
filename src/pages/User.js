@@ -223,16 +223,6 @@ const User = () => {
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faUser} />
-                              </i>
-                            </span>
-                            <span className="font-weight-bold">
-                              {(user.firstName + ' ' + user.lastName)}
-                            </span>
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
                                 <FontAwesomeIcon icon={faEnvelope} />
                               </i>
                             </span>
@@ -305,7 +295,7 @@ const User = () => {
                               </i>
                             </span>
                             <span className="label">User Id:</span>
-                            {user.id}
+                            #DC40{user.id}
                           </p>
                         </div>
                       </div>
