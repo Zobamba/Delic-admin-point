@@ -174,7 +174,7 @@ const EditMenu = () => {
                       <div className="add-btn">
                         <button className="button" type='submit'>Save</button>
                       </div>
-                      <label htmlFor="expiredAt">Expiry Date</label>
+                      <label htmlFor="expiredAt">Expiry Date:</label>
                       <input
                         type="date"
                         name="expiredAt"

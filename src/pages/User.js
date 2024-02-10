@@ -30,7 +30,7 @@ const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen,setMenuIsOpen } = useAuth();
 
   const showNotification = (message, type) => {
     setNotification({ message, type });

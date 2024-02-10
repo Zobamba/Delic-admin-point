@@ -114,16 +114,6 @@ const Profile = () => {
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faUser} />
-                              </i>
-                            </span>
-                            <span className="font-weight-bold">
-                              {(user.firstName + ' ' + user.lastName)}
-                            </span>
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
                                 <FontAwesomeIcon icon={faEnvelope} />
                               </i>
                             </span>
@@ -153,6 +143,22 @@ const Profile = () => {
                               day: "numeric",
                             })}
                           </p>
+                          <p className="sub-info">
+                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                              <i className="ni text-sm">
+                                <FontAwesomeIcon icon={faCalendarAlt} />
+                              </i>
+                            </span>
+                            <span className="label">Updated</span>
+                            {new Date(user.updatedAt).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </p>
+                        </div>
+
+                        <div className="d-flex">
                           <p className="sub-info switch">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
@@ -170,31 +176,6 @@ const Profile = () => {
                             </span>
                             <span className="label">Disabled:</span>
                             {String(user.disable)}
-                          </p>
-                        </div>
-
-                        <div className="d-flex">
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faCalendarAlt} />
-                              </i>
-                            </span>
-                            <span className="label">Updated</span>
-                            {new Date(user.updatedAt).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faCalendarAlt} /> */}
-                              </i>
-                            </span>
-                            <span className="label">User Id:</span>
-                            {user.id}
                           </p>
                         </div>
                       </div>
