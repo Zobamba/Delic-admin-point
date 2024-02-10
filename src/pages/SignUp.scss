@@ -40,6 +40,7 @@
       list-style: none;
       font-size: 12.5px;
       margin: 0;
+      margin-left: 12rem;
       padding: 0;
 
       li {
@@ -83,7 +84,7 @@
   .inner {
     border-radius: 10px;
     margin: auto;
-    border: 1px solid #1da1f2;
+    // border: 1px solid #1da1f2;
     overflow-y: scroll;
 
     .login100-form {
@@ -435,6 +436,7 @@
 
       .breadcrumb {
         margin-top: 1rem;
+        margin-left: 0;
       }
     }
 
