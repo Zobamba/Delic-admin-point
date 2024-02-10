@@ -18,7 +18,7 @@ const UpdateProfile = () => {
   const [imageVisible, setImageVisible] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
-  const { setNotification } = useAuth();
+  const { setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const firstNameRef = useRef();
   const errRef = useRef();
@@ -143,6 +143,9 @@ const UpdateProfile = () => {
             <div className="container">
               <div className='row'>
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Update Profile</h6>
                   </div>
@@ -159,11 +162,11 @@ const UpdateProfile = () => {
                       <UploadWidget />
                     </div>
                   </div>
-                  <div className="frm m-auto pt-pr">
+                  <div className="form-center m-auto pt-pr">
                     <div className="fm">
                       <form onSubmit={handleSubmit}>
                         <button className="btn" type='submit'>Save</button>
-                        <label htmlFor="name">firstName:
+                        <label htmlFor="name">First Name:
                           <input
                             type="text"
                             name="firstName"
@@ -174,7 +177,7 @@ const UpdateProfile = () => {
                           />
                         </label>
 
-                        <label htmlFor="price">lastName:
+                        <label htmlFor="price">Last Name:
                           <input
                             type="text"
                             name="lastName"
@@ -184,7 +187,7 @@ const UpdateProfile = () => {
                           />
                         </label>
 
-                        <label htmlFor="price">phoneNumber:
+                        <label htmlFor="price">Phone Number:
                           <input
                             type="text"
                             name="phoneNumber"

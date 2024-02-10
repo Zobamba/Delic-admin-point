@@ -18,7 +18,7 @@ const Menu = () => {
   const [loading, setLoading] = useState(true);
 
   const axiosPrivate = useAxiosPrivate();
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,6 +81,9 @@ const Menu = () => {
 
               <div className="row mt">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Menu Overview</h6>
                   </div>
@@ -93,16 +96,17 @@ const Menu = () => {
 
                 {menu &&
                   <div className="form-data">
-                    <div className="frm m-auto pt-pr">
+                    <div className="form-center m-auto pt-pr">
                       <div className="frm-header">
                         <h2 className="mb-0 text-sm">
-                          <span>
-                            <Link
-                              to={`/editMenu/${menu.id}`}>
-                              <FontAwesomeIcon title="Edit menu" className="icon-edit" icon={faEdit} />
-                            </Link>
-                          </span>Menu details
+                          Menu details
                         </h2>
+                        <span>
+                          <Link
+                            to={`/editMenu/${menu.id}`}>
+                            <FontAwesomeIcon title="Edit menu" className="icon-edit" icon={faEdit} />
+                          </Link>
+                        </span>
                       </div>
 
                       <div className="info">
@@ -152,7 +156,7 @@ const Menu = () => {
                               </i>
                             </span>
                             <span className="label">Menu Id:</span>
-                            {menu.id}
+                            #DC40{menu.id}
                           </p>
                         </div>
                         <div className="d-flex">

@@ -16,7 +16,7 @@ const AddMeal = () => {
   const [imageUrl, setImageUrl] = useState('');
 
   const [errMsg, setErrMsg] = useState('');
-  const { setNotification } = useAuth();
+  const { setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const nameRef = useRef();
   const errRef = useRef();
@@ -125,6 +125,9 @@ const AddMeal = () => {
             <div className="container">
               <div className='row'>
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Create Meal Record</h6>
                   </div>
@@ -139,11 +142,11 @@ const AddMeal = () => {
                     <div className="img">
                       <img src={imageUrl} alt="" />
                     </div>}
-                  <div className="frm bdr-lft pt-pr">
+                  <div className="form-center bdr-lft pt-pr">
                     <div className="fm">
                       <form onSubmit={handleSubmit}>
                         <button className="btn" type='submit'>Add Meal</button>
-                        <label>Name
+                        <label>Name:
                           <input
                             type="text"
                             name="name"
@@ -153,7 +156,7 @@ const AddMeal = () => {
                             onChange={e => setName(e.target.value)} />
                         </label>
 
-                        <label>Category
+                        <label>Category:
                           <select id="category" name='Select an option' onChange={e => setCategory(e.target.value)}>
                             <option value="starters">Starters</option>
                             <option value="desserts">Desserts</option>
@@ -164,7 +167,7 @@ const AddMeal = () => {
                           </select>
                         </label>
 
-                        <label>Price
+                        <label>Price:
                           <input
                             type="text"
                             name="price"
@@ -173,7 +176,7 @@ const AddMeal = () => {
                             onChange={e => setPrice(e.target.value)} />
                         </label>
 
-                        <label>Description
+                        <label>Description:
                           <input
                             type="text"
                             name="description"

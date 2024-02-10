@@ -17,7 +17,7 @@ const Orders = () => {
   const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const closeNotification = () => {
     setNotification(null);
@@ -78,6 +78,9 @@ const Orders = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <Link to="/addOrder">
                       <span>Add Order</span>
@@ -92,9 +95,9 @@ const Orders = () => {
                       <tr>
                         <th className="text-center text-secondary ">Order Id</th>
                         <th className="text-center text-secondary ">Date</th>
-                        <th className="text-center text-secondary">Location</th>
                         <th className="text-center text-secondary">Status Order</th>
                         <th className="text-center text-secondary ">Phone Number</th>
+                        <th className="text-center text-secondary">Location</th>
                         <th className="text-center text-secondary ">Amount</th>
                         <th className="text-center text-secondary">See More </th>
                       </tr>
@@ -106,7 +109,7 @@ const Orders = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{order.order.id}</p>
+                                <p>#DC40{order.order.id}</p>
                               </td>
                               <td className="align-middle">
                                 <span className="font-weight-bold">{new Date(order.order.createdAt).toLocaleDateString("en-US", {
@@ -116,9 +119,6 @@ const Orders = () => {
                                 })}</span>
                               </td>
                               <td className="align-middle">
-                                <p className="text-xs mb-0">{order.order.address}</p>
-                              </td>
-                              <td className="align-middle">
                                 <span className={`font-weight-bold status ${order.order.status === 'pending' ? 'pending'
                                   : order.order.status === 'delivered' ? 'delivered' : order.order.status === 'processing' ? 'processing' : ''}`}>
                                   {order.order.status.charAt(0).toUpperCase() + order.order.status.slice(1)}
@@ -126,6 +126,9 @@ const Orders = () => {
                               </td>
                               <td className="align-middle">
                                 <span className="font-weight-bold">{order.order.phoneNumber}</span>
+                              </td>
+                              <td className="align-middle">
+                                <p className="text-xs mb-0 address">{order.order.address}</p>
                               </td>
                               <td className="align-middle">
                                 <span className="font-weight-bold">

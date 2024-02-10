@@ -27,7 +27,7 @@ const AddOrder = () => {
   const navigate = useNavigate();
 
 
-  const { setNotification } = useAuth();
+  const { setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -176,6 +176,9 @@ const AddOrder = () => {
             <div className="container">
               <div className="row mt">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Edit Order</h6>
                   </div>
@@ -190,7 +193,6 @@ const AddOrder = () => {
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
                 <form onSubmit={handleSubmit}>
-                  <div className="table-responsive m-top">
                     <div className="frm pt-pr">
                       <div className="fm">
                         <div className="add-btn">
@@ -223,7 +225,6 @@ const AddOrder = () => {
                         </select>
                       </div>
                     </div>
-                  </div>
                   <div className="hdr">
                     <h6 className="ttl">Order Meals</h6>
                   </div>
@@ -309,7 +310,7 @@ const AddOrder = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{meal.id}</p>
+                                <p>#DC40{meal.id}</p>
                               </td>
                               <td className="align-middle">
                                 <Link

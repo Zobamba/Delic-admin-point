@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LoadingSpinner from './LoadingSpinner';
+import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SideNav from './SideNav';
 
@@ -11,6 +12,7 @@ const Users = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { menuIsOpen, setMenuIsOpen } = useAuth();
 
   const axiosPrivate = useAxiosPrivate();
   const errRef = useRef();
@@ -70,6 +72,9 @@ const Users = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Users</h6>
                   </div>
@@ -94,7 +99,7 @@ const Users = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{user.id}</p>
+                                <p>#DC40{user.id}</p>
                               </td>
                               <td className="align-middle">
                                 <Link

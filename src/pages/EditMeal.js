@@ -25,7 +25,7 @@ const EditMeal = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
-  const { setNotification } = useAuth();
+  const { setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -155,6 +155,9 @@ const EditMeal = () => {
             <div className="container">
               <div className='row'>
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Edit Meal</h6>
                   </div>
@@ -169,7 +172,7 @@ const EditMeal = () => {
                   <div className={`img ${imageVisible ? 'act' : ''}`}>
                     <img src={imageUrl} alt="" />
                   </div>
-                  <div className="frm pt-pr">
+                  <div className="form-center pt-pr">
                     <div className="fm">
                       <form onSubmit={handleSubmit}>
                         <button className="btn" type='submit'>Save</button>

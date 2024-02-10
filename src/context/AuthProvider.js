@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({});
     const [email, setEmail] = useState();
     const [theme, setTheme] = useState("light");
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
     const [notification, setNotification] = useState(null);
 
     const toggleTheme = () => {
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
             auth, setAuth,
             email, setEmail,
             theme, toggleTheme,
+            menuIsOpen, setMenuIsOpen,
             notification, setNotification
         }}>
             {children}

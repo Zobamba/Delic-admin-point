@@ -31,78 +31,77 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<EntryPoint />} />
-      <Route path="/dashboard"
-        element={
-          <>
-            <Dashboard />
-            <IconTop />
-          </>}
+      <Route path="/dashboard" element={
+        <>
+          <Dashboard />
+          <IconTop />
+        </>}
       />
-      <Route path="/meals"
-        element={
-          <>
-            <Meals />
-            <IconTop />
-          </>}
+      <Route path="/meals" element={
+        <>
+          <Meals />
+          <IconTop />
+        </>}
       />
       <Route path="/meals/:id" element={<Meal />} />
       <Route path="/addMeal" element={<AddMeal />} />
       <Route path="/editMeal/:id" element={<EditMeal />} />
-      <Route path="/menus"
-        element={
-          <>
-            <Menus />
-            <IconTop />
-          </>}
+      <Route path="/menus" element={
+        <>
+          <Menus />
+          <IconTop />
+        </>}
       />
-      <Route path="/menus/:id"
-        element={
-          <>
-            <Menu />
-            <IconTop />
-          </>}
+      <Route path="/menus/:id" element={
+        <>
+          <Menu />
+          <IconTop />
+        </>}
       />
-      <Route path="/addMenu"
-        element={
-          <>
-            <AddMenu />
-            <IconTop />
-          </>}
+      <Route path="/addMenu" element={
+        <>
+          <AddMenu />
+          <IconTop />
+        </>}
       />
-      <Route path="/editMenu/:id" element={<EditMenu />} />
-      <Route path="/orders"
-        element={
-          <>
-            <Orders />
-            <IconTop />
-          </>}
+      <Route path="/editMenu/:id" element={
+        <>
+          <EditMenu />
+          <IconTop />
+        </>} />
+      <Route path="/orders" element={
+        <>
+          <Orders />
+          <IconTop />
+        </>}
       />
-      <Route path="/orders/:id"
-        element={
-          <>
-            <Order />
-            <IconTop />
-          </>}
+      <Route path="/orders/:id" element={
+        <>
+          <Order />
+          <IconTop />
+        </>}
       />
-      <Route path="/addOrder"
-        element={
-          <>
-            <AddOrder />
-            <IconTop />
-          </>}
+      <Route path="/addOrder" element={
+        <>
+          <AddOrder />
+          <IconTop />
+        </>}
       />
-      <Route path="/editOrder/:id" element={<EditOrder />} />
+      <Route path="/editOrder/:id" element={
+        <>
+          <EditOrder />
+          <IconTop />
+        </>} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/updateProfile" element={<UpdateProfile />} />
       <Route path="/changePassword" element={<ChangePassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/emailVerification" element={<EmailVerification />} />
-      <Route path="/users"
-        element={
-          <>
-            <Users />
-            <IconTop />
-          </>}
+      <Route path="/users" element={
+        <>
+          <Users />
+          <IconTop />
+        </>}
       />
       <Route path="/users/:id" element={<User />} />
       <Route path="/editUser/:id" element={<EditUser />} />

@@ -235,7 +235,6 @@ const ChangePassword = () => {
                           Must match the new password input field.
                         </p>
                       </label>
-
                       <button className="btn" type='submit'>Save</button>
                     </form>
                   </div>

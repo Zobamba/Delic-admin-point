@@ -6,7 +6,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBowlRice, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { faEdit, faListAlt } from '@fortawesome/free-regular-svg-icons';
+import { faCreditCard, faEdit, faListAlt } from '@fortawesome/free-regular-svg-icons';
 import DeleteMealModal from './DeleteMealModal';
 import SideNav from './SideNav';
 
@@ -23,7 +23,7 @@ const Meal = () => {
   const [loading, setLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
 
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -91,6 +91,9 @@ const Meal = () => {
                 />}
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">{name}</h6>
                   </div>
@@ -104,16 +107,17 @@ const Meal = () => {
                     <img src={imageUrl} alt="" />
                   </div>
                   {meal &&
-                    <div className="frm pt-pr">
+                    <div className="form-center pt-pr">
                       <div className="frm-header">
                         <h6 className="mb-0 text-sm">
-                          <span>
-                            <Link
-                              to={`/editMeal/${meal.id}`}>
-                              <FontAwesomeIcon title="Edit meal" className="icon-edit" icon={faEdit} />
-                            </Link>
-                          </span>Meal details
+                          Meal details
                         </h6>
+                        <span>
+                          <Link
+                            to={`/editMeal/${meal.id}`}>
+                            <FontAwesomeIcon title="Edit meal" className="icon-edit" icon={faEdit} />
+                          </Link>
+                        </span>
                       </div>
                       <div className="info">
                         <div className="d-flex">
@@ -128,7 +132,7 @@ const Meal = () => {
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faListAlt} /> */}
+                                <FontAwesomeIcon icon={faCreditCard} />
                               </i>
                             </span>
                             <span className="label">Price:</span>
@@ -155,7 +159,7 @@ const Meal = () => {
                               </i>
                             </span>
                             <span className="label">Meal Id:</span>
-                            {meal.id}
+                            #DC40{meal.id}
                           </p>
                         </div>
 

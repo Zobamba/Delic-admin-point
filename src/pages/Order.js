@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faListAlt } from '@fortawesome/free-regular-svg-icons';
 import DeleteOrderModal from './DeleteOrderModal';
 import SideNav from './SideNav';
 
@@ -23,7 +23,7 @@ const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const closeNotification = () => {
     setNotification(null);
@@ -88,6 +88,9 @@ const Order = () => {
 
               <div className="row mt">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Order Overview</h6>
                   </div>
@@ -96,22 +99,23 @@ const Order = () => {
                   <li><Link to={"/orders"}>Orders</Link></li>
                   <li>Order Overview</li>
                 </ol>
-
-                {order &&
-                  <div className="form-data">
-                    <div className="frm m-auto pt-pr">
+                <div className="form-data">
+                  {order &&
+                    <div className="form-center m-auto pt-pr">
                       <div className="frm-header">
                         <h6 className="mb-0 text-sm">
-                          <span>
-                            <Link
-                              to={`/editOrder/${order.id}`}>
-                              <FontAwesomeIcon title="Edit order" className="icon-edit" icon={faEdit} />
-                            </Link>
-                          </span>Order details
-                          <span className={`font-weight-bold status ${order.status === 'pending' ? 'pending'
-                            : order.status === 'delivered' ? 'delivered' : order.status === 'processing' ? 'processing' : ''}`}>
-                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+                          Order details
                         </h6>
+                        <span className={`font-weight-bold status ${order.status === 'pending' ? 'pending'
+                          : order.status === 'delivered' ? 'delivered' : order.status === 'processing' ? 'processing' : ''}`}>
+                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                        <span>
+                          <Link
+                            to={`/editOrder/${order.id}`}>
+                            <FontAwesomeIcon title="Edit order" className="icon-edit" icon={faEdit} />
+                          </Link>
+                        </span>
                       </div>
                       <div className="info">
                         <div className="d-flex">
@@ -150,7 +154,7 @@ const Order = () => {
                                 <FontAwesomeIcon icon={faCalendarAlt} />
                               </i>
                             </span>
-                            <span className="label">Created</span>
+                            <span className="label">Date:</span>
                             {new Date(order.createdAt).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
@@ -160,10 +164,10 @@ const Order = () => {
                           <p className="sub-info">
                             <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                               <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faList12} /> */}
+                                {/* <FontAwesomeIcon icon={faListAlt} /> */}
                               </i>
                             </span>
-                            <span className="label">Meals Count:</span>
+                            <span className="label">Meals:</span>
                             {order.meals.length}
                           </p>
                           <p className="sub-info">
@@ -173,7 +177,7 @@ const Order = () => {
                               </i>
                             </span>
                             <span className="label">Order Id:</span>
-                            {order.id}
+                            #DC40{order.id}
                           </p>
                         </div>
                         <div className="d-flex">
@@ -209,8 +213,8 @@ const Order = () => {
                           Delete
                         </button>
                       </div>
-                    </div>
-                  </div>}
+                    </div>}
+                </div>
               </div>
               <div className="row">
                 <div className="hdr">
@@ -236,7 +240,7 @@ const Order = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{meal.id}</p>
+                                <p>#DC40{meal.id}</p>
                               </td>
                               <td className="align-middle">
                                 <Link

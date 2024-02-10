@@ -177,6 +177,9 @@ const User = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">{(firstName + ' ' + lastName)}</h6>
                   </div>
@@ -192,9 +195,15 @@ const User = () => {
                       <img src={photoUrl} alt="" />
                     </div>}
                   {user &&
-                    <div className="frm m-auto pt-pr">
+                    <div className="form-center m-auto pt-pr">
                       <div className="frm-header">
                         <h6 className="mb-0 text-sm">
+                          User details
+                        </h6>
+                        <div className="toggle-switch">
+                          <span className="lbl">
+                            Make Admin
+                          </span>
                           <span className="icon-edit switch">
                             <Switch
                               onChange={handleAdminChange}
@@ -207,11 +216,7 @@ const User = () => {
                               width={55}
                             />
                           </span>
-                          <span className="icon-edit lbl">
-                            Make Admin
-                          </span>
-                          User details
-                        </h6>
+                        </div>
                       </div>
                       <div className="info">
                         <div className="d-flex">
@@ -305,7 +310,7 @@ const User = () => {
                         </div>
                       </div>
                       <div className="actions">
-                        <span className="delete lbl">Disable</span>
+                        <span className="lbl">Disable</span>
                         <span className="delete disable">
                           <Switch
                             // className="switch"

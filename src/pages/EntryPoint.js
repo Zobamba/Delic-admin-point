@@ -69,11 +69,11 @@ const Home = () => {
 
   return (
     <div>
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
       <div className="pg-wrapper">
         <div className="logo">
-          <img height={250} width={250} src={DelicLogo} alt="" />
+          <img src={DelicLogo} alt="" />
         </div>
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         <div className="container">
           <div className="title">
             <h1>Delic admin point</h1>

@@ -41,7 +41,7 @@ const Dashboard = () => {
   const lastName = fullName.split(' ')[1];
 
   const nameAbbr = `${fullName.charAt(0)}${lastName.charAt(0)}`
-  const { theme, toggleTheme, notification, setNotification } = useAuth();
+  const { theme, toggleTheme, notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   useEffect(() => {
     const getMenus = async () => {
@@ -234,6 +234,10 @@ const Dashboard = () => {
                   <div className="menu">
                     <nav>
                       <ul className="main-navigation open">
+                        <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                          <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                          {/* <div className="title-bar-title">Menu</div> */}
+                        </button>
                         <li className="m-anim" onClick={() => toggleTheme()} >
                           {theme === "light" ?
                             <span><FontAwesomeIcon icon={faMoon} /></span>
@@ -389,7 +393,7 @@ const Dashboard = () => {
                             <tr>
                               <th className="text-center text-secondary ">Order Id</th>
                               <th className="text-center text-secondary ">Date</th>
-                              <th className="text-center text-secondary">Location</th>
+                              {/* <th className="text-center text-secondary">Location</th> */}
                               <th className="text-center text-secondary">Status Order</th>
                               <th className="text-center text-secondary ">Phone Number</th>
                               <th className="text-center text-secondary ">Amount</th>
@@ -403,7 +407,7 @@ const Dashboard = () => {
                                 return (
                                   <tr key={i} id={theme}>
                                     <td className="align-middle">
-                                      <p>{order.order.id}</p>
+                                      <p>#DC40{order.order.id}</p>
                                     </td>
                                     <td className="align-middle">
                                       <span className="font-weight-bold">{new Date(order.order.createdAt).toLocaleDateString("en-US", {
@@ -412,9 +416,9 @@ const Dashboard = () => {
                                         day: "numeric",
                                       })}</span>
                                     </td>
-                                    <td className="align-middle">
+                                    {/* <td className="align-middle">
                                       <p className="text-xs mb-0">{order.order.address}</p>
-                                    </td>
+                                    </td> */}
                                     <td className="align-middle">
                                       <span className={`font-weight-bold status ${order.order.status === 'pending' ? 'pending'
                                         : order.order.status === 'delivered' ? 'delivered' : order.order.status === 'processing' ? 'processing' : ''}`} id={theme}>
@@ -454,12 +458,12 @@ const Dashboard = () => {
                     <div className="social-icons scroll-reveal" data-duration="1500">
                       <div className="fb-i">
                         <Link target="_blank" to="https://www.facebook.com/bernard.onah">
-                          <Fb />
+                          <Fb style={{ height: "1.25rem", width: "1.25rem" }} />
                         </Link>
                       </div>
                       <div className="insta-i">
                         <Link target="_blank" to="https://www.instagram.com/onah_zoba/">
-                          <Insta />
+                          <Insta style={{ height: "1.25rem", width: "1.25rem" }} />
                         </Link>
                       </div>
                     </div>

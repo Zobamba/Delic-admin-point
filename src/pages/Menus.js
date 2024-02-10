@@ -17,7 +17,7 @@ const Menus = () => {
   const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const closeNotification = () => {
     setNotification(null);
@@ -77,6 +77,9 @@ const Menus = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <Link to="/addMenu">
                       <span>Add Menu</span>
@@ -104,7 +107,7 @@ const Menus = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{menu.id}</p>
+                                <p>#DC40{menu.id}</p>
                               </td>
                               <td className="align-middle">
                                 <span className="font-weight-bold">{new Date(menu.createdAt).toLocaleDateString("en-US", {

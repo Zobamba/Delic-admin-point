@@ -18,7 +18,7 @@ const Meals = () => {
   const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const closeNotification = () => {
     setNotification(null);
@@ -79,6 +79,9 @@ const Meals = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <Link to="/addMeal">
                       Add Meal
@@ -105,7 +108,7 @@ const Meals = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{meal.id}</p>
+                                <p>#DC40{meal.id}</p>
                               </td>
                               <td className="align-middle">
                                 <Link

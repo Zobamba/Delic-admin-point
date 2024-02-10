@@ -9,7 +9,7 @@ const AddOrder = () => {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const { setNotification } = useAuth();
+  const { setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
   const [loading, setLoading] = useState(true);
 
   const [errMsg, setErrMsg] = useState('');
@@ -150,6 +150,9 @@ const AddOrder = () => {
             <div className="container">
               <div className="row mt">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">Create Order Record</h6>
                   </div>
@@ -264,7 +267,7 @@ const AddOrder = () => {
                           return (
                             <tr key={i}>
                               <td className="align-middle">
-                                <p>{meal.id}</p>
+                                <p>#DC40{meal.id}</p>
                               </td>
                               <td className="align-middle">
                                 <Link

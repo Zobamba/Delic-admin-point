@@ -120,78 +120,88 @@ const SignIn = () => {
           <LoadingSpinner loading={loading} />
           :
           <main className="wrapper">
-            <div className="navbar-brand">
-              <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-              <h6>Delic</h6>
+            <div className="header">
+              <div className="navbar-brand">
+                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+                <h6>Delic</h6>
+              </div>
+              <div className="center">
+                <h2>Sign in to Delic</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li><Link to={"/"}>Entry Point</Link></li>
+                <li>Sign In</li>
+              </ol>
             </div>
             <section className="inner">
               <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
               <form className="login100-form" onSubmit={handleSubmit}>
-                <div className="center">
-                  <h2>Sign in to Delic</h2>
-                </div>
-                <ol className="breadcrumb">
-                  <li><Link to={"/"}>Entry Point</Link></li>
-                  <li>Sign In</li>
-                </ol>
                 <div className="frm">
                   <div className="form">
                     <div className="form-wrapper" data-validate="Email is required">
-                      <label className="label-input100" htmlFor="email">Email:</label>
-                      <input
-                        className="form-control"
-                        type="email"
-                        id="email"
-                        ref={userRef}
-                        autoComplete="off"
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder="Enter your email..." />
-                      <span>
-                        <i>
-                          <FontAwesomeIcon className="focus-input100" icon={faUser} />
-                        </i>
-                      </span>
+                      <div className="input-container">
+                        <label className="label-input100" htmlFor="email">Email:</label>
+                        <input
+                          className="form-control"
+                          type="email"
+                          id="email"
+                          ref={userRef}
+                          autoComplete="off"
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          placeholder="Enter your email..." />
+                        <span>
+                          <i>
+                            <FontAwesomeIcon className="focus-input100" icon={faUser} />
+                          </i>
+                        </span>
+                      </div>
                     </div>
                     <div className="form-wrapper" data-validate="Password is required">
-                      <label className="label-input100" htmlFor="password">Password:</label>
-                      <input
-                        className="form-control"
-                        id="password"
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        required
-                        placeholder="Enter your password..."
-                      />
-                      <span >
-                        <i>
-                          <FontAwesomeIcon className="focus-input100" icon={faKey} />
-                        </i>
-                      </span>
-                      <span>
-                        <i>
-                          <img
-                            src={eye}
-                            alt="Eye Icon"
-                            title="Eye Icon"
-                            id="confirm-pwd"
-                            className="focus-input100 input-icon"
-                            onClick={() => { showPassword("password", "confirm-pwd") }}
-                          />
-                        </i>
-                      </span>
+                      <div className="input-container">
+                        <label className="label-input100" htmlFor="password">Password:</label>
+                        <input
+                          className="form-control"
+                          id="password"
+                          type="password"
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
+                          required
+                          placeholder="Enter your password..."
+                        />
+                        <span >
+                          <i>
+                            <FontAwesomeIcon className="focus-input100" icon={faKey} />
+                          </i>
+                        </span>
+                        <span>
+                          <i>
+                            <img
+                              src={eye}
+                              alt="Eye Icon"
+                              title="Eye Icon"
+                              id="confirm-pwd"
+                              className="focus-input100 input-icon"
+                              onClick={() => { showPassword("password", "confirm-pwd") }}
+                            />
+                          </i>
+                        </span>
+                      </div>
                     </div>
-                    <div className="btn-section">
-                      <button>
-                        Login
-                      </button>
-                      <Link
-                        className="link"
-                        to="/emailVerification"
-                      >
-                        <span>Forgot password?</span>
-                      </Link>
+                    <div className="btn-section login">
+                      <div className="btn">
+                        <button>
+                          Login
+                        </button>
+                      </div>
+                      <div className="link">
+                        <Link
+                          className="link"
+                          to="/emailVerification"
+                        >
+                          <span>Forgot password?</span>
+                        </Link>
+                      </div>
                     </div>
                     <div className="flex-col-c">
                       <span className="txt1">

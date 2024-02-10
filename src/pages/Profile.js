@@ -21,7 +21,7 @@ const Profile = () => {
   const [imageVisible, setImageVisible] = useState(false);
 
   const axiosPrivate = useAxiosPrivate();
-  const { notification, setNotification } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,6 +82,9 @@ const Profile = () => {
             <div className="container">
               <div className="row">
                 <div className="card-header">
+                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                  </button>
                   <div className="header-content">
                     <h6 className="mb-0 text-sm">{(firstName + ' ' + lastName)}</h6>
                   </div>
@@ -94,16 +97,17 @@ const Profile = () => {
                       <img src={photoUrl} alt="" />
                     </div>}
                   {user &&
-                    <div className="frm m-auto pt-pr">
+                    <div className="form-center m-auto pt-pr">
                       <div className="frm-header">
                         <h6 className="mb-0 text-sm">
-                          <span>
-                            <Link
-                              to={'/updateProfile'}>
-                              <FontAwesomeIcon title="Edit profile" className="icon-edit" icon={faEdit} />
-                            </Link>
-                          </span>Account Overview
+                          Account Overview
                         </h6>
+                        <span>
+                          <Link
+                            to={'/updateProfile'}>
+                            <FontAwesomeIcon title="Edit profile" className="icon-edit" icon={faEdit} />
+                          </Link>
+                        </span>
                       </div>
                       <div className="info">
                         <div className="d-flex">
