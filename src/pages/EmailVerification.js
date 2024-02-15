@@ -52,24 +52,27 @@ const EmailVerification = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="inside">
-              <div className="navbar-brand">
-                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-                <h6>Delic</h6>
+
+      <div className="page-wrapper">
+        <div className="inside">
+          <div className="navbar-brand">
+            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+            <h6>Delic</h6>
+          </div>
+          <div className="card-header center">
+            <h2 className="">Email Verification</h2>
+          </div>
+          <ol className="breadcrumb">
+            <li><Link to={"/sign-in"}>Sign In</Link></li>
+            <li>Email Verification</li>
+          </ol>
+          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          {
+            loading ?
+              <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+                <LoadingSpinner loading={loading} />
               </div>
-              <div className="card-header center">
-                <h2 className="">Email Verification</h2>
-              </div>
-              <ol className="breadcrumb">
-                <li><Link to={"/sign-in"}>Sign In</Link></li>
-                <li>Email Verification</li>
-              </ol>
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              :
               <div className="form-data">
                 <div className="frm pt-pr">
                   <div className="fm">
@@ -107,9 +110,9 @@ const EmailVerification = () => {
                   <br />
                 </div>
               </div>
-            </div>
-          </div>
-      }
+          }
+        </div>
+      </div>
     </div>
   )
 }

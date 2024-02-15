@@ -111,20 +111,22 @@ const ResetPassword = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className='inside'>
-              <div className="navbar-brand">
-                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-                <h6>Delic</h6>
+      <div className="page-wrapper">
+        <div className='inside'>
+          <div className="navbar-brand">
+            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+            <h6>Delic</h6>
+          </div>
+          <div className="card-header center">
+            <h2 className="">Reset Password</h2>
+          </div>
+          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          {
+            loading ?
+              <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+                <LoadingSpinner loading={loading} />
               </div>
-              <div className="card-header center">
-                <h2 className="">Reset Password</h2>
-              </div>
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              :
               <div className="form-data">
                 <div className="frm pt-pr">
                   <div className="fm">
@@ -207,9 +209,9 @@ const ResetPassword = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-      }
+          }
+        </div>
+      </div>
     </div>
   )
 }

@@ -446,9 +446,15 @@ const Dashboard = () => {
                               })}
                             </tbody>
                             :
-                            <div className="forbidden">
-                              <img src={Forbidden} alt="Forbidden" />
-                            </div>
+                            <tbody>
+                              <tr>
+                                <td className="align-middle">
+                                  <div className="forbidden">
+                                    <img src={Forbidden} alt="Forbidden" />
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
                           }
                         </table>
                       </div>
