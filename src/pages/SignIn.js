@@ -101,7 +101,8 @@ const SignIn = () => {
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
-        setErrMsg('No Server Response!');
+        console.log(err);
+        setErrMsg('Server Not Responding!');
       } else if (err.response?.status === 400) {
         setErrMsg('Oops! Something went wrong. Invalid Email or Password.');
       } else if (err.response?.status === 401) {

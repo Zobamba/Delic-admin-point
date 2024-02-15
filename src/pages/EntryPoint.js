@@ -115,7 +115,7 @@ const Home = () => {
                 className="s-lgn"
                 client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 // fetch_basic_profile='true'
-                // scope='https://www.googleapis.com/auth/userinfo.email'
+                scope='https://www.googleapis.com/auth/userinfo.email'
 
                 onResolve={(response) => {
                   console.log(response);
