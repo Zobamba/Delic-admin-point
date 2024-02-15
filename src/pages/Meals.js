@@ -3,6 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import Forbidden from '../assets/img/403-Error-Forbidden.svg';
 import LoadingSpinner from './LoadingSpinner';
 import SideNav from './SideNav';
 import './Table.scss';
@@ -68,29 +69,30 @@ const Meals = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="meals" />
+
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="meals" />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="card-header">
+              <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+              </button>
+              <div className="header-content">
+                <Link to="/addMeal">
+                  Add Meal
+                </Link>
+                <h6 className="mb-0 text-sm">Meals</h6>
+              </div>
             </div>
-            <div className="container">
-              <div className="row">
-                <div className="card-header">
-                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
-                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
-                  </button>
-                  <div className="header-content">
-                    <Link to="/addMeal">
-                      Add Meal
-                    </Link>
-                    <h6 className="mb-0 text-sm">Meals</h6>
-                  </div>
-                </div>
+            {
+              loading ?
+                <LoadingSpinner loading={loading} />
+                :
                 <div className="table-responsive">
-                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                  {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                   <table className="table">
                     <thead>
                       <tr>
@@ -102,7 +104,7 @@ const Meals = () => {
                         <th className="text-center text-secondary ">Updated</th>
                       </tr>
                     </thead>
-                    {meals &&
+                    {meals ?
                       <tbody>
                         {meals.map((meal, i) => {
                           return (
@@ -145,19 +147,25 @@ const Meals = () => {
                             </tr>
                           )
                         })}
-                      </tbody>}
+                      </tbody>
+                      :
+                      <div className="forbidden">
+                        <img src={Forbidden} alt="Forbidden" />
+                      </div>
+                    }
                   </table>
                 </div>
-              </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div >}
+            }
+          </div>
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div >
     </div>
   );
 }

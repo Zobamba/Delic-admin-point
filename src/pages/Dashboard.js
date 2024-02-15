@@ -11,7 +11,8 @@ import { faBell, faMoon } from '@fortawesome/free-regular-svg-icons';
 import {
   faAngleDown, faAngleUp, faBowlRice, faListDots, faShoppingCart, faUsers
 } from '@fortawesome/free-solid-svg-icons';
-import LightOn from '../assets/img/light-on-sun.svg'
+import LightOn from '../assets/img/light-on-sun.svg';
+import Forbidden from '../assets/img/403-Error-Forbidden.svg';
 import { Chart } from 'singledivui';
 import 'singledivui/dist/singledivui.min.css';
 import Account from './Account';
@@ -220,57 +221,57 @@ const Dashboard = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="py-4" id={theme}>
-            <div className="sidenav">
-              <SideNav currentTab="dashboard" />
+      <div className="py-4" id={theme}>
+        <div className="sidenav">
+          <SideNav currentTab="dashboard" />
+        </div>
+        <div className="container">
+          <div className="header" id={theme}>
+            <div className="top-menu  scroll-reveal">
+              <div className="menu">
+                <nav>
+                  <ul className="main-navigation open">
+                    <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                      <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                      {/* <div className="title-bar-title">Menu</div> */}
+                    </button>
+                    <li className="m-anim" onClick={() => toggleTheme()} >
+                      {theme === "light" ?
+                        <span><FontAwesomeIcon icon={faMoon} /></span>
+                        :
+                        <span><img src={LightOn} alt="" /></span>}
+                    </li>
+                    <li className="m-anim">
+                      <span><FontAwesomeIcon icon={faBell} /></span>
+                    </li>
+                    <li className="m-anim no-hover">
+                      <p className="wcm">Welcome</p>
+                    </li>
+                    <li className="m-anim no-hover">
+                      <div className="user">
+                        <p className="abbr">{nameAbbr}</p>
+                      </div>
+                    </li>
+                    <li className="m-anim no-hover" onClick={() => setIsModalVisible(!isModalVisible)}>
+                      {!isModalVisible ?
+                        <span><FontAwesomeIcon icon={faAngleDown} /></span>
+                        :
+                        <span><FontAwesomeIcon icon={faAngleUp} /></span>}
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
-            <div className="container">
-              <div className="header" id={theme}>
-                <div className="top-menu  scroll-reveal">
-                  <div className="menu">
-                    <nav>
-                      <ul className="main-navigation open">
-                        <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
-                          <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
-                          {/* <div className="title-bar-title">Menu</div> */}
-                        </button>
-                        <li className="m-anim" onClick={() => toggleTheme()} >
-                          {theme === "light" ?
-                            <span><FontAwesomeIcon icon={faMoon} /></span>
-                            :
-                            <span><img src={LightOn} alt="" /></span>}
-                        </li>
-                        <li className="m-anim">
-                          <span><FontAwesomeIcon icon={faBell} /></span>
-                        </li>
-                        <li className="m-anim no-hover">
-                          <p className="wcm">Welcome</p>
-                        </li>
-                        <li className="m-anim no-hover">
-                          <div className="user">
-                            <p className="abbr">{nameAbbr}</p>
-                          </div>
-                        </li>
-                        <li className="m-anim no-hover" onClick={() => setIsModalVisible(!isModalVisible)}>
-                          {!isModalVisible ?
-                            <span><FontAwesomeIcon icon={faAngleDown} /></span>
-                            :
-                            <span><FontAwesomeIcon icon={faAngleUp} /></span>}
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-              <div className="account">
-                {isModalVisible && <Account />}
-              </div>
+          </div>
+          <div className="account">
+            {isModalVisible && <Account />}
+          </div>
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className="content">
-                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                 <div className="body">
                   <ul className="stats open" id={theme}>
                     <li className="stat-box">
@@ -400,7 +401,7 @@ const Dashboard = () => {
                               <th className="text-center text-secondary">See More </th>
                             </tr>
                           </thead>
-                          {orders &&
+                          {orders ?
                             <tbody>
                               {orders.map((order, i) => {
 
@@ -444,6 +445,10 @@ const Dashboard = () => {
                                 )
                               })}
                             </tbody>
+                            :
+                            <div className="forbidden">
+                              <img src={Forbidden} alt="Forbidden" />
+                            </div>
                           }
                         </table>
                       </div>
@@ -470,16 +475,16 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div>
-      }
+          }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   )
 }

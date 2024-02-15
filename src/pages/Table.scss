@@ -584,6 +584,25 @@
               }
             }
           }
+
+          .forbidden {
+            position: relative;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 45%;
+            margin-top: 4rem;
+            z-index: 10000;
+            transition: all 0.5s;
+            // display: flex;
+            // justify-content: center;
+            // align-items: center; 
+
+            img {
+              width: 25rem; 
+              height: auto; 
+            }
+          }
         }
 
         .table {
@@ -625,6 +644,7 @@
       .form-data {
         display: flex;
         margin: auto;
+        margin-top: 3rem;
         background-color: #fff;
         border-radius: 8px;
 
@@ -634,7 +654,7 @@
           border-radius: 8px;
           width: 25%;
           margin: auto;
-          transform: translateY(-20px);
+          // transform: translateY(-20px);
           transition:
             opacity 0.3s ease-in-out,
             transform 1s ease-in-out;
@@ -1052,7 +1072,7 @@
 
         @media (max-width: 768px) {
           flex-direction: column;
-          margin: 0 0.3rem;
+          margin: 0rem 0.3rem;
 
           .form-center {
             box-shadow: none;

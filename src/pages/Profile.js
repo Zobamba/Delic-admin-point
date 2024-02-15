@@ -71,15 +71,15 @@ const Profile = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="profile" />
-            </div>
-            <div className="container">
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="profile" />
+        </div>
+        <div className="container">
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className="row">
                 <div className="card-header">
                   <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
@@ -190,16 +190,16 @@ const Profile = () => {
                     </div>}
                 </div>
               </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div>
-      }
+          }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   )
 }

@@ -74,21 +74,21 @@ const Meal = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="meals" />
-            </div>
-            <div className="container">
-              {modalOpen &&
-                <DeleteMealModal
-                  setModalOpen={setModalOpen}
-                  modalOpen={modalOpen}
-                  item={item}
-                />}
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="meals" />
+        </div>
+        <div className="container">
+          {modalOpen &&
+            <DeleteMealModal
+              setModalOpen={setModalOpen}
+              modalOpen={modalOpen}
+              item={item}
+            />}
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className="row">
                 <div className="card-header">
                   <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
@@ -204,16 +204,16 @@ const Meal = () => {
                     </div>}
                 </div>
               </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div>
-      }
+          }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -70,229 +70,230 @@ const Order = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="orders" />
-            </div>
-            <div className="container">
-              {modalOpen &&
-                <DeleteOrderModal
-                  setModalOpen={setModalOpen}
-                  modalOpen={modalOpen}
-                  item={item}
-                />}
-
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="orders" />
+        </div>
+        <div className="container">
+          {modalOpen &&
+            <DeleteOrderModal
+              setModalOpen={setModalOpen}
+              modalOpen={modalOpen}
+              item={item}
+            />}
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className="row mt">
-                <div className="card-header">
-                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
-                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
-                  </button>
-                  <div className="header-content">
-                    <h6 className="mb-0 text-sm">Order Overview</h6>
+                <div className="row mt">
+                  <div className="card-header">
+                    <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                      <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+                    </button>
+                    <div className="header-content">
+                      <h6 className="mb-0 text-sm">Order Overview</h6>
+                    </div>
+                  </div>
+                  <ol className="breadcrumb">
+                    <li><Link to={"/orders"}>Orders</Link></li>
+                    <li>Order Overview</li>
+                  </ol>
+                  <div className="form-data">
+                    {order &&
+                      <div className="form-center m-auto pt-pr">
+                        <div className="frm-header">
+                          <h6 className="mb-0 text-sm">
+                            Order details
+                          </h6>
+                          <span className={`font-weight-bold status ${order.status === 'pending' ? 'pending'
+                            : order.status === 'delivered' ? 'delivered' : order.status === 'processing' ? 'processing' : ''}`}>
+                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          </span>
+                          <span>
+                            <Link
+                              to={`/editOrder/${order.id}`}>
+                              <FontAwesomeIcon title="Edit order" className="icon-edit" icon={faEdit} />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="info">
+                          <div className="d-flex">
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  <FontAwesomeIcon icon={faLocationDot} />
+                                </i>
+                              </span>
+                              {order.address}
+                            </p>
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  <FontAwesomeIcon icon={faPhone} />
+                                </i>
+                              </span>
+                              {order.phoneNumber}
+                            </p>
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  {/* <FontAwesomeIcon icon={faLocationDot} /> */}
+                                </i>
+                              </span>
+                              <span className="label">Total:</span>
+                              <span className="font-weight-bold">
+                                &#8358;{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="d-flex">
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  <FontAwesomeIcon icon={faCalendarAlt} />
+                                </i>
+                              </span>
+                              <span className="label">Date:</span>
+                              {new Date(order.createdAt).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </p>
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  {/* <FontAwesomeIcon icon={faListAlt} /> */}
+                                </i>
+                              </span>
+                              <span className="label">Meals:</span>
+                              {order.meals.length}
+                            </p>
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  {/* <FontAwesomeIcon icon={faLocationDot} /> */}
+                                </i>
+                              </span>
+                              <span className="label">Order Id:</span>
+                              #DC40{order.id}
+                            </p>
+                          </div>
+                          <div className="d-flex">
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  <FontAwesomeIcon icon={faCalendarAlt} />
+                                </i>
+                              </span>
+                              <span className="label">Updated</span>
+                              {new Date(order.createdAt).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </p>
+                            <p className="sub-info">
+                              <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni text-sm">
+                                  {/* <FontAwesomeIcon icon={faLocationDot} /> */}
+                                </i>
+                              </span>
+                              <span className="label">Payment Reference:</span>
+                              {order.paymentReference}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="actions">
+                          <button
+                            className="delete"
+                            type="button"
+                            onClick={() => { setModalOpen(!modalOpen); setItem(order) }}>
+                            Delete
+                          </button>
+                        </div>
+                      </div>}
                   </div>
                 </div>
-                <ol className="breadcrumb">
-                  <li><Link to={"/orders"}>Orders</Link></li>
-                  <li>Order Overview</li>
-                </ol>
-                <div className="form-data">
-                  {order &&
-                    <div className="form-center m-auto pt-pr">
-                      <div className="frm-header">
-                        <h6 className="mb-0 text-sm">
-                          Order details
-                        </h6>
-                        <span className={`font-weight-bold status ${order.status === 'pending' ? 'pending'
-                          : order.status === 'delivered' ? 'delivered' : order.status === 'processing' ? 'processing' : ''}`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                        </span>
-                        <span>
-                          <Link
-                            to={`/editOrder/${order.id}`}>
-                            <FontAwesomeIcon title="Edit order" className="icon-edit" icon={faEdit} />
-                          </Link>
-                        </span>
-                      </div>
-                      <div className="info">
-                        <div className="d-flex">
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faLocationDot} />
-                              </i>
-                            </span>
-                            {order.address}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faPhone} />
-                              </i>
-                            </span>
-                            {order.phoneNumber}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faLocationDot} /> */}
-                              </i>
-                            </span>
-                            <span className="label">Total:</span>
-                            <span className="font-weight-bold">
-                              &#8358;{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="d-flex">
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faCalendarAlt} />
-                              </i>
-                            </span>
-                            <span className="label">Date:</span>
-                            {new Date(order.createdAt).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faListAlt} /> */}
-                              </i>
-                            </span>
-                            <span className="label">Meals:</span>
-                            {order.meals.length}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faLocationDot} /> */}
-                              </i>
-                            </span>
-                            <span className="label">Order Id:</span>
-                            #DC40{order.id}
-                          </p>
-                        </div>
-                        <div className="d-flex">
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                <FontAwesomeIcon icon={faCalendarAlt} />
-                              </i>
-                            </span>
-                            <span className="label">Updated</span>
-                            {new Date(order.createdAt).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </p>
-                          <p className="sub-info">
-                            <span className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                              <i className="ni text-sm">
-                                {/* <FontAwesomeIcon icon={faLocationDot} /> */}
-                              </i>
-                            </span>
-                            <span className="label">Payment Reference:</span>
-                            {order.paymentReference}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="actions">
-                        <button
-                          className="delete"
-                          type="button"
-                          onClick={() => { setModalOpen(!modalOpen); setItem(order) }}>
-                          Delete
-                        </button>
-                      </div>
-                    </div>}
-                </div>
-              </div>
-              <div className="row">
-                <div className="hdr">
-                  <h6 className="ttl">Order Meals</h6>
-                </div>
-                <div className="table-responsive m-top">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="text-center text-secondary ">Meal Id</th>
-                        <th className="text-center text-secondary ">Name</th>
-                        <th className="text-center text-secondary">Category</th>
-                        <th className="text-center text-secondary ">Price</th>
-                        <th className="text-center text-secondary ">Units</th>
-                        <th className="text-center text-secondary ">Created</th>
-                        <th className="text-center text-secondary ">Updated</th>
-                      </tr>
-                    </thead>
-                    {order?.meals &&
-                      <tbody>
-                        {order.meals.map((meal, i) => {
+                <div className="row">
+                  <div className="hdr">
+                    <h6 className="ttl">Order Meals</h6>
+                  </div>
+                  <div className="table-responsive m-top">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary ">Meal Id</th>
+                          <th className="text-center text-secondary ">Name</th>
+                          <th className="text-center text-secondary">Category</th>
+                          <th className="text-center text-secondary ">Price</th>
+                          <th className="text-center text-secondary ">Units</th>
+                          <th className="text-center text-secondary ">Created</th>
+                          <th className="text-center text-secondary ">Updated</th>
+                        </tr>
+                      </thead>
+                      {order?.meals &&
+                        <tbody>
+                          {order.meals.map((meal, i) => {
 
-                          return (
-                            <tr key={i}>
-                              <td className="align-middle">
-                                <p>#DC40{meal.id}</p>
-                              </td>
-                              <td className="align-middle">
-                                <Link
-                                  to={`/meals/${meal.id}`}
-                                  className="view">
-                                  <span>{meal.name}</span>
-                                </Link>
-                              </td>
-                              <td className="align-middle">
-                                <span className="badge">{meal.category}</span>
-                              </td>
-                              <td className="align-middle">
-                                <span className="font-weight-bold">
-                                  {(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                </span>
-                              </td>
-                              <td className="align-middle">
-                                <span className="font-weight-bold">
-                                  {meal.orderMeal.units}
-                                </span>
-                              </td>
-                              <td className="align-middle">
-                                <span className="font-weight-bold">{new Date(meal.createdAt).toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })}</span>
-                              </td>
-                              <td className="align-middle">
-                                <span className="font-weight-bold">{new Date(meal.updatedAt).toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })}</span>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>}
-                  </table>
+                            return (
+                              <tr key={i}>
+                                <td className="align-middle">
+                                  <p>#DC40{meal.id}</p>
+                                </td>
+                                <td className="align-middle">
+                                  <Link
+                                    to={`/meals/${meal.id}`}
+                                    className="view">
+                                    <span>{meal.name}</span>
+                                  </Link>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="badge">{meal.category}</span>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="font-weight-bold">
+                                    {(meal.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                  </span>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="font-weight-bold">
+                                    {meal.orderMeal.units}
+                                  </span>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="font-weight-bold">{new Date(meal.createdAt).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })}</span>
+                                </td>
+                                <td className="align-middle">
+                                  <span className="font-weight-bold">{new Date(meal.updatedAt).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })}</span>
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>}
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div>
-      }
+          }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   );
 }

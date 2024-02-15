@@ -154,26 +154,28 @@ const SignUp = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <main className="wrapper">
-            <div className="header">
-              <div className="navbar-brand">
-                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-                <h6>Delic</h6>
+      <main className="wrapper">
+        <div className="header">
+          <div className="navbar-brand">
+            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+            <h6>Delic</h6>
+          </div>
+          <div className="center">
+            <h2>Create your account</h2>
+          </div>
+          <ol className="breadcrumb">
+            <li><Link to={"/"}>Entry Point</Link></li>
+            <li>Sign Up</li>
+          </ol>
+        </div>
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+        <section className="inner">
+          {
+            loading ?
+              <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+                <LoadingSpinner loading={loading} />
               </div>
-              <div className="center">
-                <h2>Create your account</h2>
-              </div>
-              <ol className="breadcrumb">
-                <li><Link to={"/"}>Entry Point</Link></li>
-                <li>Sign Up</li>
-              </ol>
-            </div>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <section className="inner">
+              :
               <form className="login100-form" onSubmit={handleSubmit}>
                 <div className="frm">
                   <div className="form">
@@ -412,9 +414,9 @@ const SignUp = () => {
                   </div>
                 </div>
               </form>
-            </section>
-          </main>
-      }
+          }
+        </section>
+      </main>
     </div>
   )
 }

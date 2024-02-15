@@ -67,27 +67,27 @@ const Orders = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="orders" />
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="orders" />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="card-header">
+              <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
+                <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
+              </button>
+              <div className="header-content">
+                <Link to="/addOrder">
+                  <span>Add Order</span>
+                </Link>
+                <h6 className="mb-0 text-sm">Orders</h6>
+              </div>
             </div>
-            <div className="container">
-              <div className="row">
-                <div className="card-header">
-                  <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
-                    <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
-                  </button>
-                  <div className="header-content">
-                    <Link to="/addOrder">
-                      <span>Add Order</span>
-                    </Link>
-                    <h6 className="mb-0 text-sm">Orders</h6>
-                  </div>
-                </div>
+            {
+              loading ?
+                <LoadingSpinner loading={loading} />
+                :
                 <div className="table-responsive">
                   <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                   <table className="table">
@@ -150,17 +150,17 @@ const Orders = () => {
                     }
                   </table>
                 </div>
-              </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
+            }
           </div>
-      }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -115,26 +115,28 @@ const SignIn = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <main className="wrapper">
-            <div className="header">
-              <div className="navbar-brand">
-                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-                <h6>Delic</h6>
+      <main className="wrapper">
+        <div className="header">
+          <div className="navbar-brand">
+            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+            <h6>Delic</h6>
+          </div>
+          <div className="center">
+            <h2>Sign in to Delic</h2>
+          </div>
+          <ol className="breadcrumb">
+            <li><Link to={"/"}>Entry Point</Link></li>
+            <li>Sign In</li>
+          </ol>
+        </div>
+        <section className="inner">
+          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          {
+            loading ?
+              <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+                <LoadingSpinner loading={loading} />
               </div>
-              <div className="center">
-                <h2>Sign in to Delic</h2>
-              </div>
-              <ol className="breadcrumb">
-                <li><Link to={"/"}>Entry Point</Link></li>
-                <li>Sign In</li>
-              </ol>
-            </div>
-            <section className="inner">
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              :
               <form className="login100-form" onSubmit={handleSubmit}>
                 <div className="frm">
                   <div className="form">
@@ -215,16 +217,16 @@ const SignIn = () => {
                   </div>
                 </div>
               </form>
-            </section>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </main>
-      }
+          }
+        </section>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </main>
     </div>
   )
 }

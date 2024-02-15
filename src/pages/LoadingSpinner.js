@@ -18,7 +18,7 @@ const LoadingSpinner = ({ loading }) => {
   return (
     loading && (
       <div className="loading-spinner-overlay">
-        <RingLoader color="#1da1f2" loading={loading} css={override} size={30} />
+        <RingLoader color="#1da1f2" loading={loading} css={override} size={25} />
       </div>
     )
   );

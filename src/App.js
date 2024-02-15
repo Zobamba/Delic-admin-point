@@ -24,7 +24,6 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Users from './pages/Users';
 import User from './pages/User';
-import EditUser from './pages/EditUser';
 import './App.scss';
 
 function App() {
@@ -104,7 +103,6 @@ function App() {
         </>}
       />
       <Route path="/users/:id" element={<User />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Routes>

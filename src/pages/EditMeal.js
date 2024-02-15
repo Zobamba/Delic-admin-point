@@ -144,15 +144,15 @@ const EditMeal = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="meals" />
-            </div>
-            <div className="container">
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="meals" />
+        </div>
+        <div className="container">
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className='row'>
                 <div className="card-header">
                   <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
@@ -228,9 +228,9 @@ const EditMeal = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-      }
+          }
+        </div>
+      </div>
     </div>
   )
 }

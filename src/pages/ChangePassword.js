@@ -13,7 +13,7 @@ const ChangePassword = () => {
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const [currentPassword, setCurrentPassword] = useState('');
   const [loading, setLoading] = useState(true);
-  
+
   const [newPassword, setNewPassword] = useState('');
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -119,25 +119,27 @@ const ChangePassword = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="inside">
-              <div className="navbar-brand">
-                <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
-                <h6>Delic</h6>
+      <div className="page-wrapper">
+        <div className="inside">
+          <div className="navbar-brand">
+            <img src={DelicLogo} className="navbar-brand-img h-100" alt="main_logo" />
+            <h6>Delic</h6>
+          </div>
+          <div className="card-header center">
+            <h2 className="">Change Password</h2>
+          </div>
+          <ol className="breadcrumb">
+            <li><Link to={"/profile"}>Profile</Link></li>
+            <li>Change Password</li>
+          </ol>
+          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          <div className="form-data m-top">
+          {
+            loading ?
+              <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+                <LoadingSpinner loading={loading} />
               </div>
-              <div className="card-header center">
-                <h2 className="">Change Password</h2>
-              </div>
-              <ol className="breadcrumb">
-                <li><Link to={"/profile"}>Profile</Link></li>
-                <li>Change Password</li>
-              </ol>
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-              <div className="form-data m-top">
+              :
                 <div className="frm pt-pr">
                   <div className="fm">
                     <form onSubmit={handleSubmit}>
@@ -239,10 +241,10 @@ const ChangePassword = () => {
                     </form>
                   </div>
                 </div>
-              </div>
-            </div>
+            }
           </div>
-      }
+        </div>
+      </div>
     </div>
   )
 }

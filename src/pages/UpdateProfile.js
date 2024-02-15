@@ -132,15 +132,15 @@ const UpdateProfile = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="profile" />
-            </div>
-            <div className="container">
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="profile" />
+        </div>
+        <div className="container">
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className='row'>
                 <div className="card-header">
                   <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
@@ -201,9 +201,9 @@ const UpdateProfile = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-      }
+          }
+        </div>
+      </div>
     </div>
   )
 }

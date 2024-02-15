@@ -30,7 +30,7 @@ const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { notification, setNotification, menuIsOpen,setMenuIsOpen } = useAuth();
+  const { notification, setNotification, menuIsOpen, setMenuIsOpen } = useAuth();
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
@@ -166,15 +166,15 @@ const User = () => {
 
   return (
     <div>
-      {
-        loading ?
-          <LoadingSpinner loading={loading} />
-          :
-          <div className="page-wrapper">
-            <div className="sidenav">
-              <SideNav currentTab="users" />
-            </div>
-            <div className="container">
+      <div className="page-wrapper">
+        <div className="sidenav">
+          <SideNav currentTab="users" />
+        </div>
+        <div className="container">
+          {
+            loading ?
+              <LoadingSpinner loading={loading} />
+              :
               <div className="row">
                 <div className="card-header">
                   <button onClick={() => setMenuIsOpen(!menuIsOpen)} type="button" className="title-bar">
@@ -322,16 +322,16 @@ const User = () => {
                     </div>}
                 </div>
               </div>
-            </div>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={closeNotification}
-              />
-            )}
-          </div>
-      }
+          }
+        </div>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={closeNotification}
+          />
+        )}
+      </div>
     </div>
   );
 };

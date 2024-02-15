@@ -57,7 +57,7 @@ const Home = () => {
       if (!err?.response) {
         setErrMsg('No Server Response!');
       } else if (err.response?.status === 400) {
-        setErrMsg('Oops! Something went wrong. Please check your request and try again.');
+        setErrMsg('Oops! Something went wrong. Please use the sign up button.');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized!');
       } else {
@@ -115,7 +115,7 @@ const Home = () => {
                 className="s-lgn"
                 client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 // fetch_basic_profile='true'
-                // scope='https://www.googleapis.com/auth/userinfo.email'
+                scope='https://www.googleapis.com/auth/userinfo.email'
 
                 onResolve={(response) => {
                   console.log(response);
