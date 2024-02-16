@@ -61,6 +61,11 @@
         }
       }
 
+      .offscreen {
+        position: absolute;
+        left: -9999px;
+      }
+
       .hdr {
         text-align: center;
         padding: 1rem;
@@ -73,11 +78,6 @@
           padding: 0;
           color: #3c3c3c;
         }
-      }
-
-      .offscreen {
-        position: absolute;
-        left: -9999px;
       }
 
       .navbar-brand {
@@ -584,25 +584,6 @@
               }
             }
           }
-
-          .forbidden {
-            position: relative;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 45%;
-            margin-top: 4rem;
-            z-index: 10000;
-            transition: all 0.5s;
-            // display: flex;
-            // justify-content: center;
-            // align-items: center; 
-
-            img {
-              width: 25rem; 
-              height: auto; 
-            }
-          }
         }
 
         .table {
@@ -638,6 +619,30 @@
           border: 1px solid black;
           border-collapse: collapse;
           height: 20px;
+        }
+
+        .forbidden {
+          position: relative;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 10000;
+          transition: all 0.5s;
+          height: 20rem;
+          width: 20rem;
+          margin-top: 13rem;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+
+          .err-msg {
+            color: firebrick;
+            font-weight: small;
+            font-size: small;
+            text-align: center;
+          }
         }
       }
 

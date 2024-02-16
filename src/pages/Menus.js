@@ -3,6 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import Forbidden from '../assets/img/403-Error-Forbidden.svg';
 import LoadingSpinner from './LoadingSpinner';
 import SideNav from './SideNav';
 
@@ -77,7 +78,7 @@ const Menus = () => {
                 <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
               </button>
               <div className="header-content">
-                <Link to="/addMenu">
+                <Link to={`${menus ? "/addMenu" : ""}`}>
                   <span>Add Menu</span>
                 </Link>
                 <h6 className="mb-0 text-sm">Menus</h6>
@@ -88,19 +89,18 @@ const Menus = () => {
                 <LoadingSpinner loading={loading} />
                 :
                 <div className="table-responsive">
-                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="text-center text-secondary ">Menu Id</th>
-                        <th className="text-center text-secondary ">Created</th>
-                        <th className="text-center text-secondary ">Updated</th>
-                        <th className="text-center text-secondary ">Expiry Date</th>
-                        <th className="text-center text-secondary">Meals Count</th>
-                        <th className="text-center text-secondary">See More</th>
-                      </tr>
-                    </thead>
-                    {menus &&
+                  {menus ?
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary ">Menu Id</th>
+                          <th className="text-center text-secondary ">Created</th>
+                          <th className="text-center text-secondary ">Updated</th>
+                          <th className="text-center text-secondary ">Expiry Date</th>
+                          <th className="text-center text-secondary">Meals Count</th>
+                          <th className="text-center text-secondary">See More</th>
+                        </tr>
+                      </thead>
                       <tbody>
                         {menus.map((menu, i) => {
 
@@ -145,9 +145,15 @@ const Menus = () => {
                           )
                         })}
                       </tbody>
-                    }
-                  </table>
+                    </table>
+                    :
+                    <div className="forbidden" ref={errRef}>
+                      <img src={Forbidden} alt="Forbidden" />
+                      <p className={errMsg ? "err-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    </div>
+                  }
                 </div>
+
             }
           </div>
         </div>

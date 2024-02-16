@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import Notification from './Notification';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import Forbidden from '../assets/img/403-Error-Forbidden.svg';
 import SideNav from './SideNav';
 
 const Orders = () => {
@@ -78,7 +79,7 @@ const Orders = () => {
                 <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
               </button>
               <div className="header-content">
-                <Link to="/addOrder">
+                <Link to={`${orders ? "/addOrder" : ""}`}>
                   <span>Add Order</span>
                 </Link>
                 <h6 className="mb-0 text-sm">Orders</h6>
@@ -89,20 +90,20 @@ const Orders = () => {
                 <LoadingSpinner loading={loading} />
                 :
                 <div className="table-responsive">
-                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="text-center text-secondary ">Order Id</th>
-                        <th className="text-center text-secondary ">Date</th>
-                        <th className="text-center text-secondary">Status Order</th>
-                        <th className="text-center text-secondary ">Phone Number</th>
-                        <th className="text-center text-secondary">Location</th>
-                        <th className="text-center text-secondary ">Amount</th>
-                        <th className="text-center text-secondary">See More </th>
-                      </tr>
-                    </thead>
-                    {orders &&
+                  {orders ?
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary ">Order Id</th>
+                          <th className="text-center text-secondary ">Date</th>
+                          <th className="text-center text-secondary">Status Order</th>
+                          <th className="text-center text-secondary ">Phone Number</th>
+                          <th className="text-center text-secondary">Location</th>
+                          <th className="text-center text-secondary ">Amount</th>
+                          <th className="text-center text-secondary">See More </th>
+                        </tr>
+                      </thead>
+
                       <tbody>
                         {orders.map((order, i) => {
 
@@ -147,8 +148,13 @@ const Orders = () => {
                           )
                         })}
                       </tbody>
-                    }
-                  </table>
+                    </table>
+                    :
+                    <div className="forbidden" ref={errRef}>
+                      <img src={Forbidden} alt="Forbidden" />
+                      <p className={errMsg ? "err-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    </div>
+                  }
                 </div>
             }
           </div>

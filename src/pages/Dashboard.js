@@ -271,7 +271,6 @@ const Dashboard = () => {
               <LoadingSpinner loading={loading} />
               :
               <div className="content">
-                {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                 <div className="body">
                   <ul className="stats open" id={theme}>
                     <li className="stat-box">
@@ -388,20 +387,21 @@ const Dashboard = () => {
                       <div className="odr-hdr" id={theme}>
                         <h2 className="" id={theme}>Order List</h2>
                       </div>
-                      <div className="table-responsive">
-                        <table className="table" id={theme}>
-                          <thead>
-                            <tr>
-                              <th className="text-center text-secondary ">Order Id</th>
-                              <th className="text-center text-secondary ">Date</th>
-                              {/* <th className="text-center text-secondary">Location</th> */}
-                              <th className="text-center text-secondary">Status Order</th>
-                              <th className="text-center text-secondary ">Phone Number</th>
-                              <th className="text-center text-secondary ">Amount</th>
-                              <th className="text-center text-secondary">See More </th>
-                            </tr>
-                          </thead>
-                          {orders ?
+                      {orders ?
+                        <div className="table-responsive">
+                          <table className="table" id={theme}>
+                            <thead>
+                              <tr>
+                                <th className="text-center text-secondary ">Order Id</th>
+                                <th className="text-center text-secondary ">Date</th>
+                                {/* <th className="text-center text-secondary">Location</th> */}
+                                <th className="text-center text-secondary">Status Order</th>
+                                <th className="text-center text-secondary ">Phone Number</th>
+                                <th className="text-center text-secondary ">Amount</th>
+                                <th className="text-center text-secondary">See More </th>
+                              </tr>
+                            </thead>
+
                             <tbody>
                               {orders.map((order, i) => {
 
@@ -445,19 +445,14 @@ const Dashboard = () => {
                                 )
                               })}
                             </tbody>
-                            :
-                            <tbody>
-                              <tr>
-                                <td className="align-middle">
-                                  <div className="forbidden">
-                                    <img src={Forbidden} alt="Forbidden" />
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          }
-                        </table>
-                      </div>
+                          </table>
+                        </div>
+                        :
+                        <div className="forbidden" ref={errRef}>
+                          <img src={Forbidden} alt="Forbidden" />
+                          <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                        </div>
+                      }
                     </div>
                   </div>
                 </div>

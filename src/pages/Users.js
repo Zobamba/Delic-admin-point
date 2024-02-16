@@ -3,6 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LoadingSpinner from './LoadingSpinner';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import Forbidden from '../assets/img/403-Error-Forbidden.svg';
 import SideNav from './SideNav';
 
 const Users = () => {
@@ -80,20 +81,19 @@ const Users = () => {
                 <LoadingSpinner loading={loading} />
                 :
                 <div className="table-responsive">
-                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="text-center text-secondary">User Id</th>
-                        <th className="text-center text-secondary">Name</th>
-                        <th className="text-center text-secondary">Email</th>
-                        <th className="text-center text-secondary">Admin</th>
-                        <th className="text-center text-secondary">Disabled</th>
-                        <th className="text-center text-secondary">Phone Number</th>
-                        <th className="text-center text-secondary">Joined</th>
-                      </tr>
-                    </thead>
-                    {users &&
+                  {users ?
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary">User Id</th>
+                          <th className="text-center text-secondary">Name</th>
+                          <th className="text-center text-secondary">Email</th>
+                          <th className="text-center text-secondary">Admin</th>
+                          <th className="text-center text-secondary">Disabled</th>
+                          <th className="text-center text-secondary">Phone Number</th>
+                          <th className="text-center text-secondary">Joined</th>
+                        </tr>
+                      </thead>
                       <tbody>
                         {users.map((user, i) => {
                           return (
@@ -131,8 +131,14 @@ const Users = () => {
                             </tr>
                           )
                         })}
-                      </tbody>}
-                  </table>
+                      </tbody>
+                    </table>
+                    :
+                    <div className="forbidden" ref={errRef}>
+                      <img src={Forbidden} alt="Forbidden" />
+                      <p className={errMsg ? "err-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    </div>
+                  }
                 </div>
             }
           </div>

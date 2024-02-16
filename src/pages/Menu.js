@@ -211,7 +211,7 @@ const Menu = () => {
                             return (
                               <tr key={i}>
                                 <td className="align-middle">
-                                  <p>{meal.id}</p>
+                                  <p>#DC40{meal.id}</p>
                                 </td>
                                 <td className="align-middle">
                                   <Link

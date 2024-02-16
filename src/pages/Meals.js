@@ -81,7 +81,7 @@ const Meals = () => {
                 <div className="menu-icon dark" type="button" data-toggle="main-nav"></div>
               </button>
               <div className="header-content">
-                <Link to="/addMeal">
+                <Link to={`${meals ? "/addMeal" : ""}`}>
                   Add Meal
                 </Link>
                 <h6 className="mb-0 text-sm">Meals</h6>
@@ -91,20 +91,21 @@ const Meals = () => {
               loading ?
                 <LoadingSpinner loading={loading} />
                 :
+
                 <div className="table-responsive">
-                  {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="text-center text-secondary ">Meal Id</th>
-                        <th className="text-center text-secondary ">Name</th>
-                        <th className="text-center text-secondary">Category</th>
-                        <th className="text-center text-secondary ">Price</th>
-                        <th className="text-center text-secondary ">Created</th>
-                        <th className="text-center text-secondary ">Updated</th>
-                      </tr>
-                    </thead>
-                    {meals ?
+                  {meals ?
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th className="text-center text-secondary ">Meal Id</th>
+                          <th className="text-center text-secondary ">Name</th>
+                          <th className="text-center text-secondary">Category</th>
+                          <th className="text-center text-secondary ">Price</th>
+                          <th className="text-center text-secondary ">Created</th>
+                          <th className="text-center text-secondary ">Updated</th>
+                        </tr>
+                      </thead>
+
                       <tbody>
                         {meals.map((meal, i) => {
                           return (
@@ -148,12 +149,13 @@ const Meals = () => {
                           )
                         })}
                       </tbody>
-                      :
-                      <div className="forbidden">
-                        <img src={Forbidden} alt="Forbidden" />
-                      </div>
-                    }
-                  </table>
+                    </table>
+                    :
+                    <div className="forbidden" ref={errRef}>
+                      <img src={Forbidden} alt="Forbidden" />
+                      <p className={errMsg ? "err-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    </div>
+                  }
                 </div>
             }
           </div>

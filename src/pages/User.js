@@ -7,7 +7,7 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faUserSlash, faUserTie, } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarAlt, faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faCalendarAlt, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import SideNav from './SideNav';
 
 const User = () => {
