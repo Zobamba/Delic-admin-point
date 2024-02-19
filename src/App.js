@@ -24,12 +24,14 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Users from './pages/Users';
 import User from './pages/User';
+import LandingPage from './pages/LandingPage';
 import './App.scss';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<EntryPoint />} />
+      <Route path="/get-started" element={<EntryPoint />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={
         <>
           <Dashboard />

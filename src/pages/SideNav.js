@@ -9,7 +9,7 @@ import {
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import LogOutModal from './LogOutModal';
 import DelicLogo from '../assets/img/delic-logo-2.png';
-import DashboardIcon from '../assets/img/dashboard.svg';
+import DashboardIcon from '../assets/dashboard.svg';
 import './SideNav.scss';
 
 const SideNav = ({ currentTab }) => {

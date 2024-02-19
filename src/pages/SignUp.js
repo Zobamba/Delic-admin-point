@@ -10,8 +10,8 @@ import { } from '@fortawesome/free-solid-svg-icons';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import DelicLogo from '../assets/img/delic-logo-2.png';
-import eyeSlash from '../assets/img/eye-slash.svg';
-import eye from '../assets/img/eye.svg';
+import eyeSlash from '../assets/eye-slash.svg';
+import eye from '../assets/eye.svg';
 import './SignUp.scss';
 
 const SignUp = () => {

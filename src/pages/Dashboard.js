@@ -11,8 +11,8 @@ import { faBell, faMoon } from '@fortawesome/free-regular-svg-icons';
 import {
   faAngleDown, faAngleUp, faBowlRice, faListDots, faShoppingCart, faUsers
 } from '@fortawesome/free-solid-svg-icons';
-import LightOn from '../assets/img/light-on-sun.svg';
-import Forbidden from '../assets/img/403-Error-Forbidden.svg';
+import LightOn from '../assets/light-on-sun.svg';
+import Forbidden from '../assets/403-Error-Forbidden.svg';
 import { Chart } from 'singledivui';
 import 'singledivui/dist/singledivui.min.css';
 import Account from './Account';

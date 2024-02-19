@@ -3,7 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LoadingSpinner from './LoadingSpinner';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import Forbidden from '../assets/img/403-Error-Forbidden.svg';
+import Forbidden from '../assets/403-Error-Forbidden.svg';
 import SideNav from './SideNav';
 
 const Users = () => {

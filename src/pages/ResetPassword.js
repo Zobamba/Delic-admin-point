@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from '../api/axios';
 import DelicLogo from '../assets/img/delic-logo-2.png';
-import eyeSlash from '../assets/img/eye-slash.svg';
-import eye from '../assets/img/eye.svg';
+import eyeSlash from '../assets/eye-slash.svg';
+import eye from '../assets/eye.svg';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
