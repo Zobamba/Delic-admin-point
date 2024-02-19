@@ -164,7 +164,7 @@ const SignUp = () => {
             <h2>Create your account</h2>
           </div>
           <ol className="breadcrumb">
-            <li><Link to={"/"}>Entry Point</Link></li>
+          <li><Link to={"/get-started"}>Get started</Link></li>
             <li>Sign Up</li>
           </ol>
         </div>

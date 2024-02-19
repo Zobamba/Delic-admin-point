@@ -126,7 +126,7 @@ const SignIn = () => {
             <h2>Sign in to Delic</h2>
           </div>
           <ol className="breadcrumb">
-            <li><Link to={"/"}>Entry Point</Link></li>
+            <li><Link to={"/get-started"}>Get started</Link></li>
             <li>Sign In</li>
           </ol>
         </div>
