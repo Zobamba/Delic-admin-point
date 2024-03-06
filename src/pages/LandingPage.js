@@ -32,7 +32,7 @@ const LandingPage = () => {
         cssEase="linear"
         showThumbs={false}
       >
-        <div className="slider" onClick={() => { setCartIsOpen(false); setAccountIsOpen(false) }}>
+        <div className="slider">
           <div className="a-slide slide1">
             <div className="container">
               <h1>Welcome to Delic Admin</h1>
@@ -47,7 +47,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <div className="slider" onClick={() => { setCartIsOpen(false); setAccountIsOpen(false) }}>
+        <div className="slider">
           <div className="a-slide slide2">
             <div className="container">
               <div className="bottom-section">
