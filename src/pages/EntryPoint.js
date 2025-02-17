@@ -1,19 +1,19 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState, useRef } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 // import { LoginSocialFacebook } from 'reactjs-social-login';
 // import { FacebookLoginButton } from 'react-social-login-buttons';
-import { LoginSocialGoogle } from 'reactjs-social-login';
-import { GoogleLoginButton } from 'react-social-login-buttons';
+import { LoginSocialGoogle } from "reactjs-social-login";
+import { GoogleLoginButton } from "react-social-login-buttons";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import DelicLogo from '../assets/img/delic-logo-2.png';
-import useAuth from '../hooks/useAuth';
+import DelicLogo from "../assets/img/delic-logo-2.png";
+import useAuth from "../hooks/useAuth";
 import "./EntryPoint.scss";
 
 const Home = () => {
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState("");
   const { setAuth, setNotification } = useAuth();
 
-  const AUTH_LOGIN_URL = '/auth_sign_in';
+  const AUTH_LOGIN_URL = "/auth_sign_in";
   const axiosPrivate = useAxiosPrivate();
 
   const navigate = useNavigate();
@@ -33,39 +33,46 @@ const Home = () => {
 
   const authLogin = async (email, firstName, lastName) => {
     try {
-      const response = await axiosPrivate.post(AUTH_LOGIN_URL,
+      const response = await axiosPrivate.post(
+        AUTH_LOGIN_URL,
         JSON.stringify({ email, firstName, lastName }),
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
       const token = response?.data?.token;
-      localStorage.setItem('token', response?.data?.token);
-      localStorage.setItem('email', response?.data?.email);
+      localStorage.setItem("token", response?.data?.token);
+      localStorage.setItem("email", response?.data?.email);
 
-      localStorage.setItem('logoutName', (response?.data?.firstName + '-' + response?.data?.lastName));
-      localStorage.setItem('name', (response?.data?.firstName + ' ' + response?.data?.lastName));
+      localStorage.setItem(
+        "logoutName",
+        response?.data?.firstName + "-" + response?.data?.lastName
+      );
+      localStorage.setItem(
+        "name",
+        response?.data?.firstName + " " + response?.data?.lastName
+      );
 
       setAuth({ email, token });
-      showNotification('Login successful', 'success');
+      showNotification("Login successful", "success");
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
-        setErrMsg('No Server Response!');
+        setErrMsg("No Server Response!");
       } else if (err.response?.status === 400) {
-        setErrMsg('Oops! Something went wrong. Please use the sign up button.');
+        setErrMsg("Oops! Something went wrong. Please use the sign up button.");
       } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized!');
+        setErrMsg("Unauthorized!");
       } else {
-        setErrMsg('Login Failed!');
+        setErrMsg("Login Failed!");
       }
       errRef.current.focus();
     }
-  }
+  };
 
   return (
     <div>
@@ -73,7 +80,13 @@ const Home = () => {
         <div className="logo">
           <img src={DelicLogo} alt="" />
         </div>
-        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+        <p
+          ref={errRef}
+          className={errMsg ? "errmsg" : "offscreen"}
+          aria-live="assertive"
+        >
+          {errMsg}
+        </p>
         <div className="container">
           <div className="title">
             <h1>Delic admin point</h1>
@@ -114,27 +127,30 @@ const Home = () => {
               <LoginSocialGoogle
                 className="s-lgn"
                 client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                // fetch_basic_profile='true'
-                scope='https://www.googleapis.com/auth/userinfo.email'
-
+                fetch_basic_profile="true"
+                scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
                 onResolve={(response) => {
                   console.log(response);
-                  authLogin(response?.data?.email, response?.data?.given_name, response?.data?.family_name);
+                  authLogin(
+                    response?.data?.email,
+                    response?.data?.given_name,
+                    response?.data?.family_name
+                  );
                 }}
-
                 onReject={(error) => {
                   console.log(error);
-                }}>
+                }}
+              >
                 <GoogleLoginButton
                   style={{
-                    border: '1px solid #dae1e7',
-                    padding: '10px 20px',
-                    height: '38px',
-                    borderRadius: '25px',
-                    boxShadow: 'none',
-                    fontSize: '16px',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease',
+                    border: "1px solid #dae1e7",
+                    padding: "10px 20px",
+                    height: "38px",
+                    borderRadius: "25px",
+                    boxShadow: "none",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s ease",
                   }}
                 />
               </LoginSocialGoogle>
@@ -145,17 +161,18 @@ const Home = () => {
               <span className="line"></span>
             </div>
             <div className="axn">
-              <Link className="sign-up"
-                to="/sign-up">
+              <Link className="sign-up" to="/sign-up">
                 <span className="axn-text ms-1">Create account</span>
               </Link>
-              <p className="terms">By signing up, you agree to Terms and Service and Privacy Policy, including Cookie Use.</p>
+              <p className="terms">
+                By signing up, you agree to Terms and Service and Privacy
+                Policy, including Cookie Use.
+              </p>
             </div>
             <br />
             <p className="have-acc">Already have an account?</p>
             <div className="axn">
-              <Link className="sign-in"
-                to="/sign-in">
+              <Link className="sign-in" to="/sign-in">
                 <span className="axn-text ms-1">Sign in</span>
               </Link>
             </div>
@@ -163,7 +180,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
